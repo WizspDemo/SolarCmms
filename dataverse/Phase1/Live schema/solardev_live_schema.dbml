@@ -1,0 +1,19 @@
+// Solardev - Phase 1 Live Schema
+// Περιλαμβάνει τους βασικούς πίνακες και τις συνδέσεις τους
+
+Project "Solardev Phase1 Live" {
+  database_type: "Dataverse"
+}
+
+Table solar_location {
+  solar_locationid uuid [pk]
+  solar_name nvarchar(255) [note: "primary name"]
+}
+
+Table solar_corrective_work_order {
+  solar_corrective_work_orderid uuid [pk]
+  solar_name varchar(100) [note: "primary name"]
+  solar_categoryid uuid
+  solar_locationid uuid
+  solar_maintenanceteamid uuid
+}

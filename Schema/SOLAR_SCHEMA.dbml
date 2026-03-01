@@ -1,0 +1,2 @@
+Project "Solar CMMS" { database_type: "Dataverse" }
+Table solar_location { solar_locationid uuid [pk] solar_name varchar(255) }

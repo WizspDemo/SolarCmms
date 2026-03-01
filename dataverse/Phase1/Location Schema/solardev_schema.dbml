@@ -1,0 +1,7 @@
+// Solar Dataverse schema - Location Schema
+Project "Solar Location Schema" { database_type: "Dataverse" }
+
+Table solar_location {
+  solar_locationid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}

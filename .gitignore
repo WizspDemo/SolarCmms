@@ -1,0 +1,15 @@
+# History / local
+.history/
+
+# Dependencies
+node_modules/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Build / IDE
+ dist/
+.idea/
+*.log
