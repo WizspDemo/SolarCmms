@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Maintenance Team Members</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 12px;
+        background: #f5f5f5;
+        color: #333;
+      }
+
+      h1 {
+        font-size: 16px;
+        margin: 0 0 8px 0;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 12px;
+      }
+
+      .status {
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .status.loading {
+        color: #005a9e;
+      }
+
+      .status.error {
+        color: #a80000;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+      }
+
+      thead {
+        background: #f3f2f1;
+      }
+
+      th,
+      td {
+        padding: 6px 8px;
+        font-size: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e1dfdd;
+      }
+
+      th {
+        font-weight: 600;
+      }
+
+      tbody tr:nth-child(even) {
+        background: #faf9f8;
+      }
+
+      .jobs-badge {
+        display: inline-block;
+        min-width: 24px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        text-align: center;
+        background: #eaeaea;
+      }
+
+      .jobs-badge.zero {
+        background: #f3f2f1;
+        color: #605e5c;
+      }
+
+      .jobs-badge.nonzero {
+        background: #dff6dd;
+        color: #107c10;
+      }
+
+      .btn-assign {
+        margin-left: 6px;
+        padding: 4px 10px;
+        font-size: 11px;
+        border: 1px solid #0078d4;
+        background: #0078d4;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .btn-assign:hover {
+        background: #106ebe;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">Maintenance Team Members</h1>
+    <div id="subtitle" class="subtitle"></div>
+    <div id="status" class="status loading">Loading...</div>
+
+    <table aria-label="Maintenance team members">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th style="width: 100px; text-align: center">Jobs</th>
+          <th style="width: 70px"></th>
+        </tr>
+      </thead>
+      <tbody id="rowsContainer">
+        <!-- Rows filled dynamically by JavaScript -->
+      </tbody>
+    </table>
+
+    <script>
+      (function () {
+        'use strict';
+
+        // Entity logical names (singular) for Xrm.WebApi.retrieveMultipleRecords:
+        // Maintenance Team Member table
+        const ENTITY_TEAM_MEMBER = 'solar_maintenanceteammember';
+        const FIELD_TEAM_LOOKUP = 'solar_maintenance_team';
+        const FIELD_EMPLOYEE_LOOKUP = 'solar_member';
+        const FIELD_EMPLOYEE_NAME = 'solar_maintenanceteammembername'; // primary Name (lookup-name not selectable in Web API)
+
+        // Solar Corrective Work Order table
+        const ENTITY_CORRECTIVE_WO = 'solar_corrective_work_order';
+        const FIELD_WO_EMPLOYEE_LOOKUP = 'solar_employee';
+        const FIELD_WO_SCHEDULE_DATE = 'solar_cor_scheduleddate';
+
+        // solar_employee lookup targets new_account
+        const ENTITY_EMPLOYEE = 'new_account';
+
+        function assignEmployee(employeeId, employeeName) {
+          if (!employeeId) return;
+          var id = (employeeId + '').replace(/[{}]/g, '');
+          var name = employeeName || '';
+
+          function showError(msg) {
+            if (parent && parent.Xrm && parent.Xrm.Navigation) {
+              parent.Xrm.Navigation.openAlertDialog({ title: 'Assign Employee', text: msg });
+            }
+          }
+
+          try {
+            var data = getQueryData();
+            var recordId = data && data.recordId ? (data.recordId + '').replace(/[{}]/g, '') : null;
+
+            // For saved records: use Web API (avoids setValue entityType UciError)
+            // Per dataverse-mcp-local export: solar_employee -> NavigationProperty=solar_Employee, targets=systemuser
+            if (recordId && parent && parent.Xrm && parent.Xrm.WebApi) {
+              var updatePayload = {};
+              var navProp = 'solar_Employee';
+              var targetSet = 'systemusers'; // solar_employee targets systemuser (live metadata)
+              updatePayload[navProp + '@odata.bind'] = '/' + targetSet + '(' + id + ')';
+              return parent.Xrm.WebApi.updateRecord(ENTITY_CORRECTIVE_WO, recordId, updatePayload)
+                .then(function () {
+                  var formCtx = (window.top || window).__solarCorrectiveWoFormContext;
+                  if (formCtx && formCtx.data && formCtx.data.refresh) {
+                    formCtx.data.refresh();
+                  }
+                })
+                .catch(function (err) {
+                  showError('Update failed: ' + (err.message || String(err)));
+                });
+            }
+
+            // For new records: use setValue
+            var formCtx = (window.top || window).__solarCorrectiveWoFormContext;
+            if (!formCtx || typeof formCtx.getAttribute !== 'function') {
+              showError('Could not access the form. Close and reopen the pane.');
+              return;
+            }
+
+            var attr = formCtx.getAttribute(FIELD_WO_EMPLOYEE_LOOKUP);
+            if (!attr) {
+              showError('Employee field not found on the form.');
+              return;
+            }
+
+            // UCI setValue rejects entityType for some lookups. Use id+name only; attribute infers target.
+            attr.setValue([{ id: id, name: name }]);
+          } catch (err) {
+            console.error('[TeamMembersPane] Assign failed:', err);
+            if (parent && parent.Xrm && parent.Xrm.Navigation) {
+              parent.Xrm.Navigation.openAlertDialog({
+                title: 'Error',
+                text: 'Failed to assign employee: ' + (err.message || String(err)),
+              });
+            }
+          }
+        }
+
+        function getScheduleDateFromForm() {
+          try {
+            var formCtx = (window.top || window).__solarCorrectiveWoFormContext;
+            if (!formCtx || typeof formCtx.getAttribute !== 'function') return null;
+            var attr = formCtx.getAttribute(FIELD_WO_SCHEDULE_DATE);
+            if (!attr) return null;
+            var val = attr.getValue ? attr.getValue() : null;
+            if (val instanceof Date) return val.toISOString().substring(0, 10);
+            if (typeof val === 'string' && val.length >= 10) {
+              var s = val.substring(0, 10);
+              return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : null;
+            }
+            return null;
+          } catch (e) { return null; }
+        }
+
+        function getQueryData() {
+          try {
+            // 1) sessionStorage – form JS writes here before pane.navigate() (most reliable in side pane)
+            var stored = null;
+            try {
+              stored = sessionStorage.getItem('solar_team_members_pane_data');
+            } catch (e) {}
+            var data = null;
+            if (stored) {
+              data = JSON.parse(stored);
+            } else {
+              // 2) Current page URL (pane iframe) – data as query string
+              var search = typeof window !== 'undefined' && window.location && window.location.search;
+              if (search) {
+                var params = new URLSearchParams(search);
+                var dataParam = params.get('data');
+                if (dataParam) {
+                  data = JSON.parse(decodeURIComponent(dataParam));
+                }
+              }
+              if (!data && parent && parent.Xrm && parent.Xrm.Utility) {
+                var qs = parent.Xrm.Utility.getGlobalContext().getQueryStringParameters();
+                if (qs && qs.data) {
+                  data = JSON.parse(decodeURIComponent(qs.data));
+                }
+              }
+            }
+            if (data && !data.scheduleDate) {
+              var fromForm = getScheduleDateFromForm();
+              if (fromForm) data.scheduleDate = fromForm;
+            }
+            return data;
+          } catch (e) {
+            console.error('[TeamMembersPane] Failed to read data parameter:', e);
+            return null;
+          }
+        }
+
+        function setStatus(message, cssClass) {
+          var statusEl = document.getElementById('status');
+          statusEl.textContent = message || '';
+          statusEl.className = 'status' + (cssClass ? ' ' + cssClass : '');
+        }
+
+        function renderRows(members) {
+          var container = document.getElementById('rowsContainer');
+          container.innerHTML = '';
+
+          if (!members.length) {
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.colSpan = 3;
+            td.textContent = 'No employees found for this maintenance team.';
+            tr.appendChild(td);
+            container.appendChild(tr);
+            return;
+          }
+
+          members.forEach(function (m) {
+            var tr = document.createElement('tr');
+
+            var tdName = document.createElement('td');
+            tdName.textContent = m.name || '(no name)';
+            tr.appendChild(tdName);
+
+            var tdJobs = document.createElement('td');
+            tdJobs.style.textAlign = 'center';
+
+            var span = document.createElement('span');
+            span.className =
+              'jobs-badge ' +
+              (m.jobs && m.jobs > 0 ? 'nonzero' : 'zero');
+            span.textContent = typeof m.jobs === 'number' ? m.jobs : '-';
+            tdJobs.appendChild(span);
+
+            tr.appendChild(tdJobs);
+
+            var tdAssign = document.createElement('td');
+            tdAssign.style.textAlign = 'center';
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-assign';
+            btn.textContent = 'Assign';
+            btn.title = 'Set this employee as the Employee on the Work Order';
+            btn.onclick = function () {
+              assignEmployee(m.id, m.name);
+            };
+            tdAssign.appendChild(btn);
+            tr.appendChild(tdAssign);
+
+            container.appendChild(tr);
+          });
+        }
+
+        function getWebApi() {
+          if (!parent || !parent.Xrm || !parent.Xrm.WebApi) {
+            throw new Error('Xrm.WebApi is not available from parent.');
+          }
+          return parent.Xrm.WebApi;
+        }
+
+        function getTeamMembers(teamId) {
+          // Use OData format: _field_value for lookup GUID, fieldname for display
+          var selectFields = '_' + FIELD_EMPLOYEE_LOOKUP + '_value,' + FIELD_EMPLOYEE_NAME;
+          var query =
+            '?$select=' + selectFields +
+            '&$filter=_' + FIELD_TEAM_LOOKUP + '_value eq ' + teamId;
+
+          return getWebApi()
+            .retrieveMultipleRecords(ENTITY_TEAM_MEMBER, query)
+            .then(function (result) {
+              var list = result.entities.map(function (e) {
+                return {
+                  id: e['_' + FIELD_EMPLOYEE_LOOKUP + '_value'],
+                  name: e[FIELD_EMPLOYEE_NAME],
+                  jobs: 0,
+                };
+              });
+
+              // Alphabetical sort
+              list.sort(function (a, b) {
+                return (a.name || '').localeCompare(
+                  b.name || '',
+                  'en'
+                );
+              });
+
+              return list;
+            });
+        }
+
+        function fillJobsPerMember(members, scheduleDate, teamId) {
+          if (!members.length) return Promise.resolve();
+
+          // Jobs are counted only when Scheduled date (solar_cor_scheduleddate) is set
+          if (!scheduleDate) {
+            members.forEach(function (m) { m.jobs = 0; });
+            return Promise.resolve();
+          }
+
+          var woEmployeeField = '_solar_employee_value';
+          var woTeamField = '_solar_maintenanceteamid_value';
+
+          var promises = members.map(function (m) {
+            if (!m.id) {
+              m.jobs = 0;
+              return Promise.resolve();
+            }
+
+            var empGuid = (m.id || '').replace(/[{}]/g, '');
+            var teamGuid = teamId ? (teamId + '').replace(/[{}]/g, '') : null;
+
+            var filter = woEmployeeField + " eq '" + empGuid + "' and statecode eq 0";
+            if (teamGuid) {
+              filter += " and " + woTeamField + " eq '" + teamGuid + "'";
+            }
+            filter += " and Microsoft.Dynamics.CRM.On(PropertyName=@p1,PropertyValue=@p2)";
+
+            var query = "?$select=solar_corrective_work_orderid&$filter=" + encodeURIComponent(filter) +
+              "&@p1='" + FIELD_WO_SCHEDULE_DATE + "'&@p2='" + scheduleDate + "'";
+
+            return getWebApi()
+              .retrieveMultipleRecords(ENTITY_CORRECTIVE_WO, query)
+              .then(function (res) {
+                m.jobs = res.entities.length;
+              })
+              .catch(function (err) {
+                console.warn('[TeamMembersPane] Jobs count for', m.name, err.message || err);
+                m.jobs = 0;
+              });
+          });
+
+          return Promise.all(promises);
+        }
+
+        function init() {
+          var data = getQueryData();
+          if (!data || !data.teamId) {
+            setStatus(
+              'No team data (teamId) found. Close the pane and try again.',
+              'error'
+            );
+            return;
+          }
+
+          var subtitleParts = [];
+          if (data.teamName) subtitleParts.push('Team: ' + data.teamName);
+          if (data.scheduleDate) {
+            subtitleParts.push('Date: ' + data.scheduleDate);
+          } else {
+            subtitleParts.push('Scheduled date not selected');
+          }
+          document.getElementById('subtitle').textContent =
+            subtitleParts.join('  •  ');
+
+          setStatus('Loading employees...', 'loading');
+
+          getTeamMembers(data.teamId)
+            .then(function (members) {
+              return fillJobsPerMember(members, data.scheduleDate, data.teamId).then(
+                function () {
+                  return members;
+                }
+              );
+            })
+            .then(function (members) {
+              setStatus(
+                data.scheduleDate ? '' : 'You have not selected a Scheduled date. Job counts require a date on the Work Order form.',
+                data.scheduleDate ? '' : 'error'
+              );
+              renderRows(members);
+            })
+            .catch(function (error) {
+              console.error('[TeamMembersPane] Error:', error);
+              setStatus(
+                'An error occurred while loading the data.',
+                'error'
+              );
+            });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+    </script>
+  </body>
+</html>

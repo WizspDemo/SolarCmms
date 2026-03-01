@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarOps Manager - Standalone</title>
+    
+    <!-- SELF-HOSTED: All scripts from same origin (no CDN) - works when external CDNs are blocked -->
+    <!-- 1. Tailwind - CDN fallback (if blocked, styles may be minimal but app works) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Fonts - system fallback if blocked -->
+    <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
+    
+    <!-- 2b. Weather API service (Open-Meteo) - reusable across dashboards -->
+    <script src="/WebResources/solar_weatherService"></script>
+    
+    <!-- 3-6. Self-hosted web resources (absolute URLs for reliable loading) -->
+    <!-- Optional: Tab visibility config - uncomment to load from PlantDashboardConfig.js web resource -->
+    <!-- <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_PlantDashboardConfig"></script> -->
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_react"></script>
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_reactdom"></script>
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_fluentui"></script>
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_babel"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f3f2f1;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* App handles scrolling */
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8; 
+        }
+    </style>
+    <!-- Removed importmap & /index.css - not compatible with web resources (relative paths fail) -->
+</head>
+<body>
+    <div id="root" data-testid="plant-dashboard-root" data-cursor-element-id="plant-dashboard"></div>
+
+    <script type="text/babel">
+        // --- GLOBALS & SETUP ---
+        
+        // Safety check for the FluentUI global variable
+        // Sometimes it exports as FluentUIReact, sometimes just FluentUI depending on the build
+        const FluentUI = window.FluentUIReact || window.FluentUI;
+        
+        if (!FluentUI) {
+            document.getElementById('root').innerHTML = `
+                <div style="padding: 24px; max-width: 600px; font-family: 'Segoe UI', sans-serif;">
+                    <h1 style="color: #c42b1c; margin-bottom: 12px;">Dependency Error</h1>
+                    <p style="color: #323130; line-height: 1.5;">Failed to load Fluent UI library. Scripts from CDN (jsDelivr) may be blocked.</p>
+                    <h3 style="margin-top: 16px; color: #323130;">Possible solutions:</h3>
+                    <ul style="color: #605e5c; line-height: 1.6; margin-left: 20px;">
+                        <li><strong>Content Security Policy:</strong> Ask your admin to add <code>cdn.jsdelivr.net</code> and <code>cdn.tailwindcss.com</code> to script-src in Power Platform Admin Center → Environment → Settings → Privacy + Security → Content Security Policy.</li>
+                        <li><strong>Network:</strong> Ensure outbound access to cdn.jsdelivr.net is allowed.</li>
+                        <li><strong>Alternative:</strong> Use a self-hosted/bundled version of this dashboard as web resources.</li>
+                    </ul>
+                </div>
+            `;
+            throw new Error("Fluent UI Global Variable not found");
+        }
+
+        const { 
+            ThemeProvider, createTheme, Pivot, PivotItem, Text, CommandBar,
+            DetailsList, DetailsListLayoutMode, SelectionMode, MessageBar, 
+            MessageBarType, Icon, DefaultButton, mergeStyles, Persona, 
+            PersonaSize, PersonaPresence, Panel, PanelType, IconButton, 
+            ProgressIndicator, initializeIcons, SearchBox 
+        } = FluentUI;
+
+        const { useState, useMemo, useEffect } = React;
+
+        // Initialize Icons
+        try {
+            initializeIcons();
+        } catch (e) {
+            console.warn("Icon initialization failed or already initialized", e);
+        }
+
+        // --- CONSTANTS & DATA ---
+        
+        const PLOT_IDS = Array.from({ length: 20 }, (_, i) => {
+            const num = i + 1;
+            return `BN-${num < 10 ? '0' + num : num}`;
+        });
+
+        const MOCK_WEATHER = {
+            ghi: 945,
+            moduleTemp: 72.4,
+            ambientTemp: 43.1,
+            windSpeed: 4.2,
+            condition: 'Sunny'
+        };
+
+        const MOCK_HOURLY_WEATHER = [
+            { time: '12:00', icon: 'Sunny', temp: 44, ghi: 960, precip: 0 },
+            { time: '13:00', icon: 'PartlyCloudyDay', temp: 45, ghi: 880, precip: 0 },
+            { time: '14:00', icon: 'PartlyCloudyDay', temp: 44, ghi: 750, precip: 5 },
+            { time: '15:00', icon: 'Cloudy', temp: 42, ghi: 400, precip: 15 },
+        ];
+
+        // --- WEATHER API: uses weatherService.js (WeatherApiService.fetchWeather) ---
+        // Coordinates: from Solar Park (solar_location.solar_latitude, solar_longitude) or URL ?lat=&lon= or default Benban
+        const WEATHER_DEFAULT_LAT = 24.456;
+        const WEATHER_DEFAULT_LON = 32.739;
+
+        const MOCK_INVERTERS = [
+            { id: 'INV-01', name: 'Inv Block 01-A', plotId: 'BN-01', capacityKw: 100, currentOutputKw: 84.5, status: 'Online', lastHeartbeat: '10s ago', efficiency: 0.89 },
+            { id: 'INV-02', name: 'Inv Block 02-A', plotId: 'BN-02', capacityKw: 100, currentOutputKw: 83.2, status: 'Online', lastHeartbeat: '12s ago', efficiency: 0.88 },
+            { id: 'INV-14A', name: 'Inv Block 14-A', plotId: 'BN-14', capacityKw: 125, currentOutputKw: 0, status: 'Fault', lastHeartbeat: 'Offline', efficiency: 0 },
+            { id: 'INV-14B', name: 'Inv Block 14-B', plotId: 'BN-14', capacityKw: 125, currentOutputKw: 45.0, status: 'Fault', lastHeartbeat: '1 min ago', efficiency: 0.36 },
+            { id: 'INV-15A', name: 'Inv Block 15-A', plotId: 'BN-15', capacityKw: 100, currentOutputKw: 0, status: 'Offline', lastHeartbeat: '5 mins ago', efficiency: 0 },
+            { id: 'INV-05A', name: 'Inv Block 05-A', plotId: 'BN-05', capacityKw: 100, currentOutputKw: 0, status: 'Maintenance', lastHeartbeat: 'Manual Stop', efficiency: 0 }
+        ];
+
+        const MOCK_TASKS = [
+            { id: 'WO-201', title: 'Inverter 14-A Thermal Shutdown', priority: 'Critical', type: 'Corrective', plotId: 'BN-14', assignedTechnician: 'Ahmed S.', status: 'In Progress', dueDate: '2024-03-24' },
+            { id: 'WO-202', title: 'Inverter 14-B Cooling Fan Fail', priority: 'Critical', type: 'Corrective', plotId: 'BN-14', assignedTechnician: 'Ahmed S.', status: 'Open', dueDate: '2024-03-24' },
+            { id: 'WO-203', title: 'Sector 15 MV Grid Trip', priority: 'High', type: 'Corrective', plotId: 'BN-15', assignedTechnician: 'Sarah J.', status: 'Assigned', dueDate: '2024-03-24' },
+            { id: 'WO-301', title: 'Module Cleaning: Robot Deployment', priority: 'Medium', type: 'Preventive', plotId: 'BN-01', assignedTechnician: 'Auto-Clean Unit 1', status: 'In Progress', dueDate: '2024-03-25' },
+            { id: 'WO-302', title: 'Module Cleaning: Manual', priority: 'Medium', type: 'Preventive', plotId: 'BN-02', assignedTechnician: 'Crew Alpha', status: 'Assigned', dueDate: '2024-03-25' },
+            { id: 'WO-303', title: 'Module Cleaning: Manual', priority: 'Medium', type: 'Preventive', plotId: 'BN-03', assignedTechnician: 'Crew Beta', status: 'Open', dueDate: '2024-03-26' },
+            { id: 'WO-304', title: 'Sand Removal: Combiner Boxes', priority: 'Low', type: 'Preventive', plotId: 'BN-04', assignedTechnician: 'Grounds', status: 'Open', dueDate: '2024-03-26' },
+            { id: 'WO-305', title: 'Substation A Filter Check', priority: 'Low', type: 'Preventive', plotId: 'BN-05', assignedTechnician: 'Mike R.', status: 'Closed', dueDate: '2024-03-20' },
+            { id: 'WO-306', title: 'Perimeter Fence Inspection', priority: 'Low', type: 'Preventive', plotId: 'BN-19', assignedTechnician: 'Security', status: 'Closed', dueDate: '2024-03-21' },
+        ];
+
+        const MOCK_TEAM = [
+            { id: 'TM-01', name: 'Dr. Layla Hassan', role: 'Plant Manager', phone: '+20 100 555 001', email: 'lhassan@benban-ops.com', status: 'On Site', department: 'Management' },
+            { id: 'TM-02', name: 'Eng. Omar Khaled', role: 'Operations Director', phone: '+20 100 555 002', email: 'okhaled@benban-ops.com', status: 'Remote', department: 'Management' },
+            { id: 'TM-03', name: 'Sarah Miller', role: 'Senior Electrical Engineer', phone: '+20 100 555 010', email: 'smiller@benban-ops.com', status: 'On Site', department: 'Engineering' },
+            { id: 'TM-04', name: 'Ahmed S.', role: 'HV Technician Lead', phone: '+20 100 555 012', email: 'ahmed.s@benban-ops.com', status: 'Deployed', department: 'Operations' },
+            { id: 'TM-05', name: 'Cleaning Crew A', role: 'Field Services', phone: '+20 100 555 050', email: 'dispatch.alpha@benban-ops.com', status: 'Deployed', department: 'Operations' },
+        ];
+
+        // --- DATAVERSE WEB API INTEGRATION ---
+        // When running inside a model-driven app iframe, Xrm.WebApi is available from window.parent
+        // Παράμετροι από URL (όταν "Pass row object-type code and unique identifier as parameters" ενεργό)
+        function getQueryParams() {
+            const search = (window.location && window.location.search) || '';
+            const params = {};
+            search.replace(/^\?/, '').split('&').forEach(function (part) {
+                const p = part.split('=');
+                if (p[0]) params[decodeURIComponent(p[0])] = decodeURIComponent((p[1] || '').replace(/\+/g, ' '));
+            });
+            return params;
+        }
+
+        // --- TAB VISIBILITY CONFIG ---
+        // Εμφάνιση/κρύψιμο των Pivot tabs (Work Orders, Live Feed, Map, Team, Site Details, Live Cloud Map).
+        // 1) Ρύθμιση εδώ: αλλάξτε σε false για να κρύψετε ένα tab.
+        // 2) URL params: ?tabs=workorders,livefeed,map παίρνει μόνο αυτά | ?hide=windy,team κρύβει αυτά.
+        const TAB_DEFINITIONS = [
+            { itemKey: 'workorders', headerText: 'Work Orders', itemIcon: 'TaskList' },
+            { itemKey: 'livefeed', headerText: 'Live Feed', itemIcon: 'AnalyticsView' },
+            { itemKey: 'map', headerText: 'Map', itemIcon: 'Map' },
+            { itemKey: 'team', headerText: 'Team', itemIcon: 'People' },
+            { itemKey: 'sitedetails', headerText: 'Site Details', itemIcon: 'Info' },
+            { itemKey: 'windy', headerText: 'Live Cloud Map', itemIcon: 'Globe' }
+        ];
+        // Αλλάξτε σε false για να κρύψετε ένα tab (π.χ. windy: false).
+        const DEFAULT_TAB_VISIBILITY = { workorders: true, livefeed: true, map: true, team: true, sitedetails: true, windy: true };
+        function getTabVisibility() {
+            const q = getQueryParams();
+            let vis = { ...DEFAULT_TAB_VISIBILITY };
+            if (window.PlantDashboardConfig && typeof window.PlantDashboardConfig.visibleTabs === 'object') {
+                Object.keys(vis).forEach(k => { vis[k] = !!window.PlantDashboardConfig.visibleTabs[k]; });
+            }
+            if (q.tabs) {
+                const show = q.tabs.split(',').map(s => s.trim().toLowerCase());
+                Object.keys(vis).forEach(k => { vis[k] = show.includes(k); });
+            }
+            if (q.hide) {
+                const hide = q.hide.split(',').map(s => s.trim().toLowerCase());
+                hide.forEach(k => { vis[k] = false; });
+            }
+            return vis;
+        }
+        function getVisibleTabs() {
+            const vis = getTabVisibility();
+            return TAB_DEFINITIONS.filter(t => vis[t.itemKey]);
+        }
+
+        // --- WIDGET VISIBILITY CONFIG ---
+        // MessageBar, stats cards (ανά card), weather-widget, Inverter Status.
+        const STATS_CARD_KEYS = ['preventiveHealth', 'preventiveWorkflow', 'criticalDefects', 'correctiveWorkflow'];
+        // MessageBar, stats cards (ανά card), weather-widget, Inverter Status. Αλλάξτε σε false για κρύψιμο.
+        const DEFAULT_WIDGET_VISIBILITY = {
+            showMessageBar: true,
+            statsCards: { preventiveHealth: true, preventiveWorkflow: true, criticalDefects: true, correctiveWorkflow: true },
+            showWeatherWidget: true,
+            showInverterStatus: true
+        };
+        function getWidgetVisibility() {
+            const q = getQueryParams();
+            let cfg = {
+                showMessageBar: DEFAULT_WIDGET_VISIBILITY.showMessageBar,
+                statsCards: { ...DEFAULT_WIDGET_VISIBILITY.statsCards },
+                showWeatherWidget: DEFAULT_WIDGET_VISIBILITY.showWeatherWidget,
+                showInverterStatus: DEFAULT_WIDGET_VISIBILITY.showInverterStatus
+            };
+            if (window.PlantDashboardConfig) {
+                const c = window.PlantDashboardConfig;
+                if (typeof c.showMessageBar === 'boolean') cfg.showMessageBar = c.showMessageBar;
+                if (c.statsCards && typeof c.statsCards === 'object') STATS_CARD_KEYS.forEach(k => { if (typeof c.statsCards[k] === 'boolean') cfg.statsCards[k] = c.statsCards[k]; });
+                if (typeof c.showWeatherWidget === 'boolean') cfg.showWeatherWidget = c.showWeatherWidget;
+                if (typeof c.showInverterStatus === 'boolean') cfg.showInverterStatus = c.showInverterStatus;
+            }
+            if (q.showMessageBar !== undefined) cfg.showMessageBar = q.showMessageBar !== '0' && q.showMessageBar !== 'false';
+            if (q.statsCards) { const show = q.statsCards.split(',').map(s => s.trim().toLowerCase()); STATS_CARD_KEYS.forEach(k => { cfg.statsCards[k] = show.includes(k); }); }
+            if (q.hideStatsCards) { const hide = q.hideStatsCards.split(',').map(s => s.trim().toLowerCase()); hide.forEach(k => { cfg.statsCards[k] = false; }); }
+            if (q.showWeatherWidget !== undefined) cfg.showWeatherWidget = q.showWeatherWidget !== '0' && q.showWeatherWidget !== 'false';
+            if (q.showInverterStatus !== undefined) cfg.showInverterStatus = q.showInverterStatus !== '0' && q.showInverterStatus !== 'false';
+            return cfg;
+        }
+
+        function getRecordIdFromContext() {
+            const q = getQueryParams();
+            if (q.id) return q.id.replace(/[{}]/g, '');
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Page && xrm.Page.data && xrm.Page.data.entity) return xrm.Page.data.entity.getId().replace(/[{}]/g, '');
+            } catch (e) { /* cross-frame or no form */ }
+            return null;
+        }
+        function getEntityNameFromContext() {
+            const q = getQueryParams();
+            if (q.typename) return q.typename;
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Page && xrm.Page.data && xrm.Page.data.entity) return xrm.Page.data.entity.getEntityName();
+            } catch (e) { /* cross-frame or no form */ }
+            return null;
+        }
+        function getXrmWebApi() {
+            try {
+                if (window.parent && window.parent.Xrm && window.parent.Xrm.WebApi) return window.parent.Xrm.WebApi;
+            } catch (e) { }
+            return null;
+        }
+
+        const isDataverseContext = () => !!getXrmWebApi();
+
+        const ENTITY_LOCATION = 'solar_location';
+        const ENTITY_CORRECTIVE_WORK_ORDER = 'solar_corrective_work_order';
+        const ENTITY_DASHBOARD_CONFIG = 'solar_dashboardconfig';
+        const CONFIG_KEY_PLANT_DASHBOARD = 'PlantDashboard';
+
+        function applyConfigToWindow(parsed) {
+            if (!parsed || typeof parsed !== 'object') return;
+            window.PlantDashboardConfig = window.PlantDashboardConfig || {};
+            if (parsed.visibleTabs) window.PlantDashboardConfig.visibleTabs = parsed.visibleTabs;
+            else if (parsed.tabs) window.PlantDashboardConfig.visibleTabs = parsed.tabs;
+            if (typeof parsed.showMessageBar === 'boolean') window.PlantDashboardConfig.showMessageBar = parsed.showMessageBar;
+            if (typeof parsed.showWeatherWidget === 'boolean') window.PlantDashboardConfig.showWeatherWidget = parsed.showWeatherWidget;
+            if (typeof parsed.showInverterStatus === 'boolean') window.PlantDashboardConfig.showInverterStatus = parsed.showInverterStatus;
+            if (parsed.statsCards && typeof parsed.statsCards === 'object') window.PlantDashboardConfig.statsCards = parsed.statsCards;
+        }
+
+        async function fetchConfigViaRest() {
+            try {
+                const url = window.location.origin + '/api/data/v9.2/solar_dashboardconfigs?$filter=solar_configkey eq \'' + CONFIG_KEY_PLANT_DASHBOARD + '\'&$top=1&$select=solar_configjson';
+                const res = await fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json', 'OData-MaxVersion': '4.0' } });
+                if (!res.ok) return false;
+                const data = await res.json();
+                const entities = data.value || data.entities || [];
+                if (entities.length > 0 && entities[0].solar_configjson) {
+                    applyConfigToWindow(JSON.parse(entities[0].solar_configjson));
+                    return true;
+                }
+            } catch (e) { console.warn('fetchConfigViaRest:', e); }
+            return false;
+        }
+
+        async function fetchConfigFromDataverse() {
+            const webApi = getXrmWebApi();
+            if (webApi) {
+                try {
+                    const result = await webApi.retrieveMultipleRecords(ENTITY_DASHBOARD_CONFIG,
+                        "?$filter=solar_configkey eq '" + CONFIG_KEY_PLANT_DASHBOARD + "'&$top=1&$select=solar_configjson");
+                    if (result && result.entities && result.entities.length > 0 && result.entities[0].solar_configjson) {
+                        applyConfigToWindow(JSON.parse(result.entities[0].solar_configjson));
+                        return;
+                    }
+                } catch (e) { console.warn('fetchConfigFromDataverse:', e); }
+            }
+            await fetchConfigViaRest();
+        }
+
+        // Get current Solar Park (solar_location) ID when dashboard is embedded in Solar Parks form
+        const getCurrentSolarParkId = async () => {
+            const id = getRecordIdFromContext();
+            const entity = getEntityNameFromContext();
+            if (entity === ENTITY_LOCATION && id) return id;
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (!xrm) return null;
+                if (xrm.Utility && xrm.Utility.getPageContext) {
+                    const ctx = typeof xrm.Utility.getPageContext().then === 'function'
+                        ? await xrm.Utility.getPageContext()
+                        : xrm.Utility.getPageContext();
+                    if (ctx && ctx.input && ctx.input.entityId && (ctx.input.entityTypeName || '').toLowerCase() === 'solar_location')
+                        return ctx.input.entityId.replace(/[{}]/g, '');
+                }
+            } catch (e) { console.warn('getCurrentSolarParkId:', e); }
+            return id || null;
+        };
+
+        // Fetch corrective work order counts for one Solar Park (filtered by location) - FetchXML για σωστό GUID filter
+        const fetchCorrectiveCountsByLocation = async (locationId) => {
+            const webApi = getXrmWebApi();
+            if (!webApi || !locationId) return { openTickets: 0, total: 0 };
+            try {
+                const guid = locationId.replace(/[{}]/g, '');
+                const fetchXml = '<fetch>' +
+                    '<entity name="solar_corrective_work_order">' +
+                    '<attribute name="solar_corrective_work_orderid"/>' +
+                    '<attribute name="statecode"/>' +
+                    '<attribute name="statuscode"/>' +
+                    '<filter type="and">' +
+                    '<condition attribute="solar_locationid" operator="eq" value="{' + guid + '}"/>' +
+                    '</filter>' +
+                    '</entity>' +
+                    '</fetch>';
+                const options = '?fetchXml=' + encodeURIComponent(fetchXml);
+                const result = await webApi.retrieveMultipleRecords(ENTITY_CORRECTIVE_WORK_ORDER, options);
+                const entities = (result && result.entities) ? result.entities : (Array.isArray(result) ? result : []);
+                const total = entities.length;
+                const openTickets = entities.filter(r => r.statecode !== 1).length;
+                return { openTickets, total };
+            } catch (e) { console.warn('fetchCorrectiveCountsByLocation failed:', e); return { openTickets: 0, total: 0 }; }
+        };
+
+        function mapWorkOrderToTask(wo) {
+            const loc = wo.solar_locationid;
+            const team = wo.solar_maintenanceteamid;
+            const locName = (loc && (typeof loc === 'object') && loc.solar_name) ? loc.solar_name : (wo['solar_locationid@OData.Community.Display.V1.FormattedValue'] || wo['loc.solar_name'] || '-');
+            const teamName = (team && (typeof team === 'object') && team.solar_name) ? team.solar_name : (wo['solar_maintenanceteamid@OData.Community.Display.V1.FormattedValue'] || wo['team.solar_name'] || '-');
+            const ownerName = wo['owneruser.fullname'] || wo['ownerteam.name'] || wo['ownerid@OData.Community.Display.V1.FormattedValue'] || '-';
+            const status = (() => { if (wo.statecode === 1) return 'Closed'; const lbl = (wo['solar_solar_status@OData.Community.Display.V1.FormattedValue'] || wo.solar_solar_statusname || wo['solar_status@OData.Community.Display.V1.FormattedValue'] || wo.solar_statusname || wo['statuscode@OData.Community.Display.V1.FormattedValue'] || wo.statuscodename || '').toString().trim(); if (lbl) { const s = lbl.toLowerCase(); if (s.includes('assigned')) return 'Assigned'; if (s.includes('in progress') || s.includes('inprogress')) return 'In Progress'; if (s.includes('closed')) return 'Closed'; if (s.includes('open')) return 'Open'; } return wo.statuscode === 2 ? 'In Progress' : wo.statuscode === 3 ? 'Assigned' : 'Open'; })();
+            return {
+                id: wo.solar_corrective_work_orderid || wo.solar_name || ('WO-' + (wo.solar_corrective_work_orderid || '').slice(0, 8)),
+                title: wo.solar_name || '-',
+                priority: (wo.solar_solar_priority !== undefined && wo.solar_solar_priority !== null) ? (wo.solar_solar_priority === 1 ? 'Critical' : wo.solar_solar_priority === 2 ? 'High' : 'Medium') : 'Medium',
+                type: 'Corrective',
+                plotId: locName,
+                assignedTechnician: teamName,
+                assignedTo: ownerName,
+                status: status,
+                dueDate: wo.solar_solar_enddate ? new Date(wo.solar_solar_enddate).toISOString().slice(0, 10) : '-'
+            };
+        }
+
+        const fetchDataverseWorkOrders = async (recordId, entityName) => {
+            const webApi = getXrmWebApi();
+            if (!webApi) return null;
+            try {
+                const filterAttr = entityName === ENTITY_LOCATION ? 'solar_locationid' : (entityName === ENTITY_CORRECTIVE_WORK_ORDER ? 'solar_corrective_work_orderid' : 'solar_locationid');
+                const id = (recordId || '').replace(/[{}]/g, '');
+                if (!id) return [];
+                const fetchXml = '<fetch>' +
+                    '<entity name="solar_corrective_work_order">' +
+                    '<attribute name="solar_corrective_work_orderid"/>' +
+                    '<attribute name="solar_name"/>' +
+                    '<attribute name="solar_description"/>' +
+                    '<attribute name="solar_locationid"/>' +
+                    '<attribute name="solar_maintenanceteamid"/>' +
+                    '<attribute name="solar_categoryid"/>' +
+                    '<attribute name="ownerid"/>' +
+                    '<attribute name="statecode"/>' +
+                    '<attribute name="statuscode"/>' +
+                    '<attribute name="solar_solar_status"/>' +
+                    '<attribute name="solar_status"/>' +
+                    '<attribute name="solar_solar_priority"/>' +
+                    '<attribute name="solar_solar_enddate"/>' +
+                    '<link-entity name="systemuser" from="systemuserid" to="ownerid" link-type="outer" alias="owneruser">' +
+                    '<attribute name="fullname"/>' +
+                    '</link-entity>' +
+                    '<link-entity name="team" from="teamid" to="ownerid" link-type="outer" alias="ownerteam">' +
+                    '<attribute name="name"/>' +
+                    '</link-entity>' +
+                    '<filter type="and">' +
+                    '<condition attribute="' + filterAttr + '" operator="eq" value="{' + id + '}"/>' +
+                    '</filter>' +
+                    '<link-entity name="solar_location" from="solar_locationid" to="solar_locationid" link-type="outer" alias="loc">' +
+                    '<attribute name="solar_name"/>' +
+                    '</link-entity>' +
+                    '<link-entity name="solar_maintenance_team" from="solar_maintenance_teamid" to="solar_maintenanceteamid" link-type="outer" alias="team">' +
+                    '<attribute name="solar_name"/>' +
+                    '</link-entity>' +
+                    '<order attribute="solar_name" descending="false"/>' +
+                    '</entity>' +
+                    '</fetch>';
+                const options = '?fetchXml=' + encodeURIComponent(fetchXml);
+                const result = await webApi.retrieveMultipleRecords(ENTITY_CORRECTIVE_WORK_ORDER, options);
+                const entities = (result && result.entities) ? result.entities : (Array.isArray(result) ? result : []);
+                return entities.map(mapWorkOrderToTask);
+            } catch (e) { console.warn('Dataverse work orders fetch failed:', e); return null; }
+        };
+
+        const fetchDataverseInverters = async (locationId) => {
+            const webApi = getXrmWebApi();
+            if (!webApi) return null;
+            try {
+                let query = '?$select=solar_solarinverterid,solar_invertername,solar_parkname,solar_poweroutput,solar_quantity,solar_park&$top=50';
+                if (locationId) {
+                    const guid = (locationId || '').replace(/[{}]/g, '');
+                    const fetchXml = '<fetch>' +
+                        '<entity name="solar_solarinverter">' +
+                        '<attribute name="solar_solarinverterid"/>' +
+                        '<attribute name="solar_invertername"/>' +
+                        '<attribute name="solar_parkname"/>' +
+                        '<attribute name="solar_poweroutput"/>' +
+                        '<attribute name="solar_quantity"/>' +
+                        '<attribute name="solar_park"/>' +
+                        '<link-entity name="solar_location" from="solar_locationid" to="solar_park" link-type="outer" alias="loc">' +
+                        '<attribute name="solar_name"/>' +
+                        '</link-entity>' +
+                        '<filter type="and">' +
+                        '<condition attribute="solar_park" operator="eq" value="{' + guid + '}"/>' +
+                        '</filter>' +
+                        '</entity>' +
+                        '</fetch>';
+                    query = '?fetchXml=' + encodeURIComponent(fetchXml);
+                }
+                const result = await webApi.retrieveMultipleRecords('solar_solarinverter', query);
+                const entities = (result && result.entities) ? result.entities : (Array.isArray(result) ? result : []);
+                return entities.map(r => {
+                    const capacityKw = Number(r.solar_poweroutput) || 100;
+                    const qty = Number(r.solar_quantity) || 1;
+                    const locName = (r.solar_park && typeof r.solar_park === 'object' && r.solar_park.solar_name) ? r.solar_park.solar_name : (r['solar_park@OData.Community.Display.V1.FormattedValue'] || r['loc.solar_name'] || r.solar_parkname || '-');
+                    return {
+                        id: r.solar_solarinverterid?.slice(0, 8) || 'INV',
+                        name: r.solar_invertername || 'Inverter',
+                        plotId: locName,
+                        capacityKw: capacityKw * qty,
+                        currentOutputKw: Math.random() * capacityKw * 0.9,
+                        status: 'Online',
+                        lastHeartbeat: '10s ago',
+                        efficiency: 0.85 + Math.random() * 0.1
+                    };
+                });
+            } catch (e) { console.warn('Dataverse inverters fetch failed:', e); return null; }
+        };
+
+        const ENTITY_PREVENTIVE_TASK = 'solar_solarpreventivetask';
+
+        function mapPreventiveTaskToTask(pt) {
+            const parkName = (pt.solar_park && typeof pt.solar_park === 'object' && pt.solar_park.solar_name) ? pt.solar_park.solar_name : (pt['solar_park@OData.Community.Display.V1.FormattedValue'] || pt['park.solar_name'] || pt.solar_parkname || '-');
+            const assignedName = pt.solar_solar_assignedusername || pt['solar_solar_assigneduser@OData.Community.Display.V1.FormattedValue'] || pt['owneruser.fullname'] || pt['ownerid@OData.Community.Display.V1.FormattedValue'] || '-';
+            const status = (pt.statecode === 1 ? 'Closed' : pt.solar_solar_completeddate ? 'Closed' : pt.statuscode === 2 ? 'In Progress' : pt.statuscode === 3 ? 'Assigned' : 'Open');
+            return {
+                id: pt.solar_solarpreventivetaskid || ('PT-' + (pt.solar_solarpreventivetaskid || '').slice(0, 8)),
+                title: pt.solar_preventivetitle || '-',
+                priority: 'Medium',
+                type: 'Preventive',
+                plotId: parkName,
+                assignedTechnician: assignedName,
+                assignedTo: assignedName,
+                status: status,
+                dueDate: pt.solar_solar_duedate ? new Date(pt.solar_solar_duedate).toISOString().slice(0, 10) : '-'
+            };
+        }
+
+        const fetchDataversePreventiveTasks = async (locationId) => {
+            const webApi = getXrmWebApi();
+            if (!webApi || !locationId) return null;
+            try {
+                const guid = (locationId || '').replace(/[{}]/g, '');
+                const fetchXml = '<fetch>' +
+                    '<entity name="solar_solarpreventivetask">' +
+                    '<attribute name="solar_solarpreventivetaskid"/>' +
+                    '<attribute name="solar_preventivetitle"/>' +
+                    '<attribute name="solar_park"/>' +
+                    '<attribute name="solar_parkname"/>' +
+                    '<attribute name="solar_solar_assigneduser"/>' +
+                    '<attribute name="solar_solar_assignedusername"/>' +
+                    '<attribute name="solar_solar_completeddate"/>' +
+                    '<attribute name="solar_solar_duedate"/>' +
+                    '<attribute name="statecode"/>' +
+                    '<attribute name="statuscode"/>' +
+                    '<attribute name="ownerid"/>' +
+                    '<link-entity name="solar_location" from="solar_locationid" to="solar_park" link-type="outer" alias="park">' +
+                    '<attribute name="solar_name"/>' +
+                    '</link-entity>' +
+                    '<link-entity name="systemuser" from="systemuserid" to="ownerid" link-type="outer" alias="owneruser">' +
+                    '<attribute name="fullname"/>' +
+                    '</link-entity>' +
+                    '<filter type="and">' +
+                    '<condition attribute="solar_park" operator="eq" value="{' + guid + '}"/>' +
+                    '</filter>' +
+                    '<order attribute="solar_preventivetitle" descending="false"/>' +
+                    '</entity>' +
+                    '</fetch>';
+                const options = '?fetchXml=' + encodeURIComponent(fetchXml);
+                const result = await webApi.retrieveMultipleRecords(ENTITY_PREVENTIVE_TASK, options);
+                const entities = (result && result.entities) ? result.entities : (Array.isArray(result) ? result : []);
+                return entities.map(mapPreventiveTaskToTask);
+            } catch (e) { console.warn('Dataverse preventive tasks fetch failed:', e); return null; }
+        };
+
+        const fetchDataverseLocations = async () => {
+            const webApi = getXrmWebApi();
+            if (!webApi) return null;
+            try {
+                const result = await webApi.retrieveMultipleRecords(
+                    'solar_location',
+                    '?$select=solar_locationid,solar_name,solar_capacity_mw,solar_address,solar_city,solar_country&$top=50'
+                );
+                return result.entities || [];
+            } catch (e) { console.warn('Dataverse locations fetch failed:', e); return null; }
+        };
+
+        const fetchDataverseLocation = async (locationId) => {
+            const webApi = getXrmWebApi();
+            if (!webApi || !locationId) return null;
+            try {
+                const id = (locationId || '').replace(/[{}]/g, '');
+                const result = await webApi.retrieveRecord(
+                    'solar_location',
+                    id,
+                    '?$select=solar_name,solar_address,solar_city,solar_state,solar_postalcode,solar_capacity_mw,solar_landsizekm,solar_opendate,solar_solar_operationaldata,solar_solar_capacitydetails,solar_solar_status,solar_stage,solar_latitude,solar_longitude'
+                );
+                if (!result) return null;
+                const latVal = result.solar_latitude != null && result.solar_latitude !== '' ? parseFloat(result.solar_latitude) : null;
+                const lonVal = result.solar_longitude != null && result.solar_longitude !== '' ? parseFloat(result.solar_longitude) : null;
+                return {
+                    name: result.solar_name || '',
+                    address: result.solar_address || '',
+                    city: result.solar_city || '',
+                    state: result.solar_state || '',
+                    postalCode: result.solar_postalcode || '',
+                    country: result.solar_countryname || '',
+                    latitude: !isNaN(latVal) ? latVal : null,
+                    longitude: !isNaN(lonVal) ? lonVal : null,
+                    capacityMw: result.solar_capacity_mw != null ? Number(result.solar_capacity_mw) : null,
+                    landSizeKm: result.solar_landsizekm || '',
+                    openDate: result.solar_opendate || '',
+                    status: result.solar_solar_status != null ? String(result.solar_solar_status) : (result.solar_stage != null ? String(result.solar_stage) : ''),
+                    description: result.solar_solar_operationaldata || result.solar_solar_capacitydetails || '',
+                    client: result.solar_clientname || ''
+                };
+            } catch (e) { console.warn('Dataverse location fetch failed:', e); return null; }
+        };
+
+        const fetchDataverseSections = async (locationId) => {
+            const webApi = getXrmWebApi();
+            if (!webApi || !locationId) return null;
+            try {
+                const guid = (locationId || '').replace(/[{}]/g, '');
+                const fetchXml = '<fetch>' +
+                    '<entity name="solar_section">' +
+                    '<attribute name="solar_sectionid"/>' +
+                    '<attribute name="solar_sectionname"/>' +
+                    '<attribute name="solar_code"/>' +
+                    '<filter type="and">' +
+                    '<condition attribute="solar_location" operator="eq" value="{' + guid + '}"/>' +
+                    '</filter>' +
+                    '<order attribute="solar_code" descending="false"/>' +
+                    '<order attribute="solar_sectionname" descending="false"/>' +
+                    '</entity>' +
+                    '</fetch>';
+                const options = '?fetchXml=' + encodeURIComponent(fetchXml);
+                const result = await webApi.retrieveMultipleRecords('solar_section', options);
+                const entities = (result && result.entities) ? result.entities : (Array.isArray(result) ? result : []);
+                return entities.map(s => ({
+                    id: s.solar_sectionid,
+                    name: s.solar_sectionname || '',
+                    code: s.solar_code || s.solar_sectionname || ('SEC-' + (s.solar_sectionid || '').slice(0, 8))
+                }));
+            } catch (e) { console.warn('Dataverse sections fetch failed:', e); return null; }
+        };
+
+        const fetchDataverseMaintenanceTeams = async () => {
+            const webApi = getXrmWebApi();
+            if (!webApi) return null;
+            try {
+                const result = await webApi.retrieveMultipleRecords(
+                    'solar_maintenance_team',
+                    '?$select=solar_maintenance_teamid,solar_name,solar_contactinfo,solar_solar_teamlead&$filter=solar_isactive eq true&$top=50'
+                );
+                return (result.entities || []).map(r => ({
+                    id: r.solar_maintenance_teamid?.slice(0, 8) || 'TM',
+                    name: r.solar_name || 'Team',
+                    role: r.solar_maintenance_team_categoryname || 'Operations',
+                    phone: r.solar_contactinfo || '-',
+                    email: '-',
+                    status: 'On Site',
+                    department: r.solar_maintenance_team_categoryname || 'Operations'
+                }));
+            } catch (e) { console.warn('Dataverse teams fetch failed:', e); return null; }
+        };
+
+        const getLocationIdFromContext = async (recordId, entityName) => {
+            if (entityName === ENTITY_LOCATION && recordId) return (recordId || '').replace(/[{}]/g, '');
+            if (entityName === ENTITY_CORRECTIVE_WORK_ORDER && recordId) {
+                const webApi = getXrmWebApi();
+                if (webApi) {
+                    try {
+                        const wo = await webApi.retrieveRecord(ENTITY_CORRECTIVE_WORK_ORDER, (recordId || '').replace(/[{}]/g, ''), '?$select=solar_locationid');
+                        if (wo && wo.solar_locationid) {
+                            const loc = wo.solar_locationid;
+                            const locId = (typeof loc === 'object' && loc) ? (loc.solar_locationid || loc.id || loc) : loc;
+                            return locId ? String(locId).replace(/[{}]/g, '') : null;
+                        }
+                    } catch (e) { console.warn('getLocationIdFromWorkOrder:', e); }
+                }
+            }
+            return await getCurrentSolarParkId();
+        };
+
+        const loadDataverseData = async () => {
+            let recordId = getRecordIdFromContext();
+            let entityName = getEntityNameFromContext();
+            if (!recordId && window.parent && window.parent.Xrm && window.parent.Xrm.Utility && window.parent.Xrm.Utility.getPageContext) {
+                try {
+                    const ctx = await window.parent.Xrm.Utility.getPageContext();
+                    if (ctx && ctx.input && ctx.input.entityId) {
+                        recordId = (ctx.input.entityId || '').replace(/[{}]/g, '');
+                        entityName = (ctx.input.entityTypeName || '').toLowerCase() || entityName;
+                    }
+                } catch (e) { /* ignore */ }
+            }
+            const currentParkId = await getLocationIdFromContext(recordId, entityName);
+            const results = await Promise.allSettled([
+                recordId ? fetchDataverseWorkOrders(recordId, entityName) : Promise.resolve(null),
+                currentParkId ? fetchDataversePreventiveTasks(currentParkId) : Promise.resolve(null),
+                fetchDataverseInverters(currentParkId),
+                fetchDataverseMaintenanceTeams(),
+                currentParkId ? fetchCorrectiveCountsByLocation(currentParkId) : Promise.resolve({ openTickets: 0, total: 0 }),
+                currentParkId ? fetchDataverseLocation(currentParkId) : Promise.resolve(null),
+                currentParkId ? fetchDataverseSections(currentParkId) : Promise.resolve(null)
+            ]);
+            const correctiveTasks = results[0].status === 'fulfilled' ? results[0].value : null;
+            const preventiveTasks = results[1].status === 'fulfilled' ? results[1].value : null;
+            const inverters = results[2].status === 'fulfilled' ? results[2].value : null;
+            const teams = results[3].status === 'fulfilled' ? results[3].value : null;
+            const parkCounts = results[4].status === 'fulfilled' ? results[4].value : { openTickets: 0, total: 0 };
+            const locationDetails = results[5].status === 'fulfilled' ? results[5].value : null;
+            const sections = results[6].status === 'fulfilled' ? results[6].value : null;
+            const corrective = correctiveTasks || [];
+            const preventive = preventiveTasks || [];
+            const combinedTasks = recordId ? [...corrective, ...preventive] : MOCK_TASKS;
+            return {
+                tasks: combinedTasks,
+                inverters: inverters && inverters.length ? inverters : MOCK_INVERTERS,
+                team: teams && teams.length ? teams : MOCK_TEAM,
+                currentParkId: currentParkId || null,
+                parkCorrectiveCounts: parkCounts || { openTickets: 0, total: 0 },
+                locationDetails: locationDetails || null,
+                sections: sections && sections.length ? sections : null
+            };
+        };
+
+        // --- STYLES ---
+
+        const appTheme = createTheme({
+            palette: {
+                themePrimary: '#004E8C',
+                themeLighterAlt: '#f1f6fa',
+                themeLighter: '#c8dceb',
+                themeLight: '#9dc0da',
+                themeTertiary: '#4d89b6',
+                themeSecondary: '#135e98',
+                themeDarkAlt: '#00467e',
+                themeDark: '#003b6b',
+                themeDarker: '#002c4f',
+                neutralLighterAlt: '#faf9f8',
+                neutralLighter: '#f3f2f1',
+                neutralLight: '#edebe9',
+                neutralQuaternaryAlt: '#e1dfdd',
+                neutralQuaternary: '#d0d0d0',
+                neutralTertiaryAlt: '#c8c6c4',
+                neutralTertiary: '#a19f9d',
+                neutralSecondary: '#605e5c',
+                neutralPrimaryAlt: '#3b3a39',
+                neutralPrimary: '#323130',
+                neutralDark: '#201f1e',
+                black: '#000000',
+                white: '#ffffff',
+            },
+            defaultFontStyle: { fontFamily: 'Segoe UI, sans-serif' },
+        });
+
+        const gridContainerClass = mergeStyles({
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
+            gridGap: '8px',
+            marginTop: '16px',
+        });
+
+        const plotCellBaseClass = mergeStyles({
+            height: '80px',
+            borderRadius: '6px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            border: '2px solid transparent',
+            selectors: {
+                ':hover': { transform: 'scale(1.05)', boxShadow: '0 8px 16px rgba(0,0,0,0.1)' }
+            }
+        });
+
+        // --- COMPONENTS ---
+
+        const InverterCard = ({ inverter, currentGhi }) => {
+            const isGenerating = inverter.currentOutputKw > 0;
+            const isHighIrradiance = currentGhi > 500;
+            
+            let visualStatus = 'Normal';
+            let statusColor = 'text-green-600';
+            let iconName = 'CheckMark';
+            let description = 'Operating normally';
+
+            if (inverter.status === 'Fault') {
+                visualStatus = 'Grid Fault';
+                statusColor = 'text-red-600';
+                iconName = 'ErrorBadge';
+                description = 'Immediate attention required';
+            } else if (inverter.status === 'Maintenance') {
+                visualStatus = 'Scheduled Maint.';
+                statusColor = 'text-blue-600';
+                iconName = 'Wrench';
+                description = 'Technician on-site';
+            } else if (isHighIrradiance && !isGenerating && inverter.status !== 'Offline') {
+                visualStatus = 'Unexpected Shutdown';
+                statusColor = 'text-red-600';
+                iconName = 'Warning';
+                description = 'Potential fuse blown or disconnect';
+            } else if (isHighIrradiance && inverter.efficiency < 0.88 && isGenerating) {
+                visualStatus = 'Thermal Derating';
+                statusColor = 'text-orange-500';
+                iconName = 'SpeedHigh';
+                description = 'Output limited by temperature';
+            }
+
+            return (
+                <div data-testid={`inverter-card-${inverter.id}`} className="bg-white p-3 rounded-md shadow-sm border-l-4 border-gray-200 hover:shadow-md transition-shadow mb-2 flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <Text variant="medium" className="font-semibold text-gray-700 block">{inverter.name}</Text>
+                            <Text variant="tiny" className="font-mono text-gray-400">LOC: {inverter.plotId}</Text>
+                        </div>
+                        <div className={`flex items-center gap-1 ${statusColor}`}>
+                            <Icon iconName={iconName} />
+                            <Text variant="small" className="font-bold">{visualStatus}</Text>
+                        </div>
+                    </div>
+                    
+                    <div className="flex justify-between items-end">
+                        <div className="flex flex-col">
+                            <Text variant="xSmall" className="text-gray-500">{description}</Text>
+                            <Text variant="large" className="font-mono text-slate-800 mt-1">
+                                {inverter.currentOutputKw.toFixed(1)} <span className="text-xs text-gray-500">kW</span>
+                            </Text>
+                        </div>
+                        <div className="flex flex-col items-end">
+                            <Text variant="xSmall" className="text-gray-400">Efficiency</Text>
+                            <Text variant="small" className={(inverter.efficiency < 0.8 && isGenerating) ? 'text-orange-500 font-bold' : 'text-gray-600'}>
+                                {(inverter.efficiency * 100).toFixed(0)}%
+                            </Text>
+                        </div>
+                    </div>
+                    
+                    <ProgressIndicator 
+                        percentComplete={inverter.currentOutputKw / inverter.capacityKw} 
+                        barHeight={4}
+                        className="w-full"
+                    />
+                </div>
+            );
+        };
+
+        const AdvancedSolarWeather = ({ weather, hourlyForecast }) => {
+            const soilingRisk = weather.soilingRisk || (weather.condition === 'Sandstorm' ? 'High' : weather.windSpeed > 4 ? 'Medium' : 'Low');
+            const soilingColor = soilingRisk === 'High' ? 'text-red-600' : soilingRisk === 'Medium' ? 'text-orange-500' : 'text-green-600';
+            const cloudCover = weather.cloudCover != null ? weather.cloudCover : (weather.condition === 'Cloudy' ? 85 : weather.condition === 'Rain' ? 100 : weather.condition === 'Sunny' ? 5 : 30);
+            const cloudDesc = weather.cloudCoverDesc || (cloudCover <= 10 ? 'Clear' : cloudCover <= 30 ? 'Scattered' : cloudCover <= 70 ? 'Partly Cloudy' : 'Overcast');
+            const windDir = weather.windDirection || 'NE';
+            const hourly = (hourlyForecast && hourlyForecast.length > 0) ? hourlyForecast : MOCK_HOURLY_WEATHER;
+
+            return (
+                <div data-testid="weather-widget" className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
+                    <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-100">
+                        <div className="flex items-center gap-2">
+                            <div className="p-2 bg-teal-50 text-teal-700 rounded-full">
+                                <Icon iconName={weather.condition === 'Sunny' ? 'Sunny' : 'Cloudy'} className="text-xl" />
+                            </div>
+                            <div>
+                                <Text variant="medium" className="font-bold text-slate-800 block">Current Conditions</Text>
+                                <Text variant="small" className="text-gray-500">Real-time Environmental Data</Text>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <Text variant="xLarge" className="font-bold text-slate-800 block">{weather.ambientTemp}°C</Text>
+                            <Text variant="tiny" className="text-gray-400">Ambient</Text>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-y-4 gap-x-2 mb-6">
+                        <div className="p-2 bg-orange-50 rounded border border-orange-100">
+                            <div className="flex items-center gap-2 mb-1">
+                                <Icon iconName="Sunny" className="text-orange-500" />
+                                <Text variant="small" className="font-semibold text-gray-600">Irradiance</Text>
+                            </div>
+                            <Text variant="large" className="font-bold text-slate-800">{weather.ghi} <span className="text-xs font-normal text-gray-500">W/m²</span></Text>
+                        </div>
+
+                        <div className={`p-2 rounded border ${weather.moduleTemp > 65 ? 'bg-red-50 border-red-100' : 'bg-blue-50 border-blue-100'}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                                <Icon iconName="Thermometer" className={weather.moduleTemp > 65 ? 'text-red-500' : 'text-blue-500'} />
+                                <Text variant="small" className="font-semibold text-gray-600">Module Temp</Text>
+                            </div>
+                            <Text variant="large" className="font-bold text-slate-800">{weather.moduleTemp}°C</Text>
+                        </div>
+
+                        <div>
+                            <Text variant="small" className="text-gray-400 block mb-1">Wind Speed</Text>
+                            <div className="flex items-center gap-2">
+                                <Icon iconName="WindDirection" className="text-slate-400" />
+                                <Text variant="medium" className="font-semibold text-slate-700">▲ {weather.windSpeed} km/h {windDir}</Text>
+                            </div>
+                        </div>
+
+                        <div>
+                            <Text variant="small" className="text-gray-400 block mb-1">Soiling Risk</Text>
+                            <div className="flex items-center gap-2">
+                                <Icon iconName="Duststorm" className={soilingColor} />
+                                <Text variant="medium" className={`font-semibold ${soilingColor}`}>{soilingRisk}</Text>
+                            </div>
+                        </div>
+                        
+                        <div className="col-span-2 mt-1">
+                            <div className="flex justify-between items-center">
+                                <Text variant="small" className="text-gray-400">Cloud Cover</Text>
+                                <Text variant="small" className={`font-bold ${cloudCover > 50 ? 'text-orange-500' : 'text-slate-600'}`}>{cloudCover}% {cloudDesc}</Text>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <Text variant="small" className="font-bold text-gray-400 uppercase tracking-wider mb-3 block">4-Hour Forecast</Text>
+                        <div className="grid grid-cols-4 gap-2">
+                            {hourly.map((hour, idx) => (
+                                <div key={idx} className="flex flex-col items-center p-2 rounded hover:bg-gray-50 transition-colors cursor-default border border-transparent hover:border-gray-100">
+                                    <Text variant="tiny" className="text-gray-400 mb-1">{hour.time}</Text>
+                                    <Icon iconName={hour.icon} className="text-teal-600 text-lg mb-1" />
+                                    <Text variant="small" className="font-bold text-slate-700">{hour.temp}°</Text>
+                                    <div className="mt-1 px-1 py-0.5 bg-orange-100 text-orange-800 text-[9px] font-bold rounded">
+                                        {hour.ghi}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const WindyMapWidget = ({ locationDetails }) => {
+            const lat = (locationDetails?.latitude != null && !isNaN(locationDetails.latitude)) ? locationDetails.latitude : WEATHER_DEFAULT_LAT;
+            const lon = (locationDetails?.longitude != null && !isNaN(locationDetails.longitude)) ? locationDetails.longitude : WEATHER_DEFAULT_LON;
+            const windyUrl = `https://embed.windy.com/embed2.html?lat=${lat}&lon=${lon}&detailLat=${lat}&detailLon=${lon}&width=650&height=450&zoom=10&level=surface&overlay=clouds&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1`;
+            console.log(windyUrl);
+            return (
+                <div data-testid="windy-map-widget" className="bg-white rounded-lg shadow-xl overflow-hidden h-full flex flex-col border border-gray-200">
+                <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                    <div>
+                        <Text variant="large" className="font-bold text-slate-800 block">Live Atmospheric Conditions</Text>
+                        <Text variant="small" className="text-gray-500 block">Real-time cloud cover and wind patterns (ECMWF Model)</Text>
+                    </div>
+                    <div className="flex gap-2">
+                        <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-teal-500"></div>
+                            <Text variant="tiny" className="text-gray-500">Live Feed</Text>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex-grow relative bg-gray-100">
+                    <iframe
+                        title="Windy Map"
+                        width="100%"
+                        height="100%"
+                        src={windyUrl}
+                        frameBorder="0"
+                        style={{ border: 0, width: '100%', height: '100%', minHeight: '600px' }} 
+                    ></iframe>
+                </div>
+                </div>
+            );
+        };
+
+        const TelemetryContent = ({ weather, hourlyWeather, generation, pr, inverters, showWeatherWidget = true, showInverterStatus = true }) => (
+            <div className="flex flex-col gap-6">
+                {showWeatherWidget && <AdvancedSolarWeather weather={weather} hourlyForecast={hourlyWeather} />}
+                <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-gray-50 border border-gray-100 p-2 rounded text-center">
+                        <Text variant="tiny" className="text-gray-500 uppercase font-bold block">Production</Text>
+                        <Text variant="mediumPlus" className="font-bold text-gray-800">{generation.toFixed(0)} kW</Text>
+                    </div>
+                    <div className="bg-gray-50 border border-gray-100 p-2 rounded text-center">
+                        <Text variant="tiny" className="text-gray-500 uppercase font-bold block">PR %</Text>
+                        <Text variant="mediumPlus" className={`font-bold ${pr < 80 ? 'text-red-600' : 'text-green-600'}`}>{pr.toFixed(1)}%</Text>
+                    </div>
+                </div>
+                {showInverterStatus && (
+                    <div>
+                        <Text variant="medium" className="font-bold text-gray-800 mb-3 block">Inverter Status</Text>
+                        <div className="flex flex-col gap-1 pb-4">
+                            {inverters.map(inv => (
+                                <InverterCard key={inv.id} inverter={inv} currentGhi={weather.ghi} />
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+
+        const MobileTaskCard = ({ task }) => {
+            let statusColor = 'text-gray-500';
+            if (task.priority === 'Critical') statusColor = 'text-red-600 border-l-4 border-red-500';
+            else if (task.priority === 'High') statusColor = 'text-orange-600 border-l-4 border-orange-500';
+            else statusColor = 'text-blue-600 border-l-4 border-blue-500';
+            
+            return (
+                <div data-testid={`task-card-${task.id}`} className={`bg-white p-3 rounded shadow-sm border border-gray-200 mb-3 ${statusColor}`}>
+                    <div className="flex justify-between items-start mb-1">
+                        <span className="text-xs font-mono font-bold text-gray-400">{task.id} • {task.plotId}</span>
+                        <span className={`text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 uppercase`}>{task.status}</span>
+                    </div>
+                    <Text variant="medium" className="font-bold text-gray-800 block mb-1">{task.title}</Text>
+                    <div className="flex justify-between items-center text-xs text-gray-500 mt-2">
+                        <div className="flex items-center gap-1">
+                            <Icon iconName="Contact" />
+                            <span>{task.assignedTechnician}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <Icon iconName="Event" />
+                            <span>{task.dueDate}</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const SiteDetailsContent = ({ locationDetails: loc }) => {
+            const locPart = [loc?.city, loc?.state, loc?.country].filter(Boolean).join(', ');
+            const capacityStr = loc?.capacityMw != null ? (loc.capacityMw >= 1000 ? `${(loc.capacityMw / 1000).toFixed(2)} GW` : `${loc.capacityMw} MW`) : '';
+            const openYear = loc?.openDate ? new Date(loc.openDate).getFullYear() : '';
+            const statusStr = loc?.status ? (openYear ? `${loc.status} (Since ${openYear})` : loc.status) : '';
+
+            const overviewItems = [
+                { label: 'Project Name', value: loc?.name || 'Benban Solar Park' },
+                { label: 'Location', value: locPart || 'Aswan Governorate, Egypt' },
+                { label: 'Owner', value: loc?.client || 'NREA (New & Renewable Energy Authority)' },
+                { label: 'Capacity', value: capacityStr || '1.65 GW (1,650 MW)' },
+                { label: 'Total Area', value: loc?.landSizeKm ? `~${loc.landSizeKm} km²` : '~37 km² (41 Plots)' },
+                { label: 'Status', value: statusStr || 'Operational (Since 2019)' },
+            ];
+
+            return (
+                <div className="flex flex-col gap-6 pb-6">
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                            <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                                <div className="p-3 bg-teal-50 rounded-full text-teal-700">
+                                    <Icon iconName="POI" className="text-xl" />
+                                </div>
+                                <div>
+                                    <Text variant="xLarge" className="font-bold text-slate-800 block">{loc?.name || 'Benban Solar Park'}</Text>
+                                    <Text variant="small" className="text-gray-500">{loc?.address || 'Solar Power Plant'}</Text>
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                                {overviewItems.map((item) => (
+                                    <div key={item.label}>
+                                    <Text variant="small" className="text-gray-400 uppercase font-bold block mb-1">{item.label}</Text>
+                                    <Text variant="mediumPlus" className="text-slate-800 font-semibold">{item.value}</Text>
+                                    </div>
+                                ))}
+                                <div className="md:col-span-2 mt-2">
+                                    <Text variant="small" className="text-gray-400 uppercase font-bold block mb-2">Description</Text>
+                                    <Text className="text-gray-600 leading-relaxed">
+                                    {loc?.description || "A photovoltaic power station with a total capacity of 1.65 GWp which corresponds to an annual production of approximately 3.8 TWh. It is located in Benban (Aswan Governorate) in the western desert of Egypt, approximately 650 km south of Cairo and 40 km north-west of Aswan."}
+                                    </Text>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col">
+                            <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                                <div className="p-3 bg-blue-50 rounded-full text-blue-700">
+                                    <Icon iconName="PartyLeader" className="text-xl" />
+                                </div>
+                                <div>
+                                    <Text variant="xLarge" className="font-bold text-slate-800 block">Stakeholders</Text>
+                                    <Text variant="small" className="text-gray-500">Key Entities & Points of Contact</Text>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-4 flex-grow">
+                                <div className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors border border-transparent hover:border-gray-100">
+                                    <Persona 
+                                        text="Ahmed El-Sayed"
+                                        secondaryText="NREA Project Lead"
+                                        tertiaryText="Government Oversight"
+                                        initialsColor={15}
+                                        size={PersonaSize.size48}
+                                    />
+                                    <div className="ml-auto text-right">
+                                        <div className="text-xs text-gray-500 font-mono mb-1">ops@nrea.gov.eg</div>
+                                        <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded uppercase">Owner</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors border border-transparent hover:border-gray-100">
+                                    <Persona 
+                                        text="Scatec Solar"
+                                        secondaryText="Lead Developer (6 Plots)"
+                                        size={PersonaSize.size48}
+                                        initialsColor={6}
+                                    />
+                                    <div className="ml-auto text-right">
+                                        <span className="px-2 py-0.5 bg-teal-100 text-teal-800 text-[10px] font-bold rounded uppercase">Developer</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors border border-transparent hover:border-gray-100">
+                                    <Persona 
+                                        text="Sterling & Wilson"
+                                        secondaryText="EPC Contractor"
+                                        size={PersonaSize.size48}
+                                        initialsColor={20}
+                                    />
+                                    <div className="ml-auto text-right">
+                                        <span className="px-2 py-0.5 bg-orange-100 text-orange-800 text-[10px] font-bold rounded uppercase">Contractor</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors border border-transparent hover:border-gray-100">
+                                    <Persona 
+                                        text="EETC"
+                                        secondaryText="Grid Operator"
+                                        size={PersonaSize.size48}
+                                        initialsColor={4} 
+                                    />
+                                    <div className="ml-auto text-right">
+                                        <span className="px-2 py-0.5 bg-purple-100 text-purple-800 text-[10px] font-bold rounded uppercase">Grid</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+                        <div className="relative w-full h-[400px] rounded overflow-hidden bg-gray-100">
+                            <iframe 
+                                width="100%" 
+                                height="100%" 
+                                frameBorder="0" 
+                                scrolling="no" 
+                                marginHeight="0" 
+                                marginWidth="0" 
+                                src="https://www.openstreetmap.org/export/embed.html?bbox=32.72%2C24.44%2C32.76%2C24.47&amp;layer=mapnik&amp;marker=24.456%2C32.739" 
+                                style={{ border: 0 }}
+                                title="Benban Solar Park Map"
+                            ></iframe>
+                            <div className="absolute bottom-2 right-2 bg-white/90 px-2 py-1 text-xs text-gray-600 rounded shadow-sm backdrop-blur-sm pointer-events-none">
+                                Coordinates: 24.456° N, 32.739° E
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const visibleTabs = useMemo(() => getVisibleTabs(), []);
+            const widgetVisibility = useMemo(() => getWidgetVisibility(), []);
+            const defaultTab = visibleTabs.length ? visibleTabs[0].itemKey : 'workorders';
+            const [selectedTab, setSelectedTab] = useState(defaultTab);
+            const [filterText, setFilterText] = useState('');
+            const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+            const [tasks, setTasks] = useState(MOCK_TASKS);
+            const [inverters, setInverters] = useState(MOCK_INVERTERS);
+            const [team, setTeam] = useState(MOCK_TEAM);
+            const [dataLoading, setDataLoading] = useState(isDataverseContext());
+            const [dataSource, setDataSource] = useState('mock');
+            const [parkCorrectiveCounts, setParkCorrectiveCounts] = useState({ openTickets: 0, total: 0 });
+            const [locationDetails, setLocationDetails] = useState(null);
+            const [sections, setSections] = useState(null);
+            const [weather, setWeather] = useState(null);
+            const [hourlyWeather, setHourlyWeather] = useState(null);
+            const [weatherLoading, setWeatherLoading] = useState(false);
+
+            useEffect(() => {
+                if (visibleTabs.length && !visibleTabs.some(t => t.itemKey === selectedTab)) {
+                    setSelectedTab(visibleTabs[0].itemKey);
+                }
+            }, [visibleTabs, selectedTab]);
+
+            useEffect(() => {
+                const q = getQueryParams();
+                const latFromUrl = q.lat ? parseFloat(q.lat) : null;
+                const lonFromUrl = q.lon ? parseFloat(q.lon) : null;
+                const lat = locationDetails?.latitude != null && !isNaN(locationDetails.latitude)
+                    ? locationDetails.latitude
+                    : (latFromUrl != null && !isNaN(latFromUrl) ? latFromUrl : WEATHER_DEFAULT_LAT);
+                const lon = locationDetails?.longitude != null && !isNaN(locationDetails.longitude)
+                    ? locationDetails.longitude
+                    : (lonFromUrl != null && !isNaN(lonFromUrl) ? lonFromUrl : WEATHER_DEFAULT_LON);
+                setWeatherLoading(true);
+                const fetchFn = window.WeatherApiService && window.WeatherApiService.fetchWeather;
+                if (fetchFn) {
+                    fetchFn(lat, lon)
+                        .then(({ current, hourly }) => {
+                            setWeather(current);
+                            setHourlyWeather(hourly);
+                        })
+                        .catch(() => { setWeather(null); setHourlyWeather(null); })
+                        .finally(() => setWeatherLoading(false));
+                } else {
+                    setWeather(null);
+                    setHourlyWeather(null);
+                    setWeatherLoading(false);
+                }
+            }, [locationDetails]);
+
+            useEffect(() => {
+                if (isDataverseContext()) {
+                    loadDataverseData().then(data => {
+                        setTasks(data.tasks);
+                        setInverters(data.inverters);
+                        setTeam(data.team);
+                        setDataSource('dataverse');
+                        setParkCorrectiveCounts(data.parkCorrectiveCounts || { openTickets: 0, total: 0 });
+                        setLocationDetails(data.locationDetails || null);
+                        setSections(data.sections || null);
+                    }).catch(() => {}).finally(() => setDataLoading(false));
+                }
+            }, []);
+
+            const stats = useMemo(() => {
+                const preventive = tasks.filter(t => t.type === 'Preventive');
+                const corrective = tasks.filter(t => t.type === 'Corrective');
+                
+                const prevClosed = preventive.filter(t => t.status === 'Closed').length;
+                const prevTotal = preventive.length;
+                const prevPercent = prevTotal > 0 ? Math.round((prevClosed / prevTotal) * 100) : 0;
+                const corrCritical = corrective.filter(t => t.priority === 'Critical' && t.status !== 'Closed').length;
+                
+                const prevAssigned = preventive.filter(t => t.status === 'Assigned' || t.status === 'In Progress').length;
+                const prevPending = preventive.filter(t => t.status === 'Open').length;
+
+                const corrAssigned = corrective.filter(t => t.status === 'Assigned' || t.status === 'In Progress').length;
+                const corrPending = corrective.filter(t => t.status === 'Open').length;
+
+                return {
+                    preventive: { 
+                        closed: prevClosed, 
+                        total: prevTotal, 
+                        percent: prevPercent, 
+                        assigned: prevAssigned, 
+                        pending: prevPending 
+                    },
+                    corrective: { 
+                        critical: corrCritical, 
+                        active: corrective.filter(t => t.status !== 'Closed').length, 
+                        assigned: corrAssigned, 
+                        pending: corrPending 
+                    }
+                };
+            }, [tasks]);
+
+            const plotIds = useMemo(() => {
+                if (sections && sections.length > 0) {
+                    return sections.map(s => s.code || s.name || s.id);
+                }
+                return PLOT_IDS;
+            }, [sections]);
+
+            const plotData = useMemo(() => {
+                return plotIds.map(plotId => {
+                    const plotTasks = tasks.filter(t => t.plotId === plotId && t.status !== 'Closed');
+                    const hasCritical = plotTasks.some(t => (t.priority === 'Critical' || t.priority === 'High') && t.type === 'Corrective');
+                    const hasWarning = plotTasks.length > 0 && !hasCritical; 
+
+                    return {
+                        id: plotId,
+                        hasCritical,
+                        hasWarning,
+                        taskCount: plotTasks.length
+                    };
+                });
+            }, [tasks, plotIds]);
+
+            const filteredTasks = useMemo(() => {
+                let result = tasks;
+                if (filterText) {
+                    result = result.filter(t => 
+                        t.title.toLowerCase().includes(filterText.toLowerCase()) || 
+                        t.id.toLowerCase().includes(filterText.toLowerCase()) ||
+                        t.assignedTechnician.toLowerCase().includes(filterText.toLowerCase())
+                    );
+                }
+                return result;
+            }, [filterText, tasks]);
+
+            const totalCapacity = inverters.reduce((acc, curr) => acc + curr.capacityKw, 0);
+            const totalGeneration = inverters.reduce((acc, curr) => acc + curr.currentOutputKw, 0);
+            const performanceRatio = (totalGeneration / totalCapacity) * 100;
+
+            const renderPriority = (item) => {
+                let bg = 'bg-gray-100 text-gray-600';
+                if (item.priority === 'Critical') bg = 'bg-red-100 text-red-800 border border-red-200';
+                if (item.priority === 'High') bg = 'bg-orange-100 text-orange-800';
+                if (item.priority === 'Medium') bg = 'bg-blue-50 text-blue-700';
+                return <span className={`px-2 py-0.5 rounded font-bold text-xs uppercase tracking-wide ${bg}`}>{item.priority}</span>;
+            };
+
+            const renderType = (item) => (
+                <div className="flex items-center gap-2">
+                    <Icon iconName={item.type === 'Preventive' ? 'Calendar' : 'Warning'} className={item.type === 'Preventive' ? 'text-blue-500' : 'text-red-500'} />
+                    <span className="hidden xl:inline">{item.type}</span> 
+                </div>
+            );
+
+            const renderStatus = (item) => {
+                const isClosed = item.status === 'Closed';
+                return (
+                    <div className={`flex items-center gap-1 ${isClosed ? 'text-green-600' : 'text-gray-700'}`}>
+                        {isClosed && <Icon iconName="CheckMark" />}
+                        <span className="font-semibold text-sm">{item.status}</span>
+                    </div>
+                );
+            };
+
+            const columns = [
+                { key: 'id', name: 'ID', fieldName: 'id', minWidth: 60, maxWidth: 80, isResizable: true },
+                { key: 'plot', name: 'Loc', fieldName: 'plotId', minWidth: 60, maxWidth: 80, isResizable: true, onRender: (item) => <span className="font-mono font-bold text-slate-700">{item.plotId}</span> },
+                { key: 'type', name: 'Type', minWidth: 40, maxWidth: 100, onRender: renderType },
+                { key: 'priority', name: 'Priority', minWidth: 80, maxWidth: 100, onRender: renderPriority },
+                { key: 'title', name: 'Description', fieldName: 'title', minWidth: 150, isResizable: true },
+                { key: 'status', name: 'Status', minWidth: 90, maxWidth: 120, onRender: renderStatus },
+                { key: 'tech', name: 'Tech', fieldName: 'assignedTechnician', minWidth: 90, maxWidth: 140 },
+            ];
+
+            const handleRefresh = () => {
+                if (isDataverseContext()) {
+                    setDataLoading(true);
+                    loadDataverseData().then(data => {
+                        setTasks(data.tasks);
+                        setInverters(data.inverters);
+                        setTeam(data.team);
+                        setDataSource('dataverse');
+                        setParkCorrectiveCounts(data.parkCorrectiveCounts || { openTickets: 0, total: 0 });
+                        setLocationDetails(data.locationDetails || null);
+                        setSections(data.sections || null);
+                    }).catch(() => {}).finally(() => setDataLoading(false));
+                }
+            };
+
+            const commandBarItems = [
+                { key: 'newItem', text: 'Create', iconProps: { iconName: 'Add' } },
+                { key: 'refresh', text: 'Refresh', iconProps: { iconName: 'Refresh' }, onClick: handleRefresh },
+                { key: 'filter', text: 'Filter', iconProps: { iconName: 'Filter' } },
+            ];
+
+            return (
+                <ThemeProvider theme={appTheme} className="h-screen flex flex-col bg-gray-50 overflow-hidden" data-testid="plant-dashboard-app" data-cursor-element-id="plant-dashboard-app">
+                    {widgetVisibility.showMessageBar && (() => {
+                        const w = weather || MOCK_WEATHER;
+                        return (w.moduleTemp > 65 || w.condition === 'Sandstorm') && (
+                            <MessageBar messageBarType={MessageBarType.severeWarning} className="shadow-md">
+                                <strong>Efficiency Warning:</strong> High module temperature ({w.moduleTemp}°C) and soiling losses detected.
+                            </MessageBar>
+                        );
+                    })()}
+
+                    <div className="flex-grow flex flex-col lg:flex-row overflow-hidden relative">
+                        <div className="flex-grow flex flex-col min-w-0 bg-gray-50/50 w-full">
+                            <div data-testid="stats-cards" className="px-4 lg:px-6 pt-6 pb-2">
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                                    {widgetVisibility.statsCards.preventiveHealth && (
+                                    <div id="preventive-health-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500 flex justify-between items-center transition-all hover:shadow-md">
+                                        <div>
+                                            <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider">PREVENTIVE HEALTH</Text>
+                                            <div className="flex items-baseline gap-2 mt-1">
+                                                <span id="preventive-health-percent" className="font-bold text-slate-800 text-2xl">{stats.preventive.percent}%</span>
+                                                <Text variant="small" className="text-gray-400">Compliance</Text>
+                                            </div>
+                                            <div className="mt-1 text-xs text-blue-600 font-semibold bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                                                <span id="preventive-health-pending">{stats.preventive.total - stats.preventive.closed}</span> Pending
+                                            </div>
+                                        </div>
+                                        <div className="p-3 bg-blue-50 rounded-full">
+                                            <Icon iconName="ClipboardList" className="text-2xl text-blue-600" />
+                                        </div>
+                                    </div>
+                                    )}
+
+                                    {widgetVisibility.statsCards.preventiveWorkflow && (
+                                    <div id="preventive-workflow-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-teal-500 flex flex-col justify-between transition-all hover:shadow-md">
+                                        <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider mb-2">PREVENTIVE WORKFLOW</Text>
+                                        <div className="flex items-center justify-between mt-auto">
+                                            <div className="text-center px-1">
+                                                <div className="text-2xl font-bold text-teal-700 leading-none mb-1"><span id="preventive-workflow-assigned">{stats.preventive.assigned}</span></div>
+                                                <div className="text-[10px] text-gray-400 font-bold uppercase">Assigned</div>
+                                            </div>
+                                            <div className="h-8 w-px bg-gray-200 mx-2"></div>
+                                            <div className="text-center px-1">
+                                                <div className="text-2xl font-bold text-orange-400 leading-none mb-1"><span id="preventive-workflow-pending">{stats.preventive.pending}</span></div>
+                                                <div className="text-[10px] text-gray-400 font-bold uppercase">Pending</div>
+                                            </div>
+                                            <div className="ml-auto p-2 bg-teal-50 rounded-full">
+                                                <Icon iconName="People" className="text-xl text-teal-600" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    )}
+
+                                    {widgetVisibility.statsCards.criticalDefects && (
+                                    <div id="critical-defects-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500 flex justify-between items-center transition-all hover:shadow-md">
+                                        <div>
+                                            <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider">CRITICAL DEFECTS</Text>
+                                            <div className="flex items-baseline gap-2 mt-1">
+                                                <span id="critical-defects-open" className="font-bold text-red-700 text-2xl">{stats.corrective.critical}</span>
+                                                <Text variant="small" className="text-gray-400">Open Tickets</Text>
+                                            </div>
+                                            <div className="mt-1 text-xs text-red-600 font-semibold bg-red-50 inline-block px-1.5 py-0.5 rounded">
+                                                <span id="critical-defects-total">{stats.corrective.active}</span> Total
+                                            </div>
+                                        </div>
+                                        <div className="p-3 bg-red-50 rounded-full">
+                                            <Icon iconName="Health" className="text-2xl text-red-600" />
+                                        </div>
+                                    </div>
+                                    )}
+
+                                    {widgetVisibility.statsCards.correctiveWorkflow && (
+                                    <div id="corrective-workflow-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500 flex flex-col justify-between transition-all hover:shadow-md">
+                                        <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider mb-2">CORRECTIVE WORKFLOW</Text>
+                                        <div className="flex items-center justify-between mt-auto">
+                                            <div className="text-center px-1">
+                                                <div className="text-2xl font-bold text-blue-700 leading-none mb-1"><span id="corrective-workflow-assigned">{stats.corrective.assigned}</span></div>
+                                                <div className="text-[10px] text-gray-400 font-bold uppercase">Assigned</div>
+                                            </div>
+                                            <div className="h-8 w-px bg-gray-200 mx-2"></div>
+                                            <div className="text-center px-1">
+                                                <div className="text-2xl font-bold text-red-500 leading-none mb-1"><span id="corrective-workflow-pending">{stats.corrective.pending}</span></div>
+                                                <div className="text-[10px] text-gray-400 font-bold uppercase">Pending</div>
+                                            </div>
+                                            <div className="ml-auto p-2 bg-orange-50 rounded-full">
+                                                <Icon iconName="Wrench" className="text-xl text-orange-600" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            <div className="px-4 pt-2 bg-white border-b border-gray-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                                {visibleTabs.length > 0 && (
+                                <Pivot 
+                                    data-testid="operations-pivot"
+                                    aria-label="Operations Views" 
+                                    selectedKey={selectedTab} 
+                                    onLinkClick={(item) => item && setSelectedTab(item.props.itemKey)}
+                                    headersOnly={true}
+                                    className="w-full md:w-auto"
+                                >
+                                    {visibleTabs.map(t => (
+                                        <PivotItem key={t.itemKey} headerText={t.headerText} itemKey={t.itemKey} itemIcon={t.itemIcon} />
+                                    ))}
+                                </Pivot>
+                                )}
+                                {selectedTab === 'workorders' && (
+                                    <div className="pb-2 md:pb-0">
+                                        <DefaultButton 
+                                            text="View all work orders" 
+                                            iconProps={{ iconName: 'FabricFolder' }}
+                                            onClick={() => setFilterText('')}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
+                            <div data-testid="main-content-area" className="flex-grow overflow-auto p-4 lg:p-6 scroll-smooth">
+                                {selectedTab === 'workorders' && (
+                                    <div className="h-full">
+                                        <div data-testid="work-orders-list" className="hidden md:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                                            <DetailsList
+                                                items={filteredTasks}
+                                                columns={columns}
+                                                setKey="set"
+                                                layoutMode={DetailsListLayoutMode.justified}
+                                                selectionMode={SelectionMode.none}
+                                            />
+                                        </div>
+                                        <div className="md:hidden">
+                                            {filteredTasks.map(task => (
+                                                <MobileTaskCard key={task.id} task={task} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {selectedTab === 'livefeed' && (
+                                    <div className="h-full flex flex-col items-center justify-center text-gray-400 min-h-[300px]">
+                                        <Icon iconName="LineChart" className="text-6xl mb-4 text-gray-300" />
+                                        <Text variant="large">Real-time SCADA Telemetry Stream</Text>
+                                        <Text variant="small">Connecting to WebSocket...</Text>
+                                    </div>
+                                )}
+
+                                {selectedTab === 'map' && (
+                                    <div className="h-full flex flex-col">
+                                        <div className="mb-4">
+                                            <Text variant="large" className="font-bold text-slate-700">Sector Heatmap</Text>
+                                            <Text variant="small" className="text-gray-500 block">Visual distribution of open defects.</Text>
+                                        </div>
+                                        <div className={gridContainerClass}>
+                                            {plotData.map((plot) => {
+                                                let bgColor = 'bg-emerald-500 hover:bg-emerald-600 text-white'; 
+                                                if (plot.hasWarning) bgColor = 'bg-amber-400 hover:bg-amber-500 text-slate-800'; 
+                                                if (plot.hasCritical) bgColor = 'bg-red-600 hover:bg-red-700 text-white'; 
+                                                
+                                                return (
+                                                    <div key={plot.id} data-testid={`plot-cell-${plot.id}`} className={`${plotCellBaseClass} ${bgColor}`}>
+                                                        <span className="font-mono font-bold text-lg">{plot.id}</span>
+                                                        <div className="flex flex-col items-center">
+                                                            {plot.taskCount > 0 ? (
+                                                                <span className="text-xs bg-white/30 px-2 rounded-full mt-1 font-semibold">
+                                                                    {plot.taskCount} Issues
+                                                                </span>
+                                                            ) : (
+                                                                <Icon iconName="CheckMark" className="mt-1" />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {selectedTab === 'team' && (
+                                    <div className="h-full flex flex-col">
+                                        {[...new Set(team.map(m => m.department || 'Operations'))].map((dept) => (
+                                            <div key={dept} className="mb-8">
+                                                <Text variant="medium" className="font-bold text-teal-800 uppercase border-b border-gray-200 pb-2 mb-4 block tracking-wider">{dept}</Text>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                                                    {team.filter(m => m.department === dept).map(member => (
+                                                        <div key={member.id} className="bg-white rounded-lg shadow-sm border border-gray-200 hover:border-teal-400 hover:shadow-md transition-all group overflow-hidden">
+                                                            <div className="p-4">
+                                                                <Persona
+                                                                    text={member.name}
+                                                                    secondaryText={member.role}
+                                                                    tertiaryText={member.status}
+                                                                    size={PersonaSize.size48}
+                                                                    presence={member.status === 'On Site' || member.status === 'Deployed' ? PersonaPresence.online : member.status === 'Remote' ? PersonaPresence.away : PersonaPresence.offline}
+                                                                    styles={{ primaryText: { fontWeight: 'bold', color: '#333' } }}
+                                                                />
+                                                            </div>
+                                                            <div className="bg-gray-50 px-4 py-2 border-t border-gray-100 flex flex-col gap-1.5">
+                                                                <div className="flex items-center gap-3 text-xs text-gray-600 hover:text-teal-700 transition-colors cursor-pointer group/item">
+                                                                    <Icon iconName="Phone" className="text-gray-400 group-hover/item:text-teal-600" /> 
+                                                                    <span className="font-mono">{member.phone}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-3 text-xs text-gray-600 hover:text-teal-700 transition-colors cursor-pointer group/item">
+                                                                    <Icon iconName="Mail" className="text-gray-400 group-hover/item:text-teal-600" /> 
+                                                                    <span className="truncate">{member.email}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {selectedTab === 'sitedetails' && (
+                                    <SiteDetailsContent locationDetails={locationDetails} />
+                                )}
+
+                                {selectedTab === 'windy' && (
+                                    <div className="h-full p-1">
+                                        <WindyMapWidget locationDetails={locationDetails} />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div data-testid="telemetry-sidebar" className="hidden lg:block w-80 bg-white border-l border-gray-200 overflow-y-auto flex-shrink-0 shadow-[0_0_20px_rgba(0,0,0,0.05)] z-10">
+                            <div className="p-4">
+                                <TelemetryContent 
+                                    weather={weather || MOCK_WEATHER} 
+                                    hourlyWeather={hourlyWeather}
+                                    generation={totalGeneration} 
+                                    pr={performanceRatio} 
+                                    inverters={inverters}
+                                    showWeatherWidget={widgetVisibility.showWeatherWidget}
+                                    showInverterStatus={widgetVisibility.showInverterStatus}
+                                />
+                            </div>
+                        </div>
+
+                        <Panel
+                            isOpen={isSidebarOpen}
+                            onDismiss={() => setIsSidebarOpen(false)}
+                            type={PanelType.smallFixedFar}
+                            headerText="Real-time Telemetry"
+                            closeButtonAriaLabel="Close"
+                        >
+                            <div className="py-4">
+                                <TelemetryContent 
+                                    weather={weather || MOCK_WEATHER} 
+                                    hourlyWeather={hourlyWeather}
+                                    generation={totalGeneration} 
+                                    pr={performanceRatio} 
+                                    inverters={inverters}
+                                    showWeatherWidget={widgetVisibility.showWeatherWidget}
+                                    showInverterStatus={widgetVisibility.showInverterStatus}
+                                />
+                            </div>
+                        </Panel>
+                    </div>
+                </ThemeProvider>
+            );
+        };
+
+        (async function bootstrap() {
+            await fetchConfigFromDataverse();
+            ReactDOM.render(<App />, document.getElementById('root'));
+        })();
+    </script>
+    <!-- Removed /index.tsx - not compatible with web resources -->
+</body>
+</html>

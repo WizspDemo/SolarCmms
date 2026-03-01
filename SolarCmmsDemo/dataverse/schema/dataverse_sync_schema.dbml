@@ -1,0 +1,559 @@
+// Dataverse sync schema - από dataverse_sync_actions.json
+// Βασικό entity Solar Plant: solar_location (Locations). ΟΧΙ PVPlants.
+// Πηγή: SolarCmmsDemo/dataverse/schema/dataverse_sync_actions.json
+
+// === ΝΕΟΙ ΠΙΝΑΚΕΣ (create_new_tables) ===
+
+Table solar_dno {
+  solar_dnoid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_emergencynumber varchar(255)
+  solar_telephone varchar(255)
+  solar_email varchar(255)
+  solar_website varchar(500)
+  solar_description text
+  solar_notes text
+}
+
+Table solar_section {
+  solar_sectionid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_location uuid
+}
+
+Table solar_site_credentials {
+  solar_site_credentialsid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_ipaddress varchar(24)
+  solar_usernamepassword varchar(128)
+  solar_location uuid
+}
+
+Table solar_site_comments {
+  solar_site_commentsid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_sendemail boolean
+  solar_sendemailto uuid
+  solar_location uuid
+}
+
+Table solar_maintenance_team {
+  solar_maintenance_teamid uuid [pk]
+  solar_name varchar(100) [not null]
+  solar_contactinfo varchar(500)
+  solar_isactive boolean
+  solar_specialization varchar(255)
+}
+
+Table solar_maintenance_team_per_location {
+  solar_maintenance_team_per_locationid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_location uuid
+  solar_maintenanceteam uuid
+  solar_startdate datetime
+  solar_enddate datetime
+  solar_active boolean
+}
+
+// === solar_location (επεκτεταμένο από modify_existing_tables) ===
+// Υπάρχοντα + add_attributes + add_lookups από dataverse_sync_actions.json
+
+Table solar_location {
+  solar_locationid uuid [pk]
+  solar_name varchar(100) [not null]
+  solar_code varchar(255) [unique]
+  solar_address varchar(500)
+  solar_city varchar(100)
+  solar_postalcode varchar(100)
+  solar_state varchar(100)
+  solar_country varchar(100)
+  solar_opendate datetime
+  solar_closedate datetime
+  solar_stage int
+  solar_capacity_mw decimal(2,2)
+  solar_annualoutputgwh decimal(18,2)
+  solar_containssections boolean
+  solar_stockmanagement boolean
+  solar_account uuid
+  solar_parkmanager uuid
+  solar_assumed_warranty_period int
+  solar_warranty_expiry datetime
+  solar_estimated_expiry datetime
+  solar_landsizekm varchar(100)
+  solar_landsizehectares decimal(18,2)
+  solar_description text
+  solar_addressdescription text
+  solar_googleearth varchar(500)
+  solar_embedmap text
+  solar_what3words varchar(255)
+  solar_grazed boolean
+  solar_landownerfarmerdetails text
+  solar_inverter_manufacturer varchar(100)
+  solar_inverter_model varchar(100)
+  solar_inverter_power decimal(2,2)
+  solar_inverter_quantity int
+  solar_inverter_lv_voltage decimal(2,2)
+  solar_inverter_type int
+  solar_modulemanufacturer varchar(255)
+  solar_modulemodel varchar(255)
+  solar_modulequantity decimal(18,2)
+  solar_modulepower decimal(18,2)
+  solar_modulevoc decimal(18,2)
+  solar_moduleisc decimal(18,2)
+  solar_modulelength decimal(18,2)
+  solar_modulewidth decimal(18,2)
+  solar_moduledepth decimal(18,2)
+  solar_modulestructure varchar(255)
+  solar_satellite3g4g varchar(255)
+  solar_lannetwork varchar(255)
+  solar_scadaprovider varchar(255)
+  solar_adasinstalled boolean
+  solar_dataloggers varchar(255)
+  solar_dnogridoperator uuid
+  solar_dnosizekv varchar(255)
+  solar_dnocontact varchar(255)
+  solar_dnocontact2 varchar(255)
+  solar_dnocontact3 varchar(255)
+  solar_sitereferencenumber varchar(255)
+  solar_hvcontractor varchar(255)
+  solar_tbootsub varchar(255)
+  solar_transformerquantity decimal(18,2)
+  solar_transformermake varchar(255)
+  solar_transformermodel varchar(255)
+  solar_transformerratingkva decimal(18,2)
+  solar_security varchar(255)
+  solar_securitycodes text
+  solar_siteaccessdetails text
+  solar_accessgatecodes text
+  solar_exportmeterlocation varchar(255)
+  solar_exportmeteraccessdetails text
+  solar_supervisor uuid
+  solar_otherinformation text
+  solar_notes text
+  solar_active boolean
+  solar_zones uuid
+  createdby uuid
+  createdon datetime
+  modifiedby uuid
+  modifiedon datetime
+  ownerid uuid [not null]
+  statecode int [not null]
+  statuscode int
+}
+
+// === ΦΑΣΗ 2 – ΝΕΟΙ ΠΙΝΑΚΕΣ (phase_2) ===
+
+Table solar_supplier {
+  solar_supplierid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_part_category {
+  solar_part_categoryid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_level varchar(50)
+  solar_parent uuid
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_manufacturer_brand {
+  solar_manufacturer_brandid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_logo varchar(255)
+  solar_description text
+  solar_website varchar(500)
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_equipment_category {
+  solar_equipment_categoryid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_maintype varchar(255)
+  solar_parent uuid
+  solar_notes text
+  solar_active boolean
+  solar_categorytype varchar(255)
+}
+
+Table solar_warehouse {
+  solar_warehouseid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_location uuid
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_equipment {
+  solar_equipmentid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_equipment_category uuid
+  solar_manufacturer_brand uuid
+  solar_supplier uuid
+  solar_description text
+  solar_stockmanagement boolean
+  solar_photo varchar(255)
+  solar_url varchar(500)
+  solar_notes text
+  solar_active boolean
+  solar_serial boolean
+}
+
+Table solar_part {
+  solar_partid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_part_category uuid
+  solar_manufacturer_brand uuid
+  solar_supplier uuid
+  solar_description text
+  solar_barcode varchar(255)
+  solar_upc varchar(255)
+  solar_stockmanagement boolean
+  solar_consumable boolean
+  solar_minqty decimal(18,2)
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_asset_category {
+  solar_asset_categoryid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_parent uuid
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_asset {
+  solar_assetid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_asset_category uuid
+  solar_location uuid
+  solar_section uuid
+  solar_manufacturer_brand uuid
+  solar_serialnumber varchar(255)
+  solar_installationdate datetime
+  solar_warrantyexpiry datetime
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_location_configuration_item_type {
+  solar_location_configuration_item_typeid uuid [pk]
+  solar_code varchar(255)
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_active boolean
+}
+
+Table solar_location_configuration {
+  solar_location_configurationid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_location uuid
+  solar_item_type uuid
+  solar_quantity decimal(18,2)
+  solar_description text
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_warehouse_to_location {
+  solar_warehouse_to_locationid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_warehouse uuid
+  solar_location uuid
+  solar_description text
+}
+
+Table solar_warehouse_equipment_serial {
+  solar_warehouse_equipment_serialid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_equipment uuid
+  solar_warehouse uuid
+  solar_serialnumber varchar(255)
+  solar_status varchar(100)
+  solar_notes text
+}
+
+Table solar_sub_corrective_event {
+  solar_sub_corrective_eventid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_corrective_work_order uuid
+  solar_corrective_category uuid
+  solar_description text
+  solar_priority varchar(50)
+  solar_status varchar(50)
+  solar_duedate datetime
+  solar_notes text
+}
+
+Table solar_maintenance_team_member {
+  solar_maintenance_team_memberid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_maintenance_team uuid
+  solar_role varchar(100)
+  solar_startdate datetime
+  solar_enddate datetime
+  solar_active boolean
+}
+
+Table solar_service_company {
+  solar_service_companyid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_contactperson varchar(255)
+  solar_email varchar(255)
+  solar_phone varchar(255)
+  solar_website varchar(500)
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_om_category {
+  solar_om_categoryid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_categoryparent uuid
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_equipment_serial {
+  solar_equipment_serialid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_equipment uuid
+  solar_location uuid
+  solar_section uuid
+  solar_installationdate datetime
+  solar_status varchar(100)
+  solar_notes text
+}
+
+Table solar_equipment_to_warehouse {
+  solar_equipment_to_warehouseid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_equipment uuid
+  solar_warehouse uuid
+  solar_quantity decimal(18,2)
+  solar_minquantity decimal(18,2)
+  solar_notes text
+}
+
+Table solar_service_order {
+  solar_service_orderid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_service_company uuid
+  solar_location uuid
+  solar_description text
+  solar_orderdate datetime
+  solar_scheduleddate datetime
+  solar_status varchar(50)
+  solar_priority varchar(50)
+  solar_notes text
+}
+
+Table solar_service {
+  solar_serviceid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_om_category uuid
+  solar_default_service_company uuid
+  solar_unitcost decimal(18,2)
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_section_template {
+  solar_section_templateid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description text
+  solar_templatetype varchar(100)
+  solar_notes text
+  solar_active boolean
+}
+
+Table solar_document_set_category {
+  solar_document_set_categoryid uuid [pk]
+  solar_name varchar(255) [not null]
+}
+
+Table solar_document_set {
+  solar_document_setid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_category uuid
+  solar_comments text
+}
+
+Table solar_parts_transaction {
+  solar_parts_transactionid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_part uuid
+  solar_transactiontype varchar(100)
+  solar_quantity decimal(18,2)
+  solar_from_warehouse uuid
+  solar_to_warehouse uuid
+  solar_transactiondate datetime
+  solar_notes text
+}
+
+Table solar_stock_adjustment {
+  solar_stock_adjustmentid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_itemtype varchar(100)
+  solar_part uuid
+  solar_equipment uuid
+  solar_warehouse uuid
+  solar_adjustmenttype varchar(100)
+  solar_quantity decimal(18,2)
+  solar_adjustmentdate datetime
+  solar_reason text
+  solar_notes text
+}
+
+Table solar_equipment_transaction {
+  solar_equipment_transactionid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_location uuid
+  solar_equipment_category uuid
+  solar_quantity decimal(18,2)
+  solar_currentquantity decimal(18,2)
+  solar_handlingdate datetime
+  solar_recordtype varchar(100)
+  solar_equipmentid varchar(255)
+  solar_serial boolean
+  solar_serialnotes varchar(255)
+}
+
+Table solar_site_cctv_gate_codes {
+  solar_site_cctv_gate_codesid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_location uuid
+  solar_gatecode varchar(255)
+  solar_cctvcode varchar(255)
+}
+
+Table solar_site_dno_stations {
+  solar_site_dno_stationsid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_location uuid
+  solar_dnostation varchar(255)
+  solar_dnocontact varchar(255)
+}
+
+Table solar_equipment_tracking {
+  solar_equipment_trackingid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_location uuid
+  solar_recorddate datetime
+  solar_record varchar(255)
+  solar_quantity decimal(18,2)
+  solar_taskid decimal(18,2)
+  solar_tasktype varchar(100)
+  solar_cause varchar(255)
+  solar_details varchar(255)
+}
+
+Table solar_strings {
+  solar_stringsid uuid [pk]
+  solar_name varchar(255) [not null]
+}
+
+Table solar_device_channel {
+  solar_device_channelid uuid [pk]
+  solar_name varchar(255) [not null]
+  solar_alias varchar(255)
+  solar_description text
+  solar_useragentsubstrings text
+  solar_active boolean
+}
+
+Table solar_maintenance_team_category {
+  solar_maintenance_team_categoryid uuid [pk]
+  solar_code varchar(255) [unique]
+  solar_name varchar(255) [not null]
+  solar_description varchar(255)
+  solar_parent uuid
+  solar_notes text
+  solar_active boolean
+}
+
+// === ΣΧΕΣΕΙΣ Φάση 1 (relationships_using_solar_location_as_primary) ===
+
+Ref: solar_location.solar_zones > solar_location.solar_locationid
+Ref: solar_location.solar_dnogridoperator > solar_dno.solar_dnoid
+Ref: solar_section.solar_location > solar_location.solar_locationid
+Ref: solar_site_credentials.solar_location > solar_location.solar_locationid
+Ref: solar_site_comments.solar_location > solar_location.solar_locationid
+Ref: solar_maintenance_team_per_location.solar_location > solar_location.solar_locationid
+Ref: solar_maintenance_team_per_location.solar_maintenanceteam > solar_maintenance_team.solar_maintenance_teamid
+
+// === ΣΧΕΣΕΙΣ Φάση 2 (relationships_phase_2) ===
+
+Ref: solar_warehouse.solar_location > solar_location.solar_locationid
+Ref: solar_asset.solar_location > solar_location.solar_locationid
+Ref: solar_asset.solar_section > solar_section.solar_sectionid
+Ref: solar_location_configuration.solar_location > solar_location.solar_locationid
+Ref: solar_location_configuration.solar_item_type > solar_location_configuration_item_type.solar_location_configuration_item_typeid
+Ref: solar_warehouse_to_location.solar_location > solar_location.solar_locationid
+Ref: solar_warehouse_to_location.solar_warehouse > solar_warehouse.solar_warehouseid
+Ref: solar_equipment_serial.solar_location > solar_location.solar_locationid
+Ref: solar_equipment_serial.solar_section > solar_section.solar_sectionid
+Ref: solar_equipment_serial.solar_equipment > solar_equipment.solar_equipmentid
+Ref: solar_service_order.solar_location > solar_location.solar_locationid
+Ref: solar_sub_corrective_event.solar_corrective_work_order > solar_corrective_work_order.solar_corrective_work_orderid
+Ref: solar_sub_corrective_event.solar_corrective_category > solar_corrective_category.solar_corrective_categoryid
+Ref: solar_equipment_transaction.solar_location > solar_location.solar_locationid
+Ref: solar_site_cctv_gate_codes.solar_location > solar_location.solar_locationid
+Ref: solar_site_dno_stations.solar_location > solar_location.solar_locationid
+Ref: solar_equipment_tracking.solar_location > solar_location.solar_locationid
+Ref: solar_equipment.solar_equipment_category > solar_equipment_category.solar_equipment_categoryid
+Ref: solar_equipment.solar_manufacturer_brand > solar_manufacturer_brand.solar_manufacturer_brandid
+Ref: solar_equipment.solar_supplier > solar_supplier.solar_supplierid
+Ref: solar_part.solar_part_category > solar_part_category.solar_part_categoryid
+Ref: solar_part.solar_manufacturer_brand > solar_manufacturer_brand.solar_manufacturer_brandid
+Ref: solar_part.solar_supplier > solar_supplier.solar_supplierid
+Ref: solar_asset.solar_asset_category > solar_asset_category.solar_asset_categoryid
+Ref: solar_asset.solar_manufacturer_brand > solar_manufacturer_brand.solar_manufacturer_brandid
+Ref: solar_warehouse_equipment_serial.solar_equipment > solar_equipment.solar_equipmentid
+Ref: solar_warehouse_equipment_serial.solar_warehouse > solar_warehouse.solar_warehouseid
+Ref: solar_equipment_to_warehouse.solar_equipment > solar_equipment.solar_equipmentid
+Ref: solar_equipment_to_warehouse.solar_warehouse > solar_warehouse.solar_warehouseid
+Ref: solar_service_order.solar_service_company > solar_service_company.solar_service_companyid
+Ref: solar_service.solar_om_category > solar_om_category.solar_om_categoryid
+Ref: solar_service.solar_default_service_company > solar_service_company.solar_service_companyid
+Ref: solar_maintenance_team_member.solar_maintenance_team > solar_maintenance_team.solar_maintenance_teamid
+Ref: solar_parts_transaction.solar_part > solar_part.solar_partid
+Ref: solar_parts_transaction.solar_from_warehouse > solar_warehouse.solar_warehouseid
+Ref: solar_parts_transaction.solar_to_warehouse > solar_warehouse.solar_warehouseid
+Ref: solar_stock_adjustment.solar_part > solar_part.solar_partid
+Ref: solar_stock_adjustment.solar_equipment > solar_equipment.solar_equipmentid
+Ref: solar_stock_adjustment.solar_warehouse > solar_warehouse.solar_warehouseid
+Ref: solar_document_set.solar_category > solar_document_set_category.solar_document_set_categoryid
+Ref: solar_equipment_transaction.solar_equipment_category > solar_equipment_category.solar_equipment_categoryid
+Ref: solar_part_category.solar_parent > solar_part_category.solar_part_categoryid
+Ref: solar_equipment_category.solar_parent > solar_equipment_category.solar_equipment_categoryid
+Ref: solar_asset_category.solar_parent > solar_asset_category.solar_asset_categoryid
+Ref: solar_om_category.solar_categoryparent > solar_om_category.solar_om_categoryid
+Ref: solar_maintenance_team_category.solar_parent > solar_maintenance_team_category.solar_maintenance_team_categoryid

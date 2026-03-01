@@ -1,0 +1,247 @@
+// Solar Dataverse schema - Location Schema
+// Generated from solardev_tables.csv with all custom columns from Dataverse
+// Source: SolarCmmsDemo/dataverse/Location Schema/solardev_tables.csv
+
+Project "Solar Location Schema" {
+  database_type: "Dataverse"
+  note: "Tables from solardev_tables.csv with custom columns only"
+}
+
+//--------------------------------------------------
+// solar_location
+//--------------------------------------------------
+Table solar_location {
+  solar_locationid uuid [pk]
+  solar_account uuid
+  solar_accountname varchar(255)
+  solar_client uuid [ref: > solar_clients.solar_clientsid]
+  solar_clientname varchar(255)
+  solar_address varchar(500)
+  solar_assumed_warranty_period int
+  solar_capacity_mw decimal(18,2)
+  solar_city varchar(100)
+  solar_closedate datetime
+  solar_containssections boolean
+  solar_country varchar(100)
+  solar_estimated_expiry datetime
+  solar_inverter_lv_voltage decimal(18,2)
+  solar_inverter_manufacturer varchar(100)
+  solar_inverter_model varchar(100)
+  solar_inverter_power decimal(18,2)
+  solar_inverter_quantity int
+  solar_inverter_total_cost decimal(18,2)
+  solar_inverter_total_cost_base decimal(18,2)
+  solar_inverter_type int
+  solar_landsizekm varchar(100)
+  solar_name varchar(255) [note: "primary name"]
+  solar_opendate datetime
+  solar_parkmanager uuid
+  solar_parkmanagername varchar(255)
+  solar_parkmanageryominame varchar(255)
+  solar_postalcode varchar(100)
+  solar_solar_capacitydetails varchar(255)
+  solar_solar_operationaldata varchar(255)
+  solar_solar_status int
+  solar_solar_uniqueid varchar(255)
+  solar_stage int
+  solar_state varchar(100)
+  solar_stockmanagement boolean
+  solar_warranty_expiry datetime
+}
+
+//--------------------------------------------------
+// solar_maintenance_team
+//--------------------------------------------------
+Table solar_maintenance_team {
+  solar_maintenance_teamid uuid [pk]
+  solar_contactinfo varchar(500)
+  solar_isactive boolean
+  solar_maintenance_team_category uuid [ref: > solar_maintenanceteamcategory.solar_maintenanceteamcategoryid]
+  solar_maintenance_team_categoryname varchar(255)
+  solar_name varchar(255) [note: "primary name"]
+  solar_solar_contactdetails varchar(255)
+  solar_solar_locationids uuid [ref: > solar_location.solar_locationid]
+  solar_solar_locationidsname varchar(255)
+  solar_solar_teamlead uuid
+  solar_solar_teamleadname varchar(255)
+  solar_solar_teamleadyominame varchar(255)
+  solar_specialization varchar(255)
+}
+
+//--------------------------------------------------
+// solar_notification
+//--------------------------------------------------
+Table solar_notification {
+  solar_notificationid uuid [pk]
+  solar_isread boolean
+  solar_message nvarchar(max)
+  solar_name varchar(255) [note: "primary name"]
+  solar_solar_recipient uuid
+  solar_solar_recipientname varchar(255)
+  solar_solar_recipientyominame varchar(255)
+  solar_solar_relatedentityid varchar(255)
+  solar_solar_relatedentityname varchar(255)
+  solar_solar_subject varchar(255)
+  solar_type int
+}
+
+//--------------------------------------------------
+// solar_clients
+//--------------------------------------------------
+Table solar_clients {
+  solar_clientsid uuid [pk]
+  solar_address varchar(255)
+  solar_city varchar(100)
+  solar_clienttype int
+  solar_contactperson varchar(255)
+  solar_email varchar(255)
+  solar_name varchar(255)
+  solar_phone varchar(100)
+  solar_solarname varchar(255) [note: "primary name"]
+  solar_vatid varchar(255)
+}
+
+//--------------------------------------------------
+// solar_country
+//--------------------------------------------------
+Table solar_country {
+  solar_countryid uuid [pk]
+  solar_countryalpha2code varchar(100)
+  solar_countryalpha3code varchar(100)
+  solar_solarcountryname varchar(255) [note: "primary name"]
+}
+
+//--------------------------------------------------
+// solar_maintenanceteamcategory
+//--------------------------------------------------
+Table solar_maintenanceteamcategory {
+  solar_maintenanceteamcategoryid uuid [pk]
+  solar_code varchar(100)
+  solar_description nvarchar(max)
+  solar_maintenanceteamcategoryname varchar(255) [note: "primary name"]
+}
+
+//--------------------------------------------------
+// solar_maintenanceteammember
+//--------------------------------------------------
+Table solar_maintenanceteammember {
+  solar_maintenanceteammemberid uuid [pk]
+  solar_maintenance_team uuid [ref: > solar_maintenance_team.solar_maintenance_teamid]
+  solar_maintenance_teamname varchar(255)
+  solar_maintenanceteammembername varchar(255) [note: "primary name"]
+  solar_role varchar(255)
+}
+
+//--------------------------------------------------
+// solar_maintenanceteamperlocation
+//--------------------------------------------------
+Table solar_maintenanceteamperlocation {
+  solar_maintenanceteamperlocationid uuid [pk]
+  solar_isactive boolean
+  solar_location uuid [ref: > solar_location.solar_locationid]
+  solar_locationname varchar(255)
+  solar_maintenance_team uuid [ref: > solar_maintenance_team.solar_maintenance_teamid]
+  solar_maintenance_teamname varchar(255)
+  solar_maintenanceteamperlocationname varchar(255) [note: "primary name"]
+  solar_notes nvarchar(max)
+  solar_priority int
+  solar_role varchar(255)
+  solar_validfrom datetime
+  solar_validto datetime
+}
+
+//--------------------------------------------------
+// solar_section
+//--------------------------------------------------
+Table solar_section {
+  solar_sectionid uuid [pk]
+  solar_code varchar(100)
+  solar_description nvarchar(max)
+  solar_location uuid [ref: > solar_location.solar_locationid]
+  solar_locationname varchar(255)
+  solar_sectionname varchar(255) [note: "primary name"]
+  solar_type varchar(100)
+}
+
+//--------------------------------------------------
+// solar_sitecredentials
+//--------------------------------------------------
+Table solar_sitecredentials {
+  solar_sitecredentialsid uuid [pk]
+  solar_description nvarchar(max)
+  solar_ipaddress varchar(100)
+  solar_isactive boolean
+  solar_isprimary boolean
+  solar_location uuid [ref: > solar_location.solar_locationid]
+  solar_locationname varchar(255)
+  solar_password varchar(255)
+  solar_port varchar(50)
+  solar_sitecredentialsname varchar(255) [note: "primary name"]
+  solar_systemname varchar(255)
+  solar_url varchar(500)
+  solar_username varchar(255)
+}
+
+//--------------------------------------------------
+// solar_sitecomments
+//--------------------------------------------------
+Table solar_sitecomments {
+  solar_sitecommentsid uuid [pk]
+  solar_category varchar(100)
+  solar_comment nvarchar(max)
+  solar_location uuid [ref: > solar_location.solar_locationid]
+  solar_locationname varchar(255)
+  solar_sitecommentsname varchar(255) [note: "primary name"]
+  solar_status varchar(50)
+  solar_title varchar(255)
+}
+
+//--------------------------------------------------
+// solar_solarcompany
+// Γενικός πίνακας Εταιρειών (clients, suppliers, κ.λπ.) στο Dataverse (logicalName: solar_solarcompany)
+//--------------------------------------------------
+Table solar_solarcompany {
+  solar_solarcompanyid uuid [pk]
+
+  // Βασικά στοιχεία εταιρείας
+  solar_name varchar(255) [note: "primary name"]
+  solar_type int // 0 = Client, 1 = Supplier, 2 = Partner, 3 = Other
+  solar_vatid varchar(100)
+  solar_email varchar(255)
+  solar_phone varchar(100)
+
+  // Διεύθυνση
+  solar_address varchar(255)
+  solar_city varchar(100)
+  solar_country varchar(100)
+}
+
+//--------------------------------------------------
+// contact
+// Επαφή που μπορεί να είναι:
+// - αυτόνομη
+// - συνδεδεμένη με οποιαδήποτε εταιρεία από τον πίνακα solar_solarcompany
+//--------------------------------------------------
+Table contact {
+  contactid uuid [pk]
+
+  // Βασικά στοιχεία επαφής
+  firstname varchar(100)
+  lastname varchar(100)
+  emailaddress1 varchar(255)
+  telephone1 varchar(100)
+  jobtitle varchar(100)
+
+  // Συσχέτιση (προαιρετική) με εταιρεία (solar_solarcompany)
+  solar_solarcompany uuid [ref: > solar_solarcompany.solar_solarcompanyid]
+  solar_solarcompanyname varchar(255)
+
+  // Primary name στο Dataverse
+  fullname varchar(255) [note: "primary name"]
+}
+
+// Relationships defined inline in column definitions above
+// solar_location lookups:
+//   solar_location.solar_client > solar_clients (one client, many parks)
+//   solar_location.solar_account > new_account (external, not in schema)
+//   solar_location.solar_parkmanager > account (external)

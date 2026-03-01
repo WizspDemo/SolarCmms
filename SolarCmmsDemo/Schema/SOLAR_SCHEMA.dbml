@@ -1,0 +1,1511 @@
+// Solar Plant Maintenance Management System - Database Schema
+// Generated from unified schema files
+// Total Tables: 67 | Total Relationships: 73
+
+Project SolarMaintenanceSystem {
+  database_type: 'PostgreSQL'
+  Note: '''
+    Complete Solar Plant Maintenance Management System
+    Covers: Location management, Equipment tracking, Parts inventory,
+    Preventive & Corrective maintenance, Team management, and Document control
+  '''
+}
+
+// ========================================
+// TABLE GROUP: Master Data
+// ========================================
+
+TableGroup MasterData {
+  Countries
+  Suppliers
+  ManufacturerBrands
+  DNO
+  Accounts
+  ServiceCompanys
+}
+
+Table Countries {
+  id int [pk, increment]
+  Title varchar(255) [not null, note: 'Country name']
+  ISOAlpha2 varchar(2) [note: '2-letter ISO code']
+  ISOALPHA3 varchar(3) [note: '3-letter ISO code']
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Master list of countries for location reference'
+  
+  Indexes {
+    Title [name: 'idx_countries_title']
+    ISOAlpha2 [name: 'idx_countries_iso2']
+  }
+}
+
+Table Suppliers {
+  id int [pk, increment]
+  Code varchar(255) [unique, note: 'Unique supplier code']
+  Title varchar(255) [not null, note: 'Supplier name']
+  Description text
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Suppliers for equipment and parts'
+  
+  Indexes {
+    Code [name: 'idx_suppliers_code']
+    Active [name: 'idx_suppliers_active']
+  }
+}
+
+Table ManufacturerBrands {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Brand/Manufacturer name']
+  Logo varchar(255)
+  Description text
+  Website varchar(500)
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Manufacturer and brand information for equipment/parts'
+  
+  Indexes {
+    Code [name: 'idx_manufacturers_code']
+    Active [name: 'idx_manufacturers_active']
+  }
+}
+
+Table DNO {
+  id int [pk, increment]
+  Code varchar(255)
+  Title varchar(255) [not null, note: 'Distribution Network Operator name']
+  EmergencyNumber varchar(255)
+  Description text
+  Telephone varchar(255)
+  Email varchar(255)
+  Website varchar(500)
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Distribution Network Operators (Grid Operators)'
+  
+  Indexes {
+    Code [name: 'idx_dno_code']
+  }
+}
+
+Table Accounts {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Account name']
+  DistinctiveTitle varchar(255)
+  Description text
+  AddressDescription text
+  Street varchar(255)
+  ZipOrPostalCode varchar(255)
+  City varchar(255)
+  StateOrProvince varchar(255)
+  CountryId int [ref: > Countries.id, note: 'FK to Countries']
+  Telephone varchar(255)
+  Email varchar(255)
+  ManagerId int [note: 'User reference']
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Client accounts/organizations'
+  
+  Indexes {
+    Code [name: 'idx_accounts_code']
+    CountryId [name: 'idx_accounts_country']
+  }
+}
+
+Table ServiceCompanys {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Service company name']
+  Description text
+  ContactPerson varchar(255)
+  Email varchar(255)
+  Phone varchar(255)
+  Website varchar(500)
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'External service providers for maintenance'
+  
+  Indexes {
+    Code [name: 'idx_servicecompany_code']
+    Active [name: 'idx_servicecompany_active']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Categories
+// ========================================
+
+TableGroup Categories {
+  EquipmentCategories
+  PartsCategories
+  AssetsCategories
+  CorrectiveTaskCategories
+  PreventiveTaskCategories
+  PreventivePlanCategories
+  OMCategories
+  MaintenanceTeamCategories
+  DocumentSetCategories
+  LocationConfigurationItemTypes
+}
+
+Table EquipmentCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Category name']
+  Description text
+  MainType varchar(50) [note: 'Equipment or Asset']
+  ParentId int [ref: > EquipmentCategories.id, note: 'Self-referencing hierarchical']
+  CategoryType varchar(255)
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Hierarchical categories for equipment classification'
+  
+  Indexes {
+    Code [name: 'idx_equipcat_code']
+    ParentId [name: 'idx_equipcat_parent']
+    Active [name: 'idx_equipcat_active']
+  }
+}
+
+Table PartsCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  Level varchar(50) [default: 'Category Level #1']
+  ParentId int [ref: > PartsCategories.id, note: 'Self-referencing hierarchical']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Hierarchical categories for parts (3 levels)'
+  
+  Indexes {
+    Code [name: 'idx_partscat_code']
+    ParentId [name: 'idx_partscat_parent']
+    Active [name: 'idx_partscat_active']
+  }
+}
+
+Table AssetsCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  ParentId int [ref: > AssetsCategories.id, note: 'Self-referencing hierarchical']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Categories for fixed assets at locations'
+  
+  Indexes {
+    Code [name: 'idx_assetscat_code']
+    ParentId [name: 'idx_assetscat_parent']
+    Active [name: 'idx_assetscat_active']
+  }
+}
+
+Table CorrectiveTaskCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  ParentId int [ref: > CorrectiveTaskCategories.id, note: 'Self-referencing hierarchical']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Categories for corrective maintenance tasks'
+  
+  Indexes {
+    Code [name: 'idx_correctcat_code']
+    ParentId [name: 'idx_correctcat_parent']
+    Active [name: 'idx_correctcat_active']
+  }
+}
+
+Table PreventiveTaskCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  ParentId int [ref: > PreventiveTaskCategories.id, note: 'Self-referencing hierarchical']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Categories for preventive maintenance tasks'
+  
+  Indexes {
+    Code [name: 'idx_prevtaskcat_code']
+    ParentId [name: 'idx_prevtaskcat_parent']
+    Active [name: 'idx_prevtaskcat_active']
+  }
+}
+
+Table PreventivePlanCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  Level varchar(50) [default: 'Category Level #1']
+  ParentId int [ref: > PreventivePlanCategories.id, note: 'Self-referencing hierarchical']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Categories for preventive maintenance plans'
+  
+  Indexes {
+    Code [name: 'idx_prevplancat_code']
+    ParentId [name: 'idx_prevplancat_parent']
+    Active [name: 'idx_prevplancat_active']
+  }
+}
+
+Table OMCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  CategoryParentId int [ref: > OMCategories.id, note: 'Self-referencing hierarchical']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Operations & Maintenance service categories'
+  
+  Indexes {
+    Code [name: 'idx_omcat_code']
+    CategoryParentId [name: 'idx_omcat_parent']
+    Active [name: 'idx_omcat_active']
+  }
+}
+
+Table MaintenanceTeamCategories {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description varchar(255)
+  ParentId int [ref: > MaintenanceTeamCategories.id, note: 'Self-referencing hierarchical']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Categories for maintenance team specializations'
+  
+  Indexes {
+    Code [name: 'idx_teamcat_code']
+    ParentId [name: 'idx_teamcat_parent']
+    Active [name: 'idx_teamcat_active']
+  }
+}
+
+Table DocumentSetCategories {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Categories for document organization'
+}
+
+Table LocationConfigurationItemTypes {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Types of configuration items at locations'
+  
+  Indexes {
+    Code [name: 'idx_locconftype_code']
+    Active [name: 'idx_locconftype_active']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Core Operations
+// ========================================
+
+TableGroup CoreOperations {
+  Locations
+  Sections
+  Warehouses
+  Equipment
+  Parts
+  Assets
+}
+
+Table Locations {
+  id int [pk, increment]
+  Code varchar(255) [unique, note: 'Location code']
+  Title varchar(255) [not null, note: 'Location name']
+  OpenDate date
+  CloseDate date
+  Stage varchar(50) [default: 'Oem', note: 'Construction/Oem/Repower']
+  CapacityMW decimal(10,2)
+  AnnualOutputGWh decimal(10,2)
+  StockManagement boolean [default: true]
+  AccountId int [ref: > Accounts.id]
+  ContainsSections boolean [default: true]
+  ManagerId int [note: 'User reference']
+  SupervisorId int [note: 'User reference']
+  Description text
+  
+  // Address fields
+  LandSizeHectares decimal(10,2)
+  AddressDescription text
+  Street varchar(255)
+  ZipOrPostalCode varchar(255)
+  StateOrProvince varchar(255)
+  CountryId int [ref: > Countries.id]
+  Latitude decimal(10,6)
+  Longtitude decimal(10,6)
+  GoogleEarth varchar(500)
+  EmbedMap text
+  What3Words varchar(255)
+  Grazed boolean
+  LandOwnerFarmerDetails text
+  
+  // Inverter specifications
+  InverterManufacturer varchar(255)
+  InverterType varchar(255)
+  InverterModel varchar(255)
+  InverterQuantity int
+  InverterTotal int
+  InverterLVVoltage int
+  InverterPower decimal(10,2)
+  AssumedWarrantyPeriod int
+  WarrantyExpiry date
+  EstimatedExpiry date
+  
+  // Module specifications
+  ModuleManufacturer varchar(255)
+  ModuleModel varchar(255)
+  ModuleQuantity int
+  ModulePower decimal(10,2)
+  ModuleVoc decimal(10,2)
+  ModuleIsc decimal(10,2)
+  ModuleLength decimal(10,2)
+  ModuleWidth decimal(10,2)
+  ModuleDepth decimal(10,2)
+  ModuleStructure varchar(255)
+  
+  // Network & SCADA
+  Satellite3G4G varchar(255)
+  LANNetwork varchar(255)
+  SCADAProvider varchar(255)
+  ADASInstalled boolean
+  DataLoggers varchar(255)
+  
+  // DNO & Grid
+  DNOGridOperatorId int [ref: > DNO.id]
+  DNOSizeKV varchar(255)
+  DNOContact varchar(255)
+  DNOContact2 varchar(255)
+  DNOContact3 varchar(255)
+  SiteReferenceNumber varchar(255)
+  HVContractor varchar(255)
+  TBootSub varchar(255)
+  
+  // Transformer
+  TransformerQuantity int
+  TransformerMake varchar(255)
+  TransformerModel varchar(255)
+  TransformerRatingKVA int
+  
+  // Security & Access
+  Security varchar(255)
+  SecurityCodes text
+  SiteAccessDetails text
+  AccessGateCodes text
+  ExportMeterLocation varchar(255)
+  ExportMeterAccessDetails text
+  
+  OtherInformation text
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Solar plant locations with full technical specifications (73 columns)'
+  
+  Indexes {
+    Code [name: 'idx_locations_code']
+    AccountId [name: 'idx_locations_account']
+    CountryId [name: 'idx_locations_country']
+    DNOGridOperatorId [name: 'idx_locations_dno']
+    Active [name: 'idx_locations_active']
+  }
+}
+
+Table LocationZones {
+  id int [pk, increment]
+  LocationId int [ref: > Locations.id, note: 'Parent location']
+  ZoneLocationId int [ref: > Locations.id, note: 'Zone/sub-location']
+  Created timestamp [default: `now()`]
+  
+  Note: 'Multi-value relationship: Locations can contain multiple zones (also locations)'
+  
+  Indexes {
+    (LocationId, ZoneLocationId) [unique, name: 'idx_loczone_unique']
+  }
+}
+
+Table Sections {
+  id int [pk, increment]
+  Title varchar(255) [not null, note: 'Section name']
+  LocationId int [ref: > Locations.id]
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Sub-sections within locations (strings, combiners, inverters, etc.)'
+  
+  Indexes {
+    LocationId [name: 'idx_sections_location']
+    Active [name: 'idx_sections_active']
+  }
+}
+
+Table Warehouses {
+  id int [pk, increment]
+  Title varchar(255) [not null, note: 'Warehouse name']
+  LocationId int [ref: > Locations.id, note: 'Associated location']
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Storage warehouses for parts and equipment'
+  
+  Indexes {
+    LocationId [name: 'idx_warehouses_location']
+  }
+}
+
+Table Equipment {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Equipment name']
+  CategoryId int [ref: > EquipmentCategories.id]
+  Description text
+  ManufacturerID varchar(255)
+  ManufacturerOrBrandId int [ref: > ManufacturerBrands.id]
+  SupplierId int [ref: > Suppliers.id]
+  StockManagement boolean [default: true]
+  Serial boolean [default: false, note: 'Track by serial number']
+  Photo varchar(255)
+  URL varchar(500)
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Equipment catalog with tracking capabilities'
+  
+  Indexes {
+    Code [name: 'idx_equipment_code']
+    CategoryId [name: 'idx_equipment_category']
+    Active [name: 'idx_equipment_active']
+  }
+}
+
+Table Parts {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Part name']
+  CategoryId int [ref: > PartsCategories.id]
+  Description text
+  Barcode varchar(255) [unique]
+  UPC varchar(255) [unique]
+  ManufacturerID varchar(255)
+  ManufacturerOrBrandId int [ref: > ManufacturerBrands.id]
+  SupplierId int [ref: > Suppliers.id]
+  StockManagement boolean [default: true]
+  Consumable boolean [default: true]
+  Photo varchar(255)
+  URL varchar(500)
+  MinQTY int
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Parts and spare parts catalog'
+  
+  Indexes {
+    Code [name: 'idx_parts_code']
+    Barcode [name: 'idx_parts_barcode']
+    UPC [name: 'idx_parts_upc']
+    CategoryId [name: 'idx_parts_category']
+    Active [name: 'idx_parts_active']
+  }
+}
+
+Table Assets {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  CategoryId int [ref: > AssetsCategories.id]
+  Description text
+  LocationId int [ref: > Locations.id]
+  SectionId int [ref: > Sections.id]
+  SerialNumber varchar(255)
+  ManufacturerOrBrandId int [ref: > ManufacturerBrands.id]
+  InstallationDate date
+  WarrantyExpiry date
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Fixed assets installed at locations'
+  
+  Indexes {
+    Code [name: 'idx_assets_code']
+    LocationId [name: 'idx_assets_location']
+    SectionId [name: 'idx_assets_section']
+    Active [name: 'idx_assets_active']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Inventory & Tracking
+// ========================================
+
+TableGroup InventoryTracking {
+  EquipmentToWarehouse
+  EquipmentSerial
+  WarehouseEquipmentSerial
+  EquipmentTransaction
+  PartsTransaction
+  StockAdjustments
+  TrackingSerial
+  WarehouseToLocation
+  LocationConfiguration
+}
+
+Table EquipmentToWarehouse {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  EquipmentId int [ref: > Equipment.id]
+  WarehouseId int [ref: > Warehouses.id]
+  Quantity int [default: 0]
+  MinQuantity int
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Equipment stock levels per warehouse'
+  
+  Indexes {
+    EquipmentId [name: 'idx_eqtoware_equipment']
+    WarehouseId [name: 'idx_eqtoware_warehouse']
+    (EquipmentId, WarehouseId) [unique, name: 'idx_eqtoware_unique']
+  }
+}
+
+Table EquipmentSerial {
+  id int [pk, increment]
+  Title varchar(255) [not null, unique, note: 'Serial number']
+  EquipmentId int [ref: > Equipment.id]
+  LocationId int [ref: > Locations.id]
+  SectionId int [ref: > Sections.id]
+  InstallationDate date
+  Status varchar(50) [default: 'Active', note: 'Active/Inactive/Maintenance/Retired']
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Serial number tracking for individual equipment items'
+  
+  Indexes {
+    Title [name: 'idx_eqserial_serial']
+    EquipmentId [name: 'idx_eqserial_equipment']
+    LocationId [name: 'idx_eqserial_location']
+    Status [name: 'idx_eqserial_status']
+  }
+}
+
+Table WarehouseEquipmentSerial {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  EquipmentId int [ref: > Equipment.id]
+  WarehouseId int [ref: > Warehouses.id]
+  SerialNumber varchar(255) [unique]
+  Status varchar(50) [default: 'In Stock']
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Serial numbers for equipment in warehouses'
+  
+  Indexes {
+    SerialNumber [name: 'idx_wareserial_serial']
+    EquipmentId [name: 'idx_wareserial_equipment']
+    WarehouseId [name: 'idx_wareserial_warehouse']
+  }
+}
+
+Table EquipmentTransaction {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Warehouse varchar(255)
+  TaskType varchar(50) [note: 'Corrective/Preventative/Repower/Service']
+  JobID varchar(255)
+  HandlingDate date [default: `now()`]
+  RecordType varchar(10) [default: 'In', note: 'In or Out']
+  Reason varchar(50) [note: 'Failure/Move/Install/Uninstall/Service/Other']
+  ToWarehouse varchar(255)
+  Quantity decimal(10,2) [not null]
+  CurrentQuantity decimal(10,2)
+  EquipmentId varchar(255)
+  LocationId int [ref: > Locations.id]
+  CategoryId int [ref: > EquipmentCategories.id]
+  WarehouseLocationID varchar(255)
+  LocationIdRef varchar(255)
+  toWarehouseLocationID varchar(255)
+  WarehouseID varchar(255)
+  toWarehouseID varchar(255)
+  EquipmentWarehouseID varchar(255)
+  quid varchar(255)
+  Serial boolean [default: false]
+  SerialNotes varchar(255)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Complex equipment movement transactions (22 columns)'
+  
+  Indexes {
+    HandlingDate [name: 'idx_eqtrans_date']
+    LocationId [name: 'idx_eqtrans_location']
+    TaskType [name: 'idx_eqtrans_tasktype']
+  }
+}
+
+Table PartsTransaction {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  PartId int [ref: > Parts.id]
+  TransactionType varchar(50) [note: 'In/Out/Transfer/Adjustment']
+  Quantity int
+  FromWarehouseId int [ref: > Warehouses.id]
+  ToWarehouseId int [ref: > Warehouses.id]
+  TransactionDate date [default: `now()`]
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Parts movement and transfer transactions'
+  
+  Indexes {
+    PartId [name: 'idx_partstrans_part']
+    TransactionDate [name: 'idx_partstrans_date']
+    TransactionType [name: 'idx_partstrans_type']
+  }
+}
+
+Table StockAdjustments {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  ItemType varchar(50) [note: 'Part or Equipment']
+  PartId int [ref: > Parts.id]
+  EquipmentId int [ref: > Equipment.id]
+  WarehouseId int [ref: > Warehouses.id]
+  AdjustmentType varchar(50) [note: 'Increase/Decrease/Recount']
+  Quantity int
+  AdjustmentDate date [default: `now()`]
+  Reason text
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Stock level adjustments and corrections'
+  
+  Indexes {
+    AdjustmentDate [name: 'idx_stockadj_date']
+    ItemType [name: 'idx_stockadj_itemtype']
+  }
+}
+
+Table TrackingSerial {
+  id int [pk, increment]
+  TRID varchar(255)
+  EID varchar(255)
+  Guid varchar(255)
+  WID varchar(255)
+  WarehouseId int [ref: > Warehouses.id]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Equipment serial tracking transactions'
+  
+  Indexes {
+    Guid [name: 'idx_trackserial_guid']
+    WarehouseId [name: 'idx_trackserial_warehouse']
+  }
+}
+
+Table WarehouseToLocation {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  WarehouseId int [ref: > Warehouses.id]
+  LocationId int [ref: > Locations.id]
+  Description text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Association between warehouses and locations'
+  
+  Indexes {
+    WarehouseId [name: 'idx_waretoloc_warehouse']
+    LocationId [name: 'idx_waretoloc_location']
+  }
+}
+
+Table LocationConfiguration {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  LocationId int [ref: > Locations.id]
+  ItemTypeId int [ref: > LocationConfigurationItemTypes.id]
+  Quantity int
+  Description text
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Configuration items at locations'
+  
+  Indexes {
+    LocationId [name: 'idx_locconf_location']
+    Active [name: 'idx_locconf_active']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Maintenance - Corrective
+// ========================================
+
+TableGroup MaintenanceCorrective {
+  CorrectiveEvents
+  SubCorrectiveEvent
+  CorrectiveTasks
+}
+
+Table CorrectiveEvents {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Event description']
+  LocationId int [ref: > Locations.id]
+  CategoryId int [ref: > CorrectiveTaskCategories.id]
+  Description text
+  Priority varchar(50) [default: 'Normal', note: 'Critical/High/Normal/Low']
+  Status varchar(50) [default: 'Reported', note: 'Reported/In Progress/Completed/Cancelled']
+  ReportedDate date [default: `now()`]
+  DueDate date
+  AssignedTeamId int [ref: > MaintenanceTeams.id]
+  AssignedToIds json [note: 'Multi-value: User references']
+  Notes text
+  CompletedDate date
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Corrective maintenance events (breakdowns, failures)'
+  
+  Indexes {
+    Code [name: 'idx_correctev_code']
+    LocationId [name: 'idx_correctev_location']
+    Status [name: 'idx_correctev_status']
+    Priority [name: 'idx_correctev_priority']
+  }
+}
+
+Table SubCorrectiveEvent {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  CorrectiveEventId int [ref: > CorrectiveEvents.id]
+  CategoryId int [ref: > CorrectiveTaskCategories.id]
+  Description text
+  Priority varchar(50) [default: 'Normal']
+  Status varchar(50) [default: 'Open']
+  AssignedToIds json [note: 'Multi-value: User references']
+  DueDate date
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Sub-tasks for corrective events'
+  
+  Indexes {
+    CorrectiveEventId [name: 'idx_subcorrect_event']
+    Status [name: 'idx_subcorrect_status']
+  }
+}
+
+Table CorrectiveTasks {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description varchar(255)
+  CategoryId int [ref: > CorrectiveTaskCategories.id]
+  OMCategoryId int [ref: > OMCategories.id]
+  Frequency varchar(50) [default: 'As needed']
+  MaintenanceTeamCategoryId int [ref: > MaintenanceTeamCategories.id]
+  WarrantyType varchar(50) [default: 'N/A']
+  ApplicableUnit varchar(50) [note: 'Acres/Block/Combiner Box/Inverter/Module/MW/Site/String/Tracker/Transformer']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Template definitions for corrective maintenance tasks'
+  
+  Indexes {
+    Code [name: 'idx_correcttask_code']
+    Active [name: 'idx_correcttask_active']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Maintenance - Preventive
+// ========================================
+
+TableGroup MaintenancePreventive {
+  PreventivePlan
+  PreventiveTasks
+  PlantPreventative
+}
+
+Table PreventivePlan {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  LocationId int [ref: > Locations.id]
+  Description text
+  Frequency varchar(50) [note: 'Daily/Weekly/Monthly/Quarterly/Semi-Annual/Annual']
+  StartDate date
+  NextDueDate date
+  AssignedTeamId int [ref: > MaintenanceTeams.id]
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Preventive maintenance plans by location'
+  
+  Indexes {
+    Code [name: 'idx_prevplan_code']
+    LocationId [name: 'idx_prevplan_location']
+    Active [name: 'idx_prevplan_active']
+  }
+}
+
+Table PreventiveTasks {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  PlanId int [ref: > PreventivePlan.id]
+  CategoryId int [ref: > PreventiveTaskCategories.id]
+  Description text
+  Status varchar(50) [default: 'Scheduled', note: 'Scheduled/In Progress/Completed/Skipped']
+  ScheduledDate date
+  CompletedDate date
+  AssignedToIds json [note: 'Multi-value: User references']
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Individual preventive maintenance tasks'
+  
+  Indexes {
+    Code [name: 'idx_prevtask_code']
+    PlanId [name: 'idx_prevtask_plan']
+    Status [name: 'idx_prevtask_status']
+  }
+}
+
+Table PlantPreventative {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Frequency varchar(100)
+  Comments text
+  Code varchar(50)
+  DescriptionServices varchar(255)
+  January boolean
+  February boolean
+  March boolean
+  April boolean
+  May boolean
+  June boolean
+  July boolean
+  August boolean
+  September boolean
+  October boolean
+  November boolean
+  December boolean
+  PlantId varchar(50)
+  Enable boolean
+  Scheduled varchar(255)
+  Description text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Original preventive schedule with monthly indicators'
+  
+  Indexes {
+    Code [name: 'idx_plantprev_code']
+    PlantId [name: 'idx_plantprev_plant']
+    Enable [name: 'idx_plantprev_enable']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Team & Service
+// ========================================
+
+TableGroup TeamService {
+  MaintenanceTeams
+  MaintenanceTeamMembers
+  MaintenanceTeamPerLocation
+  Service
+  ServiceOrder
+}
+
+Table MaintenanceTeams {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Team name']
+  Description text
+  TeamLeaderId int [note: 'User reference']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Maintenance team definitions'
+  
+  Indexes {
+    Code [name: 'idx_teams_code']
+    Active [name: 'idx_teams_active']
+  }
+}
+
+Table MaintenanceTeamMembers {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  MaintenanceTeamId int [ref: > MaintenanceTeams.id]
+  MemberId int [note: 'User reference']
+  Role varchar(50) [note: 'Team Leader/Technician/Helper/Supervisor']
+  StartDate date
+  EndDate date
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Team membership assignments'
+  
+  Indexes {
+    MaintenanceTeamId [name: 'idx_teammembers_team']
+    Active [name: 'idx_teammembers_active']
+  }
+}
+
+Table MaintenanceTeamPerLocation {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  MaintenanceTeamId int [ref: > MaintenanceTeams.id]
+  LocationId int [ref: > Locations.id]
+  StartDate date
+  EndDate date
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Team assignments to locations'
+  
+  Indexes {
+    MaintenanceTeamId [name: 'idx_teamperloc_team']
+    LocationId [name: 'idx_teamperloc_location']
+    Active [name: 'idx_teamperloc_active']
+  }
+}
+
+Table Service {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null, note: 'Service name']
+  Description text
+  CategoryId int [ref: > OMCategories.id]
+  DefaultServiceCompanyId int [ref: > ServiceCompanys.id]
+  UnitCost decimal(10,2)
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Service catalog for external providers'
+  
+  Indexes {
+    Code [name: 'idx_service_code']
+    Active [name: 'idx_service_active']
+  }
+}
+
+Table ServiceOrder {
+  id int [pk, increment]
+  Title varchar(255) [not null, unique, note: 'Order number']
+  ServiceCompanyId int [ref: > ServiceCompanys.id]
+  LocationId int [ref: > Locations.id]
+  Description text
+  OrderDate date [default: `now()`]
+  ScheduledDate date
+  Status varchar(50) [default: 'Draft', note: 'Draft/Ordered/In Progress/Completed/Cancelled']
+  Priority varchar(50) [default: 'Normal']
+  Notes text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Service orders to external providers'
+  
+  Indexes {
+    Title [name: 'idx_serviceorder_number']
+    ServiceCompanyId [name: 'idx_serviceorder_company']
+    LocationId [name: 'idx_serviceorder_location']
+    Status [name: 'idx_serviceorder_status']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Documents & Tasks
+// ========================================
+
+TableGroup DocumentsTask {
+  DocumentSets
+  Tasks
+  TasksTimeline
+  PublishedFeed
+  Settings
+  SectionTemplate
+}
+
+Table DocumentSets {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  CategoryId int [ref: > DocumentSetCategories.id]
+  Comments text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Document organization and sets'
+  
+  Indexes {
+    CategoryId [name: 'idx_docsets_category']
+  }
+}
+
+Table Tasks {
+  id int [pk, increment]
+  Title varchar(255) [not null, note: 'Task name']
+  Priority varchar(50) [default: 'Normal', note: 'High/Normal/Low']
+  Status varchar(50) [default: 'Not Started', note: 'Not Started/In Progress/Completed/Deferred/Waiting']
+  PercentComplete int [default: 0, note: '0-100']
+  AssignedToIds json [note: 'Multi-value: User references']
+  TaskGroupId int [note: 'User reference']
+  Description text
+  StartDate date [default: `now()`]
+  DueDate date
+  RelatedItems varchar(255)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'General task management'
+  
+  Indexes {
+    Status [name: 'idx_tasks_status']
+    Priority [name: 'idx_tasks_priority']
+    DueDate [name: 'idx_tasks_duedate']
+  }
+}
+
+Table TaskPredecessors {
+  id int [pk, increment]
+  TaskId int [ref: > Tasks.id]
+  PredecessorTaskId int [ref: > Tasks.id]
+  Created timestamp [default: `now()`]
+  
+  Note: 'Multi-value relationship: Task dependencies'
+  
+  Indexes {
+    (TaskId, PredecessorTaskId) [unique, name: 'idx_taskpred_unique']
+  }
+}
+
+Table TasksTimeline {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Priority varchar(50) [default: 'Normal']
+  Status varchar(50) [default: 'Not Started']
+  PercentComplete int [default: 0]
+  AssignedToIds json [note: 'Multi-value: User references']
+  Description text
+  StartDate date
+  DueDate date
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Timeline view tasks'
+  
+  Indexes {
+    Status [name: 'idx_taskstime_status']
+  }
+}
+
+Table TasksTimelinePredecessors {
+  id int [pk, increment]
+  TaskId int [ref: > TasksTimeline.id]
+  PredecessorTaskId int [ref: > TasksTimeline.id]
+  Created timestamp [default: `now()`]
+  
+  Note: 'Multi-value relationship: Timeline task dependencies'
+  
+  Indexes {
+    (TaskId, PredecessorTaskId) [unique, name: 'idx_tasktimepred_unique']
+  }
+}
+
+Table PublishedFeed {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Body text
+  PublishedDate timestamp
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Published content feed'
+}
+
+Table Settings {
+  id int [pk, increment]
+  Title varchar(255) [not null, unique, note: 'Setting key']
+  Value text
+  Description text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'System configuration settings'
+  
+  Indexes {
+    Title [name: 'idx_settings_key']
+  }
+}
+
+Table SectionTemplate {
+  id int [pk, increment]
+  Code varchar(255) [unique]
+  Title varchar(255) [not null]
+  Description text
+  TemplateType varchar(50) [note: 'String/Combiner/Inverter/Transformer']
+  Notes text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Templates for creating sections'
+  
+  Indexes {
+    Code [name: 'idx_sectmpl_code']
+    Active [name: 'idx_sectmpl_active']
+  }
+}
+
+// ========================================
+// TABLE GROUP: Legacy/SharePoint Lists
+// ========================================
+
+TableGroup LegacySystems {
+  PVPlants
+  PVPlantsCCTVGateCodes
+  PVPlantsDNOStations
+  PVPlantsSystemInfo
+  PVPlantsContactInfo
+  SiteCredentials
+  SolarSiteComments
+  AssetCategories
+  EquipmentTracking
+  DailyDocs
+  Services
+  PeriodicScheduledActions
+  TranslationStatus
+  DeviceChannels
+}
+
+Table PVPlants {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  PlantId varchar(50)
+  CountryId int [ref: > Countries.id]
+  Location varchar(255)
+  Status varchar(50)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Original PV Plants list'
+  
+  Indexes {
+    PlantId [name: 'idx_pvplants_plantid']
+  }
+}
+
+Table PVPlantsCCTVGateCodes {
+  id int [pk, increment]
+  Title varchar(255)
+  PlantId varchar(50)
+  GateCode varchar(255)
+  CCTVCode varchar(255)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Gate and CCTV codes per plant'
+  
+  Indexes {
+    PlantId [name: 'idx_pvcctv_plantid']
+  }
+}
+
+Table PVPlantsDNOStations {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  PlantId varchar(50)
+  DNOStation varchar(255)
+  DNOContact varchar(255)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: DNO station information per plant'
+  
+  Indexes {
+    PlantId [name: 'idx_pvdno_plantid']
+  }
+}
+
+Table PVPlantsSystemInfo {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  PlantId varchar(50)
+  SystemCapacity decimal(10,2)
+  InverterType varchar(255)
+  ModuleType varchar(255)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: System specifications per plant'
+  
+  Indexes {
+    PlantId [name: 'idx_pvsys_plantid']
+  }
+}
+
+Table PVPlantsContactInfo {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Contact information for plants'
+}
+
+Table SiteCredentials {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  IPAddress varchar(24)
+  UsernamePassword varchar(128)
+  PlantId varchar(50)
+  SolarSiteId int [ref: > PVPlants.id]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Site access credentials'
+  
+  Indexes {
+    PlantId [name: 'idx_sitecred_plantid']
+  }
+}
+
+Table SolarSiteComments {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Description text
+  SendEmail boolean
+  SendEmailToId int [note: 'User reference']
+  SiteId varchar(50)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Comments and remarks for solar sites'
+  
+  Indexes {
+    SiteId [name: 'idx_sitecomm_siteid']
+  }
+}
+
+Table AssetCategories {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  CategoryCode varchar(50)
+  Description text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Asset categories (different from AssetsCategories)'
+  
+  Indexes {
+    CategoryCode [name: 'idx_assetcat_code']
+  }
+}
+
+Table EquipmentTracking {
+  id int [pk, increment]
+  Title varchar(255)
+  RecordDate timestamp
+  Record varchar(50) [note: 'Add or Subtraction']
+  Quantity decimal(10,2)
+  PersonId int [note: 'User reference']
+  TaskId int
+  PlantId varchar(50)
+  SubTask varchar(10)
+  TaskType varchar(255)
+  Cause varchar(100)
+  Warehouse varchar(100)
+  Details varchar(255)
+  CategoryId int [ref: > AssetCategories.id]
+  AssetId int
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Equipment tracking transactions'
+  
+  Indexes {
+    RecordDate [name: 'idx_eqtrack_date']
+    PlantId [name: 'idx_eqtrack_plant']
+  }
+}
+
+Table DailyDocs {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  DocumentDate timestamp
+  DocumentType varchar(50)
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Daily documentation'
+  
+  Indexes {
+    DocumentDate [name: 'idx_dailydocs_date']
+  }
+}
+
+Table Services {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Simple services list'
+}
+
+Table PeriodicScheduledActions {
+  id int [pk, increment]
+  Title varchar(255)
+  ActionCode varchar(255)
+  ActionDate timestamp
+  Description text
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Scheduled periodic actions'
+  
+  Indexes {
+    ActionDate [name: 'idx_periodic_date']
+  }
+}
+
+Table TranslationStatus {
+  id int [pk, increment]
+  Title varchar(255) [not null]
+  TranslationStateJobId varchar(255)
+  TranslationStateStartTime timestamp
+  TranslationStateEndTime timestamp
+  TranslationStateTranslationType varchar(50)
+  TranslationStateTranslatorName varchar(255)
+  TranslationStateStatus varchar(50)
+  TranslationStateNumberOfItems int
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Translation job tracking'
+}
+
+Table DeviceChannels {
+  id int [pk, increment]
+  Title varchar(255) [not null, note: 'Channel name']
+  Alias varchar(255) [unique]
+  Description text
+  UserAgentSubstrings text
+  Active boolean [default: true]
+  Created timestamp [default: `now()`]
+  Modified timestamp [default: `now()`]
+  
+  Note: 'Legacy: Device channel configurations'
+  
+  Indexes {
+    Alias [name: 'idx_devchannels_alias']
+    Active [name: 'idx_devchannels_active']
+  }
+}
+
+// ========================================
+// Additional Relationship References
+// Not captured in lookup columns
+// ========================================
+
+// Note: The following relationships are documented but not explicitly
+// defined in the schema files as foreign keys. They are implemented
+// through code or business logic:
+// 
+// - EquipmentTracking.Asset -> Various lists (BGEWarehouse, Warehouses)
+// - Tasks dependencies (self-referencing multi-value)
+// - TasksTimeline dependencies (self-referencing multi-value)
+// - Locations.Zones (self-referencing multi-value to Locations)
+// - User references (Manager, Supervisor, AssignedTo fields)

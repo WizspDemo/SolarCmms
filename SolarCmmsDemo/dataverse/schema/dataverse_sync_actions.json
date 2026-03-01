@@ -1,0 +1,247 @@
+{
+  "metadata": {
+    "purpose": "Τροποποιήσεις υπαρχόντων πινάκων, δημιουργία νέων πινάκων, συνδέσεις. Βασικό entity Solar Plant: Locations (solar_location), όχι PVPlants.",
+    "source_sharepoint": "Sharepoint/PreFinal schema/schema.dbml",
+    "target_dataverse": "dataverse/schema/solardev_schema.dbml",
+    "primary_entity_solar_plant": "solar_location"
+  },
+  "modify_existing_tables": [
+    {
+      "dataverse_table": "solar_location",
+      "sharepoint_source": "Locations",
+      "description": "Βασικός πίνακας Solar Plant. Προσθήκη attributes που λείπουν από SharePoint Locations.",
+      "add_attributes": [
+        { "logical_name": "solar_code", "type": "SingleLine", "max_length": 255, "sharepoint_column": "Code", "is_unique": true },
+        { "logical_name": "solar_annualoutputgwh", "type": "Decimal", "sharepoint_column": "AnnualOutputGWh" },
+        { "logical_name": "solar_contains_sections", "type": "Boolean", "sharepoint_column": "ContainsSections" },
+        { "logical_name": "solar_description", "type": "Multiline", "sharepoint_column": "Description" },
+        { "logical_name": "solar_landsizehectares", "type": "Decimal", "sharepoint_column": "LandSizeHectares" },
+        { "logical_name": "solar_addressdescription", "type": "Multiline", "sharepoint_column": "AddressDescription" },
+        { "logical_name": "solar_googleearth", "type": "SingleLine", "sharepoint_column": "GoogleEarth" },
+        { "logical_name": "solar_embedmap", "type": "Multiline", "sharepoint_column": "EmbedMap" },
+        { "logical_name": "solar_what3words", "type": "SingleLine", "sharepoint_column": "What3Words" },
+        { "logical_name": "solar_grazed", "type": "Boolean", "sharepoint_column": "Grazed" },
+        { "logical_name": "solar_landownerfarmerdetails", "type": "Multiline", "sharepoint_column": "LandOwnerFarmerDetails" },
+        { "logical_name": "solar_modulemanufacturer", "type": "SingleLine", "sharepoint_column": "ModuleManufacturer" },
+        { "logical_name": "solar_modulemodel", "type": "SingleLine", "sharepoint_column": "ModuleModel" },
+        { "logical_name": "solar_modulequantity", "type": "Decimal", "sharepoint_column": "ModuleQuantity" },
+        { "logical_name": "solar_modulepower", "type": "Decimal", "sharepoint_column": "ModulePower" },
+        { "logical_name": "solar_modulevoc", "type": "Decimal", "sharepoint_column": "ModuleVoc" },
+        { "logical_name": "solar_moduleisc", "type": "Decimal", "sharepoint_column": "ModuleIsc" },
+        { "logical_name": "solar_modulelength", "type": "Decimal", "sharepoint_column": "ModuleLength" },
+        { "logical_name": "solar_modulewidth", "type": "Decimal", "sharepoint_column": "ModuleWidth" },
+        { "logical_name": "solar_moduledepth", "type": "Decimal", "sharepoint_column": "ModuleDepth" },
+        { "logical_name": "solar_modulestructure", "type": "SingleLine", "sharepoint_column": "ModuleStructure" },
+        { "logical_name": "solar_satellite3g4g", "type": "SingleLine", "sharepoint_column": "Satellite3G4G" },
+        { "logical_name": "solar_lannetwork", "type": "SingleLine", "sharepoint_column": "LANNetwork" },
+        { "logical_name": "solar_scadaprovider", "type": "SingleLine", "sharepoint_column": "SCADAProvider" },
+        { "logical_name": "solar_adasinstalled", "type": "Boolean", "sharepoint_column": "ADASInstalled" },
+        { "logical_name": "solar_dataloggers", "type": "SingleLine", "sharepoint_column": "DataLoggers" },
+        { "logical_name": "solar_dnosizekv", "type": "SingleLine", "sharepoint_column": "DNOSizeKV" },
+        { "logical_name": "solar_dnocontact", "type": "SingleLine", "sharepoint_column": "DNOContact" },
+        { "logical_name": "solar_dnocontact2", "type": "SingleLine", "sharepoint_column": "DNOContact2" },
+        { "logical_name": "solar_dnocontact3", "type": "SingleLine", "sharepoint_column": "DNOContact3" },
+        { "logical_name": "solar_sitereferencenumber", "type": "SingleLine", "sharepoint_column": "SiteReferenceNumber" },
+        { "logical_name": "solar_hvcontractor", "type": "SingleLine", "sharepoint_column": "HVContractor" },
+        { "logical_name": "solar_tbootsub", "type": "SingleLine", "sharepoint_column": "TBootSub" },
+        { "logical_name": "solar_transformerquantity", "type": "Decimal", "sharepoint_column": "TransformerQuantity" },
+        { "logical_name": "solar_transformermake", "type": "SingleLine", "sharepoint_column": "TransformerMake" },
+        { "logical_name": "solar_transformermodel", "type": "SingleLine", "sharepoint_column": "TransformerModel" },
+        { "logical_name": "solar_transformerratingkva", "type": "Decimal", "sharepoint_column": "TransformerRatingKVA" },
+        { "logical_name": "solar_security", "type": "SingleLine", "sharepoint_column": "Security" },
+        { "logical_name": "solar_securitycodes", "type": "Multiline", "sharepoint_column": "SecurityCodes" },
+        { "logical_name": "solar_siteaccessdetails", "type": "Multiline", "sharepoint_column": "SiteAccessDetails" },
+        { "logical_name": "solar_accessgatecodes", "type": "Multiline", "sharepoint_column": "AccessGateCodes" },
+        { "logical_name": "solar_exportmeterlocation", "type": "SingleLine", "sharepoint_column": "ExportMeterLocation" },
+        { "logical_name": "solar_exportmeteraccessdetails", "type": "Multiline", "sharepoint_column": "ExportMeterAccessDetails" },
+        { "logical_name": "solar_otherinformation", "type": "Multiline", "sharepoint_column": "OtherInformation" },
+        { "logical_name": "solar_notes", "type": "Multiline", "sharepoint_column": "Notes" },
+        { "logical_name": "solar_active", "type": "Boolean", "sharepoint_column": "Active" }
+      ],
+      "add_lookups": [
+        { "logical_name": "solar_dnogridoperator", "target_entity": "solar_dno", "sharepoint_column": "DNOGridOperator", "note": "Αφού δημιουργηθεί solar_dno" },
+        { "logical_name": "solar_supervisor", "target_entity": "systemuser", "sharepoint_column": "Supervisor", "note": "Person or Group" }
+      ]
+    }
+  ],
+  "create_new_tables": [
+    {
+      "proposed_entity_name": "solar_dno",
+      "sharepoint_source": "DNO",
+      "primary_name_attribute": "solar_name",
+      "description": "Δίκτυα διανομής (DNO) / Grid operators. Lookup από solar_location.",
+      "key_attributes_from_sharepoint": ["Code", "Title", "EmergencyNumber", "Telephone", "Email", "Website", "Description", "Notes"]
+    },
+    {
+      "proposed_entity_name": "solar_section",
+      "sharepoint_source": "Sections",
+      "primary_name_attribute": "solar_name",
+      "description": "Τμήματα ανά location (strings, inverters κλπ). Location → solar_location.",
+      "relationship_to_solar_location": "solar_location → solar_location (Lookup)"
+    },
+    {
+      "proposed_entity_name": "solar_site_credentials",
+      "sharepoint_source": "PVPlantsSiteCredentials",
+      "primary_name_attribute": "solar_name",
+      "description": "Διαπιστευτήρια ανά site. Σύνδεση με solar_location (όχι PVPlants).",
+      "relationship_to_solar_location": "solar_location → solar_location (Lookup)",
+      "key_attributes_from_sharepoint": ["Title", "IPAddress", "UsernamePassword", "PlantId → solar_locationid"]
+    },
+    {
+      "proposed_entity_name": "solar_site_comments",
+      "sharepoint_source": "CommentsRemarks",
+      "primary_name_attribute": "solar_name",
+      "description": "Σχόλια/παρατηρήσεις ανά site. SiteId/Location → solar_location.",
+      "relationship_to_solar_location": "solar_location → solar_location (Lookup)",
+      "key_attributes_from_sharepoint": ["Title", "Description", "SendEmail", "SendEmailTo", "SiteId → solar_locationid"]
+    },
+    {
+      "proposed_entity_name": "solar_maintenance_team_per_location",
+      "sharepoint_source": "MaintenanceTeamPerLocation",
+      "primary_name_attribute": "solar_name",
+      "description": "Ανάθεση ομάδων συντήρησης ανά location.",
+      "relationship_to_solar_location": "solar_location → solar_location (Lookup)",
+      "relationship_to_team": "solar_maintenance_team → solar_maintenance_team (Lookup)"
+    }
+  ],
+  "relationships_using_solar_location_as_primary": [
+    {
+      "referencing_entity": "solar_location",
+      "referencing_attribute": "solar_zones",
+      "referenced_entity": "solar_location",
+      "referenced_attribute": "solar_locationid",
+      "type": "self_reference",
+      "sharepoint_equivalent": "Locations.Zones > Locations.id"
+    },
+    {
+      "referencing_entity": "solar_location",
+      "referencing_attribute": "solar_dnogridoperator",
+      "referenced_entity": "solar_dno",
+      "referenced_attribute": "solar_dnoid",
+      "when_created": "After solar_dno exists",
+      "sharepoint_equivalent": "Locations.DNOGridOperator > DNO.id"
+    },
+    {
+      "referencing_entity": "solar_site_credentials",
+      "referencing_attribute": "solar_location",
+      "referenced_entity": "solar_location",
+      "referenced_attribute": "solar_locationid",
+      "replaces_sharepoint": "PVPlantsSiteCredentials.SolarSite > PVPlants.id"
+    },
+    {
+      "referencing_entity": "solar_site_comments",
+      "referencing_attribute": "solar_location",
+      "referenced_entity": "solar_location",
+      "referenced_attribute": "solar_locationid",
+      "replaces_sharepoint": "CommentsRemarks.SiteId / PVPlants"
+    },
+    {
+      "referencing_entity": "solar_section",
+      "referencing_attribute": "solar_location",
+      "referenced_entity": "solar_location",
+      "referenced_attribute": "solar_locationid",
+      "sharepoint_equivalent": "Sections.Location > Locations.id"
+    },
+    {
+      "referencing_entity": "solar_maintenance_team_per_location",
+      "referencing_attribute": "solar_location",
+      "referenced_entity": "solar_location",
+      "referenced_attribute": "solar_locationid",
+      "sharepoint_equivalent": "MaintenanceTeamPerLocation.Location > Locations.id"
+    }
+  ],
+  "do_not_use_pvplants_as_primary": [
+    "PVPlants",
+    "PVPlantsSiteCredentials.SolarSite",
+    "PVPlantsDNOStations.PlantId",
+    "PVPlantsCCTVGateCodes.PlantId",
+    "PVPlantsContactInfo",
+    "PVPlantsSystemInfo.PlantId",
+    "EquipmentTracking.PlantId",
+    "PlantPreventative.PlantId",
+    "CommentsRemarks.SiteId"
+  ],
+  "mapping_rule": "For each of the above SharePoint references, use solar_location (solar_locationid) as the target entity for 'Plant' or 'Site'.",
+
+  "phase_2": {
+    "purpose": "Φάση 2: Αποθήκες, εξοπλισμός, ανταλλακτικά, υπηρεσίες, ρυθμίσεις ανά site. Location/PlantId → solar_location.",
+    "create_new_tables": [
+      { "proposed_entity_name": "solar_supplier", "sharepoint_source": "Suppliers", "primary_name_attribute": "solar_name", "description": "Προμηθευτές.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_part_category", "sharepoint_source": "PartsCategories", "primary_name_attribute": "solar_name", "description": "Κατηγορίες ανταλλακτικών. Parent → self.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "Level", "Parent", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_manufacturer_brand", "sharepoint_source": "ManufacturerBrands", "primary_name_attribute": "solar_name", "description": "Κατασκευαστές/μάρκες.", "key_attributes_from_sharepoint": ["Code", "Title", "Logo", "Description", "Website", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_equipment_category", "sharepoint_source": "EquipmentCategories", "primary_name_attribute": "solar_name", "description": "Κατηγορίες εξοπλισμού. Parent → self.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "MainType", "Parent", "Notes", "Active", "CategoryType"] },
+      { "proposed_entity_name": "solar_warehouse", "sharepoint_source": "Warehouses", "primary_name_attribute": "solar_name", "description": "Αποθήκες ανά location.", "relationship_to_solar_location": "solar_location → solar_location (Lookup)", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "Location", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_equipment", "sharepoint_source": "Equipment", "primary_name_attribute": "solar_name", "description": "Εξοπλισμός.", "key_lookups": ["Category → solar_equipment_category", "ManufacturerOrBrand → solar_manufacturer_brand", "Supplier → solar_supplier"], "key_attributes_from_sharepoint": ["Code", "Title", "Category", "Description", "ManufacturerID", "ManufacturerOrBrand", "Supplier", "StockManagement", "Photo", "URL", "Notes", "Active", "Serial"] },
+      { "proposed_entity_name": "solar_part", "sharepoint_source": "Parts", "primary_name_attribute": "solar_name", "description": "Ανταλλακτικά.", "key_lookups": ["Category → solar_part_category", "ManufacturerOrBrand → solar_manufacturer_brand", "Supplier → solar_supplier"], "key_attributes_from_sharepoint": ["Code", "Title", "Category", "Description", "Barcode", "UPC", "ManufacturerOrBrand", "Supplier", "StockManagement", "Consumable", "Photo", "URL", "MinQTY", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_asset_category", "sharepoint_source": "AssetsCategories", "primary_name_attribute": "solar_name", "description": "Κατηγορίες assets. Parent → self.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "Parent", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_asset", "sharepoint_source": "Assets", "primary_name_attribute": "solar_name", "description": "Assets ανά location/section.", "relationship_to_solar_location": "solar_location → solar_location", "key_lookups": ["Category → solar_asset_category", "Location → solar_location", "Section → solar_section", "ManufacturerOrBrand → solar_manufacturer_brand"], "key_attributes_from_sharepoint": ["Code", "Title", "Category", "Description", "Location", "Section", "SerialNumber", "ManufacturerOrBrand", "InstallationDate", "WarrantyExpiry", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_location_configuration_item_type", "sharepoint_source": "LocationConfigurationItemTypes", "primary_name_attribute": "solar_name", "description": "Τύποι στοιχείων ρυθμίσεων.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "Active"] },
+      { "proposed_entity_name": "solar_location_configuration", "sharepoint_source": "LocationConfiguration", "primary_name_attribute": "solar_name", "description": "Ρυθμίσεις ανά location.", "relationship_to_solar_location": "solar_location → solar_location", "key_lookups": ["Location → solar_location", "ItemType → solar_location_configuration_item_type"], "key_attributes_from_sharepoint": ["Title", "Location", "ItemType", "Quantity", "Description", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_warehouse_to_location", "sharepoint_source": "WarehouseToLocation", "primary_name_attribute": "solar_name", "description": "Σύνδεση αποθήκης–location.", "key_lookups": ["Warehouse → solar_warehouse", "Location → solar_location"], "key_attributes_from_sharepoint": ["Title", "Warehouse", "Location", "Description"] },
+      { "proposed_entity_name": "solar_warehouse_equipment_serial", "sharepoint_source": "WarehouseEquipmentSerial", "primary_name_attribute": "solar_name", "description": "Serial εξοπλισμού σε αποθήκη.", "key_lookups": ["Equipment → solar_equipment", "Warehouse → solar_warehouse"], "key_attributes_from_sharepoint": ["Title", "Equipment", "Warehouse", "SerialNumber", "Status", "Notes"] },
+      { "proposed_entity_name": "solar_sub_corrective_event", "sharepoint_source": "SubCorrectiveEvent", "primary_name_attribute": "solar_name", "description": "Υπο-γεγονότα corrective.", "key_lookups": ["CorrectiveEvent → solar_corrective_work_order", "Category → solar_corrective_category"], "key_attributes_from_sharepoint": ["Title", "CorrectiveEvent", "Category", "Description", "Priority", "Status", "AssignedTo", "DueDate", "Notes"] },
+      { "proposed_entity_name": "solar_maintenance_team_member", "sharepoint_source": "MaintenanceTeamMembers", "primary_name_attribute": "solar_name", "description": "Μέλη ομάδας συντήρησης.", "key_lookups": ["MaintenanceTeam → solar_maintenance_team"], "key_attributes_from_sharepoint": ["Title", "MaintenanceTeam", "Member", "Role", "StartDate", "EndDate", "Active"] },
+      { "proposed_entity_name": "solar_service_company", "sharepoint_source": "ServiceCompanys", "primary_name_attribute": "solar_name", "description": "Εταιρείες υπηρεσιών.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "ContactPerson", "Email", "Phone", "Website", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_om_category", "sharepoint_source": "OMCategories", "primary_name_attribute": "solar_name", "description": "Κατηγορίες OM. CategoryParent → self.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "CategoryParent", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_equipment_serial", "sharepoint_source": "EquipmentSerial", "primary_name_attribute": "solar_name", "description": "Serial εξοπλισμού ανά location/section.", "key_lookups": ["Equipment → solar_equipment", "Location → solar_location", "Section → solar_section"], "key_attributes_from_sharepoint": ["Title", "Equipment", "Location", "Section", "InstallationDate", "Status", "Notes"] },
+      { "proposed_entity_name": "solar_equipment_to_warehouse", "sharepoint_source": "EquipmentToWarehouse", "primary_name_attribute": "solar_name", "description": "Ποσότητα εξοπλισμού ανά αποθήκη.", "key_lookups": ["Equipment → solar_equipment", "Warehouse → solar_warehouse"], "key_attributes_from_sharepoint": ["Title", "Equipment", "Warehouse", "Quantity", "MinQuantity", "Notes"] },
+      { "proposed_entity_name": "solar_service_order", "sharepoint_source": "ServiceOrder", "primary_name_attribute": "solar_name", "description": "Παραγγελίες υπηρεσιών ανά site.", "relationship_to_solar_location": "solar_location → solar_location", "key_lookups": ["ServiceCompany → solar_service_company", "Location → solar_location"], "key_attributes_from_sharepoint": ["Title", "ServiceCompany", "Location", "Description", "OrderDate", "ScheduledDate", "Status", "Priority", "Notes"] },
+      { "proposed_entity_name": "solar_service", "sharepoint_source": "Service", "primary_name_attribute": "solar_name", "description": "Υπηρεσίες/εργασίες.", "key_lookups": ["Category → solar_om_category", "DefaultServiceCompany → solar_service_company"], "key_attributes_from_sharepoint": ["Code", "Title", "Description", "Category", "DefaultServiceCompany", "UnitCost", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_section_template", "sharepoint_source": "SectionTemplate", "primary_name_attribute": "solar_name", "description": "Πρότυπο τμημάτων.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "TemplateType", "Notes", "Active"] },
+      { "proposed_entity_name": "solar_document_set_category", "sharepoint_source": "DocumentSetCategories", "primary_name_attribute": "solar_name", "description": "Κατηγορίες εγγράφων." },
+      { "proposed_entity_name": "solar_document_set", "sharepoint_source": "DocumentSets", "primary_name_attribute": "solar_name", "description": "Σετ εγγράφων.", "key_lookups": ["Category → solar_document_set_category"], "key_attributes_from_sharepoint": ["Title", "Category", "Comments"] },
+      { "proposed_entity_name": "solar_parts_transaction", "sharepoint_source": "PartsTransaction", "primary_name_attribute": "solar_name", "description": "Κινήσεις ανταλλακτικών.", "key_lookups": ["Part → solar_part", "FromWarehouse → solar_warehouse", "ToWarehouse → solar_warehouse"], "key_attributes_from_sharepoint": ["Title", "Part", "TransactionType", "Quantity", "FromWarehouse", "ToWarehouse", "TransactionDate", "Notes"] },
+      { "proposed_entity_name": "solar_stock_adjustment", "sharepoint_source": "StockAdjustments", "primary_name_attribute": "solar_name", "description": "Προσαρμογές αποθέματος.", "key_lookups": ["Part → solar_part", "Equipment → solar_equipment", "Warehouse → solar_warehouse"], "key_attributes_from_sharepoint": ["Title", "ItemType", "Part", "Equipment", "Warehouse", "AdjustmentType", "Quantity", "AdjustmentDate", "Reason", "Notes"] },
+      { "proposed_entity_name": "solar_equipment_transaction", "sharepoint_source": "EquipmentTransaction", "primary_name_attribute": "solar_name", "description": "Κινήσεις εξοπλισμού.", "relationship_to_solar_location": "solar_location → solar_location", "key_lookups": ["Location → solar_location", "Category → solar_equipment_category"], "key_attributes_from_sharepoint": ["Title", "Warehouse", "TaskType", "JobID", "HandlingDate", "RecordType", "Reason", "Quantity", "CurrentQuantity", "EquipmentId", "Location", "Category", "Serial", "SerialNotes"] },
+      { "proposed_entity_name": "solar_site_cctv_gate_codes", "sharepoint_source": "PVPlantsCCTVGateCodes", "primary_name_attribute": "solar_name", "description": "Κωδικοί πύλης/CCTV ανά site. PlantId → solar_location.", "relationship_to_solar_location": "solar_location → solar_location", "key_attributes_from_sharepoint": ["Title", "PlantId → solar_locationid", "GateCode", "CCTVCode"] },
+      { "proposed_entity_name": "solar_site_dno_stations", "sharepoint_source": "PVPlantsDNOStations", "primary_name_attribute": "solar_name", "description": "DNO stations ανά site. PlantId → solar_location.", "relationship_to_solar_location": "solar_location → solar_location", "key_attributes_from_sharepoint": ["Title", "PlantId → solar_locationid", "DNOStation", "DNOContact"] },
+      { "proposed_entity_name": "solar_equipment_tracking", "sharepoint_source": "EquipmentTracking", "primary_name_attribute": "solar_name", "description": "Tracking εξοπλισμού ανά site. PlantId → solar_location.", "relationship_to_solar_location": "solar_location → solar_location", "key_attributes_from_sharepoint": ["Title", "RecordDate", "Record", "Quantity", "Person", "TaskId", "PlantId → solar_locationid", "SubTask", "TaskType", "Cause", "Warehouse", "Details", "Category", "Asset"] },
+      { "proposed_entity_name": "solar_strings", "sharepoint_source": "Strings", "primary_name_attribute": "solar_name", "description": "Strings PV." },
+      { "proposed_entity_name": "solar_device_channel", "sharepoint_source": "DeviceChannels", "primary_name_attribute": "solar_name", "description": "Κανάλια συσκευών.", "key_attributes_from_sharepoint": ["Title", "Alias", "Description", "UserAgentSubstrings", "Active"] },
+      { "proposed_entity_name": "solar_maintenance_team_category", "sharepoint_source": "MaintenanceTeamCategories", "primary_name_attribute": "solar_name", "description": "Κατηγορίες ομάδων συντήρησης. Parent → self.", "key_attributes_from_sharepoint": ["Code", "Title", "Description", "Parent", "Notes", "Active"] }
+    ],
+    "relationships_phase_2": [
+      { "referencing_entity": "solar_warehouse", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "sharepoint_equivalent": "Warehouses.Location > Locations.id" },
+      { "referencing_entity": "solar_asset", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "sharepoint_equivalent": "Assets.Location > Locations.id" },
+      { "referencing_entity": "solar_asset", "referencing_attribute": "solar_section", "referenced_entity": "solar_section", "referenced_attribute": "solar_sectionid", "sharepoint_equivalent": "Assets.Section > Sections.id" },
+      { "referencing_entity": "solar_location_configuration", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "sharepoint_equivalent": "LocationConfiguration.Location > Locations.id" },
+      { "referencing_entity": "solar_warehouse_to_location", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "sharepoint_equivalent": "WarehouseToLocation.Location > Locations.id" },
+      { "referencing_entity": "solar_warehouse_to_location", "referencing_attribute": "solar_warehouse", "referenced_entity": "solar_warehouse", "referenced_attribute": "solar_warehouseid", "sharepoint_equivalent": "WarehouseToLocation.Warehouse > Warehouses.id" },
+      { "referencing_entity": "solar_equipment_serial", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "sharepoint_equivalent": "EquipmentSerial.Location > Locations.id" },
+      { "referencing_entity": "solar_equipment_serial", "referencing_attribute": "solar_section", "referenced_entity": "solar_section", "referenced_attribute": "solar_sectionid", "sharepoint_equivalent": "EquipmentSerial.Section > Sections.id" },
+      { "referencing_entity": "solar_service_order", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "sharepoint_equivalent": "ServiceOrder.Location > Locations.id" },
+      { "referencing_entity": "solar_sub_corrective_event", "referencing_attribute": "solar_corrective_work_order", "referenced_entity": "solar_corrective_work_order", "referenced_attribute": "solar_corrective_work_orderid", "sharepoint_equivalent": "SubCorrectiveEvent.CorrectiveEvent > CorrectiveEvents.id" },
+      { "referencing_entity": "solar_equipment_transaction", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "sharepoint_equivalent": "EquipmentTransaction.Location > Locations.id" },
+      { "referencing_entity": "solar_site_cctv_gate_codes", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "replaces_sharepoint": "PVPlantsCCTVGateCodes.PlantId" },
+      { "referencing_entity": "solar_site_dno_stations", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "replaces_sharepoint": "PVPlantsDNOStations.PlantId" },
+      { "referencing_entity": "solar_equipment_tracking", "referencing_attribute": "solar_location", "referenced_entity": "solar_location", "referenced_attribute": "solar_locationid", "replaces_sharepoint": "EquipmentTracking.PlantId" },
+      { "referencing_entity": "solar_equipment", "referencing_attribute": "solar_equipment_category", "referenced_entity": "solar_equipment_category", "referenced_attribute": "solar_equipment_categoryid", "sharepoint_equivalent": "Equipment.Category > EquipmentCategories.id" },
+      { "referencing_entity": "solar_equipment", "referencing_attribute": "solar_manufacturer_brand", "referenced_entity": "solar_manufacturer_brand", "referenced_attribute": "solar_manufacturer_brandid", "sharepoint_equivalent": "Equipment.ManufacturerOrBrand > ManufacturerBrands.id" },
+      { "referencing_entity": "solar_equipment", "referencing_attribute": "solar_supplier", "referenced_entity": "solar_supplier", "referenced_attribute": "solar_supplierid", "sharepoint_equivalent": "Equipment.Supplier > Suppliers.id" },
+      { "referencing_entity": "solar_part", "referencing_attribute": "solar_part_category", "referenced_entity": "solar_part_category", "referenced_attribute": "solar_part_categoryid", "sharepoint_equivalent": "Parts.Category > PartsCategories.id" },
+      { "referencing_entity": "solar_part", "referencing_attribute": "solar_manufacturer_brand", "referenced_entity": "solar_manufacturer_brand", "referenced_attribute": "solar_manufacturer_brandid", "sharepoint_equivalent": "Parts.ManufacturerOrBrand > ManufacturerBrands.id" },
+      { "referencing_entity": "solar_part", "referencing_attribute": "solar_supplier", "referenced_entity": "solar_supplier", "referenced_attribute": "solar_supplierid", "sharepoint_equivalent": "Parts.Supplier > Suppliers.id" },
+      { "referencing_entity": "solar_asset", "referencing_attribute": "solar_asset_category", "referenced_entity": "solar_asset_category", "referenced_attribute": "solar_asset_categoryid", "sharepoint_equivalent": "Assets.Category > AssetsCategories.id" },
+      { "referencing_entity": "solar_asset", "referencing_attribute": "solar_manufacturer_brand", "referenced_entity": "solar_manufacturer_brand", "referenced_attribute": "solar_manufacturer_brandid", "sharepoint_equivalent": "Assets.ManufacturerOrBrand > ManufacturerBrands.id" },
+      { "referencing_entity": "solar_equipment_serial", "referencing_attribute": "solar_equipment", "referenced_entity": "solar_equipment", "referenced_attribute": "solar_equipmentid", "sharepoint_equivalent": "EquipmentSerial.Equipment > Equipment.id" },
+      { "referencing_entity": "solar_warehouse_equipment_serial", "referencing_attribute": "solar_equipment", "referenced_entity": "solar_equipment", "referenced_attribute": "solar_equipmentid", "sharepoint_equivalent": "WarehouseEquipmentSerial.Equipment > Equipment.id" },
+      { "referencing_entity": "solar_warehouse_equipment_serial", "referencing_attribute": "solar_warehouse", "referenced_entity": "solar_warehouse", "referenced_attribute": "solar_warehouseid", "sharepoint_equivalent": "WarehouseEquipmentSerial.Warehouse > Warehouses.id" },
+      { "referencing_entity": "solar_equipment_to_warehouse", "referencing_attribute": "solar_equipment", "referenced_entity": "solar_equipment", "referenced_attribute": "solar_equipmentid", "sharepoint_equivalent": "EquipmentToWarehouse.Equipment > Equipment.id" },
+      { "referencing_entity": "solar_equipment_to_warehouse", "referencing_attribute": "solar_warehouse", "referenced_entity": "solar_warehouse", "referenced_attribute": "solar_warehouseid", "sharepoint_equivalent": "EquipmentToWarehouse.Warehouse > Warehouses.id" },
+      { "referencing_entity": "solar_service_order", "referencing_attribute": "solar_service_company", "referenced_entity": "solar_service_company", "referenced_attribute": "solar_service_companyid", "sharepoint_equivalent": "ServiceOrder.ServiceCompany > ServiceCompanys.id" },
+      { "referencing_entity": "solar_service", "referencing_attribute": "solar_om_category", "referenced_entity": "solar_om_category", "referenced_attribute": "solar_om_categoryid", "sharepoint_equivalent": "Service.Category > OMCategories.id" },
+      { "referencing_entity": "solar_service", "referencing_attribute": "solar_default_service_company", "referenced_entity": "solar_service_company", "referenced_attribute": "solar_service_companyid", "sharepoint_equivalent": "Service.DefaultServiceCompany > ServiceCompanys.id" },
+      { "referencing_entity": "solar_maintenance_team_member", "referencing_attribute": "solar_maintenance_team", "referenced_entity": "solar_maintenance_team", "referenced_attribute": "solar_maintenance_teamid", "sharepoint_equivalent": "MaintenanceTeamMembers.MaintenanceTeam > MaintenanceTeams.id" },
+      { "referencing_entity": "solar_parts_transaction", "referencing_attribute": "solar_part", "referenced_entity": "solar_part", "referenced_attribute": "solar_partid", "sharepoint_equivalent": "PartsTransaction.Part > Parts.id" },
+      { "referencing_entity": "solar_parts_transaction", "referencing_attribute": "solar_from_warehouse", "referenced_entity": "solar_warehouse", "referenced_attribute": "solar_warehouseid", "sharepoint_equivalent": "PartsTransaction.FromWarehouse > Warehouses.id" },
+      { "referencing_entity": "solar_parts_transaction", "referencing_attribute": "solar_to_warehouse", "referenced_entity": "solar_warehouse", "referenced_attribute": "solar_warehouseid", "sharepoint_equivalent": "PartsTransaction.ToWarehouse > Warehouses.id" },
+      { "referencing_entity": "solar_stock_adjustment", "referencing_attribute": "solar_part", "referenced_entity": "solar_part", "referenced_attribute": "solar_partid", "sharepoint_equivalent": "StockAdjustments.Part > Parts.id" },
+      { "referencing_entity": "solar_stock_adjustment", "referencing_attribute": "solar_equipment", "referenced_entity": "solar_equipment", "referenced_attribute": "solar_equipmentid", "sharepoint_equivalent": "StockAdjustments.Equipment > Equipment.id" },
+      { "referencing_entity": "solar_stock_adjustment", "referencing_attribute": "solar_warehouse", "referenced_entity": "solar_warehouse", "referenced_attribute": "solar_warehouseid", "sharepoint_equivalent": "StockAdjustments.Warehouse > Warehouses.id" },
+      { "referencing_entity": "solar_location_configuration", "referencing_attribute": "solar_item_type", "referenced_entity": "solar_location_configuration_item_type", "referenced_attribute": "solar_location_configuration_item_typeid", "sharepoint_equivalent": "LocationConfiguration.ItemType > LocationConfigurationItemTypes.id" },
+      { "referencing_entity": "solar_sub_corrective_event", "referencing_attribute": "solar_corrective_category", "referenced_entity": "solar_corrective_category", "referenced_attribute": "solar_corrective_categoryid", "sharepoint_equivalent": "SubCorrectiveEvent.Category > CorrectiveTaskCategories.id" },
+      { "referencing_entity": "solar_document_set", "referencing_attribute": "solar_category", "referenced_entity": "solar_document_set_category", "referenced_attribute": "solar_document_set_categoryid", "sharepoint_equivalent": "DocumentSets.Category > DocumentSetCategories.id" },
+      { "referencing_entity": "solar_equipment_transaction", "referencing_attribute": "solar_equipment_category", "referenced_entity": "solar_equipment_category", "referenced_attribute": "solar_equipment_categoryid", "sharepoint_equivalent": "EquipmentTransaction.Category > EquipmentCategories.id" }
+    ]
+  }
+}

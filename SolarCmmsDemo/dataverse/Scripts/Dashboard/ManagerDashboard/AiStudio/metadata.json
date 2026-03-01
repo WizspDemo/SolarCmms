@@ -1,0 +1,5 @@
+{
+  "name": "SolarCMMS | Manager Dashboard - Global View",
+  "description": "A high-level fleet management dashboard for global solar assets, featuring aggregated KPIs and a detailed portfolio grid.",
+  "requestFramePermissions": []
+}

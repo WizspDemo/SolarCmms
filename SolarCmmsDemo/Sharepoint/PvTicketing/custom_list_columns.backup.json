@@ -1,0 +1,108 @@
+[
+  {
+    "listName": "Countries",
+    "listId": "ec558ced-42d9-4c65-8573-09b409bd90f9",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "ID", "type": "text", "required": false, "readOnly": true},
+      {"name": "ContentType", "type": "text", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "Equipment Tracking",
+    "listId": "d5d750c1-d372-4701-ac3b-0c940ebb18b5",
+    "columns": [
+      {"name": "Title", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "RecordDate", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "Record", "type": "choice", "required": false, "readOnly": false, "choices": ["Add", "Subtraction"]},
+      {"name": "Quantity", "type": "number", "required": false, "readOnly": false},
+      {"name": "LinkTitleNoMenu", "type": "text", "required": false, "readOnly": true},
+      {"name": "LinkTitle", "type": "text", "required": false, "readOnly": true},
+      {"name": "Person", "type": "personOrGroup", "required": false, "readOnly": false},
+      {"name": "TaskId", "type": "number", "required": false, "readOnly": false},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "SubTask", "type": "text", "required": false, "readOnly": false, "maxLength": 10},
+      {"name": "Update_x0020_Warehouse", "type": "text", "required": false, "readOnly": false},
+      {"name": "TaskType", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Cause", "type": "choice", "required": false, "readOnly": false, "choices": ["Addition", "Transportation", "Installation", "Uninstall", "Service", "Return", "BGE Owned Spares", "Other"]},
+      {"name": "Warehouse", "type": "choice", "required": false, "readOnly": false, "choices": ["Choice", "Installed at Site", "Spares at Site", "External Warehouse", "BGE Warehouse", "Supplier Premises"]},
+      {"name": "Details", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Category", "type": "lookup", "required": false, "readOnly": false},
+      {"name": "Asset", "type": "lookup", "required": false, "readOnly": false},
+      {"name": "Assets", "type": "lookup", "required": false, "readOnly": false},
+      {"name": "ID", "type": "text", "required": false, "readOnly": true},
+      {"name": "ContentType", "type": "text", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "Strings",
+    "listId": "6392d14f-dab5-40ce-89af-0eb5b08d0a0b",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "ID", "type": "text", "required": false, "readOnly": true},
+      {"name": "ContentType", "type": "text", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "Plant Preventative",
+    "listId": "f5612c78-e513-4df2-b024-13e906ea2b69",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "Frequency", "type": "choice", "required": false, "readOnly": false, "choices": ["Annually", "Semi-annually", "Quarterly", "Monthly", "Daily", "2 Yearly", "3 Yearly", "4 Yearly", "5 Yearly", "Every 2 Years", "Every 3 Years", "Every 4 Years", "Every 5 Years", "As required by manufacturer's guidance", "Up to three times", "Other"]},
+      {"name": "Comments", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "August", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "Code", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "DescriptionServices", "type": "choice", "required": false, "readOnly": false, "choices": ["General Inspection", "Access & Egress", "Grounds", "Modules", "Mounting Structure", "Inverter Stations", "Security Monitoring & CCTV", "String Combiner Boxes", "Fences / Gates", "LV AC & DC Inspection", "Circuit Breakers & Switchgear", "HV Transformer", "Substation Housing", "Partial Discharge Testing", "Current Transformer Circuit Maintenance", "Transformer Buchholz & Winding Temperature Indicator Maintenance (where applicable)", "Spares", "Under Construction", "Miscellaneous Services", "Other"]},
+      {"name": "January", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "February", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "March", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "May", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "April", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "June", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "July", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "September", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "October", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "November", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "December", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "Enable", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "Scheduled", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Description", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Modified", "type": "dateTime", "required": false, "readOnly": true},
+      {"name": "ID", "type": "text", "required": false, "readOnly": true},
+      {"name": "ContentType", "type": "text", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "Translation Status",
+    "listId": "6e084852-95e4-41bc-9799-21edbd21db7e",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "ComplianceAssetId", "type": "text", "required": false, "readOnly": true, "maxLength": 255},
+      {"name": "Modified_x0020_By", "type": "text", "required": false, "readOnly": true, "maxLength": 255},
+      {"name": "Created_x0020_By", "type": "text", "required": false, "readOnly": true, "maxLength": 255},
+      {"name": "TranslationStateJobId", "type": "text", "required": false, "readOnly": false},
+      {"name": "TranslationStateStartTime", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "TranslationStateEndTime", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "TranslationStateExportTime", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "TranslationStateUploadTime", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "TranslationStateTranslationType", "type": "choice", "required": false, "readOnly": false, "choices": ["Machine Translation", "Human Translation"]},
+      {"name": "TranslationStateTranslatorName", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateExportRequesting", "type": "personOrGroup", "required": false, "readOnly": false},
+      {"name": "TranslationStateImportRequesting", "type": "personOrGroup", "required": false, "readOnly": false},
+      {"name": "TranslationStateListId", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateWebId", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateListUrl", "type": "text", "required": false, "readOnly": false},
+      {"name": "TranslationStateItemInformation", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateExportJobSize", "type": "number", "required": false, "readOnly": false},
+      {"name": "TranslationStateImportJobSize", "type": "number", "required": false, "readOnly": false},
+      {"name": "TranslationStateDownloadLink", "type": "text", "required": false, "readOnly": false},
+      {"name": "TranslationStateStatus", "type": "choice", "required": false, "readOnly": false, "choices": ["Queued", "Translated", "In Progress", "With Human Translator", "Throttled", "Error"]},
+      {"name": "TranslationStateNumberOfItems", "type": "number", "required": false, "readOnly": false},
+      {"name": "TranslationStateErrors", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateTermInformation", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "ID", "type": "text", "required": false, "readOnly": true},
+      {"name": "ContentType", "type": "text", "required": false, "readOnly": false},
+    ]
+  }
+]

@@ -1,0 +1,446 @@
+// Dataverse Phase 2 schema (σύνοψη)
+// Βάση του εγγράφου dataverse_sync_proposal.md § 6.1–6.3
+
+Project "Solar CMMS - Dataverse Phase 2" {
+  database_type: "Dataverse"
+  note: "Φάση 2: Equipment, Parts, Warehouses, Assets, Services, Settings, Technical & Documents. Κεντρικό entity: solar_location."
+}
+
+//--------------------------------------------------
+// Βασικά entities (ήδη από Φάση 1 / Dataverse)
+//--------------------------------------------------
+
+Table solar_location {
+  solar_locationid uuid [pk]
+  solar_name       nvarchar(255)
+}
+
+Table solar_section {
+  solar_sectionid  uuid [pk]
+  solar_locationid uuid [ref: > solar_location.solar_locationid]
+  solar_name       nvarchar(255)
+}
+
+//--------------------------------------------------
+// Προμηθευτές & Κατηγορίες
+//--------------------------------------------------
+
+Table solar_supplier {
+  solar_supplierid uuid [pk]
+
+  solar_name       nvarchar(255) [not null]
+  solar_code       nvarchar(100)
+  solar_phone      nvarchar(100)
+  solar_email      nvarchar(255)
+  solar_address    nvarchar(500)
+  solar_notes      nvarchar(max)
+
+  Note: "SharePoint Suppliers (Φάση 2)."
+}
+
+Table solar_manufacturer_brand {
+  solar_manufacturer_brandid uuid [pk]
+
+  solar_name   nvarchar(255) [not null]
+  solar_code   nvarchar(100)
+  solar_website nvarchar(500)
+  solar_notes  nvarchar(max)
+
+  Note: "SharePoint ManufacturerBrands (Φάση 2)."
+}
+
+Table solar_part_category {
+  solar_part_categoryid uuid [pk]
+
+  solar_name          nvarchar(255) [not null]
+  solar_code          nvarchar(100)
+  solar_parentid      uuid [ref: > solar_part_category.solar_part_categoryid, note: "Parent → self"]
+  solar_description   nvarchar(max)
+
+  Note: "SharePoint PartsCategories (Φάση 2)."
+}
+
+Table solar_equipment_category {
+  solar_equipment_categoryid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_parentid    uuid [ref: > solar_equipment_category.solar_equipment_categoryid]
+  solar_description nvarchar(max)
+
+  Note: "SharePoint EquipmentCategories (Φάση 2)."
+}
+
+Table solar_asset_category {
+  solar_asset_categoryid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_parentid    uuid [ref: > solar_asset_category.solar_asset_categoryid]
+  solar_description nvarchar(max)
+
+  Note: "SharePoint AssetsCategories (Φάση 2)."
+}
+
+//--------------------------------------------------
+// Warehouses, Equipment, Parts, Assets
+//--------------------------------------------------
+
+Table solar_warehouse {
+  solar_warehouseid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_locationid  uuid [ref: > solar_location.solar_locationid]
+  solar_address     nvarchar(500)
+  solar_isprimary   bit
+  solar_notes       nvarchar(max)
+
+  Note: "SharePoint Warehouses (Φάση 2)."
+}
+
+Table solar_equipment {
+  solar_equipmentid uuid [pk]
+
+  solar_name                   nvarchar(255) [not null]
+  solar_code                   nvarchar(100)
+  solar_equipment_categoryid   uuid [ref: > solar_equipment_category.solar_equipment_categoryid]
+  solar_manufacturer_brandid   uuid [ref: > solar_manufacturer_brand.solar_manufacturer_brandid]
+  solar_supplierid             uuid [ref: > solar_supplier.solar_supplierid]
+  solar_description            nvarchar(max)
+
+  Note: "SharePoint Equipment (Φάση 2)."
+}
+
+Table solar_part {
+  solar_partid uuid [pk]
+
+  solar_name                 nvarchar(255) [not null]
+  solar_code                 nvarchar(100)
+  solar_part_categoryid      uuid [ref: > solar_part_category.solar_part_categoryid]
+  solar_manufacturer_brandid uuid [ref: > solar_manufacturer_brand.solar_manufacturer_brandid]
+  solar_supplierid           uuid [ref: > solar_supplier.solar_supplierid]
+  solar_description          nvarchar(max)
+
+  Note: "SharePoint Parts (Φάση 2)."
+}
+
+Table solar_asset {
+  solar_assetid uuid [pk]
+
+  solar_name            nvarchar(255) [not null]
+  solar_code            nvarchar(100)
+  solar_locationid      uuid [ref: > solar_location.solar_locationid]
+  solar_sectionid       uuid [ref: > solar_section.solar_sectionid]
+  solar_asset_categoryid uuid [ref: > solar_asset_category.solar_asset_categoryid]
+  solar_manufacturer_brandid uuid [ref: > solar_manufacturer_brand.solar_manufacturer_brandid]
+  solar_description     nvarchar(max)
+
+  Note: "SharePoint Assets (Φάση 2)."
+}
+
+//--------------------------------------------------
+// Location Configuration
+//--------------------------------------------------
+
+Table solar_location_configuration_item_type {
+  solar_location_configuration_item_typeid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_description nvarchar(max)
+
+  Note: "SharePoint LocationConfigurationItemTypes."
+}
+
+Table solar_location_configuration {
+  solar_location_configurationid uuid [pk]
+
+  solar_locationid                  uuid [ref: > solar_location.solar_locationid]
+  solar_location_configuration_item_typeid uuid [ref: > solar_location_configuration_item_type.solar_location_configuration_item_typeid]
+  solar_value                       nvarchar(max)
+
+  Note: "SharePoint LocationConfiguration."
+}
+
+//--------------------------------------------------
+// Warehouse–Location & Serial/Stock
+//--------------------------------------------------
+
+Table solar_warehouse_to_location {
+  solar_warehouse_to_locationid uuid [pk]
+
+  solar_warehouseid uuid [ref: > solar_warehouse.solar_warehouseid]
+  solar_locationid  uuid [ref: > solar_location.solar_locationid]
+  solar_isdefault   bit
+
+  Note: "SharePoint WarehouseToLocation."
+}
+
+Table solar_warehouse_equipment_serial {
+  solar_warehouse_equipment_serialid uuid [pk]
+
+  solar_warehouseid uuid [ref: > solar_warehouse.solar_warehouseid]
+  solar_equipmentid uuid [ref: > solar_equipment.solar_equipmentid]
+  solar_serial      nvarchar(255)
+  solar_quantity    int
+
+  Note: "SharePoint WarehouseEquipmentSerial."
+}
+
+Table solar_equipment_serial {
+  solar_equipment_serialid uuid [pk]
+
+  solar_equipmentid uuid [ref: > solar_equipment.solar_equipmentid]
+  solar_locationid  uuid [ref: > solar_location.solar_locationid]
+  solar_sectionid   uuid [ref: > solar_section.solar_sectionid]
+  solar_serial      nvarchar(255)
+  solar_status      nvarchar(50)
+
+  Note: "SharePoint EquipmentSerial."
+}
+
+Table solar_equipment_to_warehouse {
+  solar_equipment_to_warehouseid uuid [pk]
+
+  solar_equipmentid uuid [ref: > solar_equipment.solar_equipmentid]
+  solar_warehouseid uuid [ref: > solar_warehouse.solar_warehouseid]
+  solar_quantity    int
+
+  Note: "SharePoint EquipmentToWarehouse."
+}
+
+//--------------------------------------------------
+// Parts & Stock Movements
+//--------------------------------------------------
+
+Table solar_parts_transaction {
+  solar_parts_transactionid uuid [pk]
+
+  solar_partid          uuid [ref: > solar_part.solar_partid]
+  solar_from_warehouseid uuid [ref: > solar_warehouse.solar_warehouseid]
+  solar_to_warehouseid   uuid [ref: > solar_warehouse.solar_warehouseid]
+  solar_quantity         int
+  solar_transactiondate  datetime
+  solar_reason           nvarchar(255)
+
+  Note: "SharePoint PartsTransaction."
+}
+
+Table solar_stock_adjustment {
+  solar_stock_adjustmentid uuid [pk]
+
+  solar_partid       uuid [ref: > solar_part.solar_partid]
+  solar_equipmentid  uuid [ref: > solar_equipment.solar_equipmentid]
+  solar_warehouseid  uuid [ref: > solar_warehouse.solar_warehouseid]
+  solar_quantitydiff int
+  solar_adjustmentdate datetime
+  solar_reason       nvarchar(255)
+
+  Note: "SharePoint StockAdjustments."
+}
+
+Table solar_equipment_transaction {
+  solar_equipment_transactionid uuid [pk]
+
+  solar_equipmentid uuid [ref: > solar_equipment.solar_equipmentid]
+  solar_locationid  uuid [ref: > solar_location.solar_locationid]
+  solar_equipment_categoryid uuid [ref: > solar_equipment_category.solar_equipment_categoryid]
+  solar_quantity    int
+  solar_transactiondate datetime
+  solar_reason      nvarchar(255)
+
+  Note: "SharePoint EquipmentTransaction."
+}
+
+//--------------------------------------------------
+// Corrective – Sub events & Maintenance Teams
+//--------------------------------------------------
+
+Table solar_corrective_work_order {
+  solar_corrective_work_orderid uuid [pk]
+  solar_locationid uuid [ref: > solar_location.solar_locationid]
+}
+
+Table solar_corrective_category {
+  solar_corrective_categoryid uuid [pk]
+  solar_name                  nvarchar(255)
+}
+
+Table solar_sub_corrective_event {
+  solar_sub_corrective_eventid uuid [pk]
+
+  solar_corrective_work_orderid uuid [ref: > solar_corrective_work_order.solar_corrective_work_orderid]
+  solar_corrective_categoryid   uuid [ref: > solar_corrective_category.solar_corrective_categoryid]
+  solar_description             nvarchar(max)
+
+  Note: "SharePoint SubCorrectiveEvent."
+}
+
+Table solar_maintenance_team {
+  solar_maintenance_teamid       uuid [pk]
+  solar_name                     nvarchar(255)
+  solar_maintenance_team_categoryid uuid [ref: > solar_maintenance_team_category.solar_maintenance_team_categoryid, note: "Lookup → Maintenance Team Category"]
+}
+
+Table maintenance_team_member {
+  maintenance_team_memberid      uuid [pk]
+
+  solar_maintenance_team         uuid [ref: > solar_maintenance_team.solar_maintenance_teamid, note: "Lookup → Maintenance Team"]
+  solar_maintenance_team_categoryid uuid [ref: > solar_maintenance_team_category.solar_maintenance_team_categoryid, note: "Lookup → Maintenance Team Category"]
+  solar_userid                   uuid
+  solar_role                     nvarchar(100)
+
+  Note: "SharePoint MaintenanceTeamMembers. Solardev: solar_maintenance_team_member (με underscores)."
+}
+
+Table solar_maintenance_team_category {
+  solar_maintenance_team_categoryid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_parentid    uuid [ref: > solar_maintenance_team_category.solar_maintenance_team_categoryid, note: "Parent → self"]
+  solar_description nvarchar(max)
+
+  Note: "SharePoint MaintenanceTeamCategories. Solardev: solar_maintenance_team_category (με underscores)."
+}
+
+//--------------------------------------------------
+// Services / OM
+//--------------------------------------------------
+
+Table solar_service_company {
+  solar_service_companyid uuid [pk]
+
+  solar_name    nvarchar(255) [not null]
+  solar_code    nvarchar(100)
+  solar_phone   nvarchar(100)
+  solar_email   nvarchar(255)
+  solar_address nvarchar(500)
+
+  Note: "SharePoint ServiceCompanys."
+}
+
+Table solar_om_category {
+  solar_om_categoryid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_parentid    uuid [ref: > solar_om_category.solar_om_categoryid]
+  solar_description nvarchar(max)
+
+  Note: "SharePoint OMCategories."
+}
+
+Table solar_service {
+  solar_serviceid uuid [pk]
+
+  solar_name                 nvarchar(255) [not null]
+  solar_code                 nvarchar(100)
+  solar_om_categoryid        uuid [ref: > solar_om_category.solar_om_categoryid]
+  solar_default_service_companyid uuid [ref: > solar_service_company.solar_service_companyid]
+  solar_description          nvarchar(max)
+
+  Note: "SharePoint Service / Services."
+}
+
+Table solar_service_order {
+  solar_service_orderid uuid [pk]
+
+  solar_service_companyid uuid [ref: > solar_service_company.solar_service_companyid]
+  solar_locationid        uuid [ref: > solar_location.solar_locationid]
+  solar_serviceid         uuid [ref: > solar_service.solar_serviceid]
+  solar_orderdate         datetime
+  solar_status            nvarchar(50)
+
+  Note: "SharePoint ServiceOrder."
+}
+
+//--------------------------------------------------
+// Technical / Site-level tables
+//--------------------------------------------------
+
+Table solar_site_cctv_gate_codes {
+  solar_site_cctv_gate_codesid uuid [pk]
+
+  solar_locationid uuid [ref: > solar_location.solar_locationid]
+  solar_description nvarchar(max)
+  solar_gatecode    nvarchar(255)
+  solar_notes       nvarchar(max)
+
+  Note: "SharePoint PVPlantsCCTVGateCodes (PlantId → solar_location)."
+}
+
+Table solar_site_dno_stations {
+  solar_site_dno_stationsid uuid [pk]
+
+  solar_locationid uuid [ref: > solar_location.solar_locationid]
+  solar_name       nvarchar(255)
+  solar_description nvarchar(max)
+
+  Note: "SharePoint PVPlantsDNOStations (PlantId → solar_location)."
+}
+
+Table solar_equipment_tracking {
+  solar_equipment_trackingid uuid [pk]
+
+  solar_locationid uuid [ref: > solar_location.solar_locationid]
+  solar_equipmentid uuid [ref: > solar_equipment.solar_equipmentid]
+  solar_status      nvarchar(50)
+  solar_notes       nvarchar(max)
+
+  Note: "SharePoint EquipmentTracking (PlantId → solar_location)."
+}
+
+Table solar_strings {
+  solar_stringsid uuid [pk]
+
+  solar_locationid uuid [ref: > solar_location.solar_locationid]
+  solar_name       nvarchar(255)
+  solar_description nvarchar(max)
+
+  Note: "SharePoint Strings (τεχνικά στοιχεία)."
+}
+
+Table solar_device_channel {
+  solar_device_channelid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_description nvarchar(max)
+
+  Note: "SharePoint DeviceChannels."
+}
+
+//--------------------------------------------------
+// Documents / Templates
+//--------------------------------------------------
+
+Table solar_section_template {
+  solar_section_templateid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_description nvarchar(max)
+
+  Note: "SharePoint SectionTemplate."
+}
+
+Table solar_document_set_category {
+  solar_document_set_categoryid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_description nvarchar(max)
+
+  Note: "SharePoint DocumentSetCategories."
+}
+
+Table solar_document_set {
+  solar_document_setid uuid [pk]
+
+  solar_name                   nvarchar(255) [not null]
+  solar_document_set_categoryid uuid [ref: > solar_document_set_category.solar_document_set_categoryid]
+  solar_description            nvarchar(max)
+
+  Note: "SharePoint DocumentSets."
+}
+

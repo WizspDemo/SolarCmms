@@ -1,0 +1,717 @@
+// Solar Dataverse schema (solardev)
+// Generated from solardev_attributes.csv and solardev_relationships.csv
+// Includes all 26+ tables from solardev (Φεβ 2025)
+
+Table account {
+  accountcategorycode int
+  accountclassificationcode int
+  accountid uuid [pk]
+  accountnumber varchar(20)
+  accountratingcode int
+  address1_addressid uuid
+  address1_addresstypecode int
+  address1_city varchar(80)
+  address1_composite varchar(255)
+  address1_country varchar(80)
+  address1_county varchar(50)
+  address1_fax varchar(50)
+  address1_freighttermscode int
+  address1_latitude decimal(5,2)
+  address1_line1 varchar(250)
+  address1_line2 varchar(250)
+  address1_line3 varchar(250)
+  address1_longitude decimal(5,2)
+  address1_postalcode varchar(20)
+  address1_postofficebox varchar(20)
+  address1_shippingmethodcode int
+  address1_stateorprovince varchar(50)
+  address1_telephone1 varchar(50)
+  address1_telephone2 varchar(50)
+  address1_telephone3 varchar(50)
+  address1_upszone varchar(4)
+  address1_utcoffset int
+  address2_addressid uuid
+  address2_addresstypecode int
+  address2_city varchar(80)
+  address2_composite varchar(255)
+  address2_country varchar(80)
+  address2_county varchar(50)
+  address2_fax varchar(50)
+  address2_freighttermscode int
+  address2_latitude decimal(5,2)
+  address2_line1 varchar(250)
+  address2_line2 varchar(250)
+  address2_line3 varchar(250)
+  address2_longitude decimal(5,2)
+  address2_postalcode varchar(20)
+  address2_postofficebox varchar(20)
+  address2_shippingmethodcode int
+  address2_stateorprovince varchar(50)
+  address2_telephone1 varchar(50)
+  address2_telephone2 varchar(50)
+  address2_telephone3 varchar(50)
+  address2_upszone varchar(4)
+  address2_utcoffset int
+  adx_createdbyipaddress varchar(100)
+  adx_modifiedbyipaddress varchar(100)
+  aging30 decimal(2,2)
+  aging30_base decimal(4,2)
+  aging60 decimal(2,2)
+  aging60_base decimal(4,2)
+  aging90 decimal(2,2)
+  aging90_base decimal(4,2)
+  businesstypecode int
+  createdby uuid
+  createdbyexternalparty uuid
+  createdon datetime
+  createdonbehalfby uuid
+  creditlimit decimal(2,2)
+  creditlimit_base decimal(4,2)
+  creditonhold boolean
+  customersizecode int
+  customertypecode int
+  description varchar(255)
+  donotbulkemail boolean
+  donotbulkpostalmail boolean
+  donotemail boolean
+  donotfax boolean
+  donotphone boolean
+  donotpostalmail boolean
+  donotsendmm boolean
+  emailaddress1 varchar(100)
+  emailaddress2 varchar(100)
+  emailaddress3 varchar(100)
+  entityimage_timestamp bigint
+  entityimage_url varchar(200)
+  entityimageid uuid
+  exchangerate decimal(12,2)
+  fax varchar(50)
+  followemail boolean
+  ftpsiteurl varchar(200)
+  importsequencenumber int
+  industrycode int
+  isprivate boolean
+  lastonholdtime datetime
+  lastusedincampaign datetime
+  marketcap decimal(2,2)
+  marketcap_base decimal(4,2)
+  marketingonly boolean
+  masteraccountidname varchar(100)
+  masterid uuid
+  merged boolean
+  modifiedby uuid
+  modifiedbyexternalparty uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  msa_managingpartnerid uuid
+  msa_managingpartneridname varchar(160)
+  name varchar(160) // primary name
+  numberofemployees int
+  onholdtime int
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  ownershipcode int
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  parentaccountid uuid
+  parentaccountidname varchar(100)
+  participatesinworkflow boolean
+  paymenttermscode int
+  preferredappointmentdaycode int
+  preferredappointmenttimecode int
+  preferredcontactmethodcode int
+  preferredsystemuserid uuid
+  preferredsystemuseridname varchar(100)
+  primarycontactid uuid
+  primarycontactidname varchar(100)
+  primarysatoriid varchar(200)
+  primarytwitterid varchar(128)
+  processid uuid
+  revenue decimal(2,2)
+  revenue_base decimal(4,2)
+  sharesoutstanding int
+  shippingmethodcode int
+  sic varchar(20)
+  slaid uuid
+  slainvokedid uuid
+  slainvokedidname varchar(100)
+  stageid uuid
+  statecode int [not null]
+  statuscode int
+  stockexchange varchar(20)
+  telephone1 varchar(50)
+  telephone2 varchar(50)
+  telephone3 varchar(50)
+  territorycode int
+  tickersymbol varchar(10)
+  timespentbymeonemailandmeetings varchar(1250)
+  timezoneruleversionnumber int
+  transactioncurrencyid uuid
+  transactioncurrencyidname varchar(100)
+  traversedpath varchar(1250)
+  utcconversiontimezonecode int
+  versionnumber bigint
+  websiteurl varchar(200)
+}
+
+Table contact {
+  contactid uuid [pk]
+}
+
+Table new_account {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  new_accountid uuid [pk]
+  new_accounttype int
+  new_address varchar(100)
+  new_afm varchar(100)
+  new_city varchar(100)
+  new_contactperson varchar(100)
+  new_email varchar(100)
+  new_name varchar(850) // primary name
+  new_phone varchar(100)
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_clients {
+  solar_clientsid uuid [pk]
+}
+
+Table solar_corrective_category {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_comments varchar(100)
+  solar_corrective_categoryid uuid [pk]
+  solar_description varchar(255)
+  solar_isactive boolean
+  solar_name varchar(100) // primary name
+  solar_team varchar(100)
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_corrective_work_order {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_categoryid uuid
+  solar_categoryidname varchar(100)
+  solar_code varchar(255)
+  solar_comments varchar(100)
+  solar_corrective_work_orderid uuid [pk]
+  solar_description varchar(255)
+  solar_employee uuid
+  solar_locationid uuid
+  solar_locationidname varchar(100)
+  solar_maintenanceteamid uuid
+  solar_maintenanceteamidname varchar(100)
+  solar_name varchar(100) // primary name
+  solar_status int
+  solar_team uuid
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_country {
+  solar_countryid uuid [pk]
+}
+
+Table solar_equipmentwarehouse {
+  solar_equipmentwarehouseid uuid [pk]
+}
+
+Table solar_inverter {
+  solar_inverterid uuid [pk]
+}
+
+Table solar_location {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  exchangerate decimal(12,2)
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_account uuid
+  solar_address varchar(500)
+  solar_assumed_warranty_period int
+  solar_capacity_mw decimal(2,2)
+  solar_city varchar(100)
+  solar_closedate datetime
+  solar_containssections boolean
+  solar_country varchar(100)
+  solar_estimated_expiry datetime
+  solar_inverter_lv_voltage decimal(2,2)
+  solar_inverter_manufacturer varchar(100)
+  solar_inverter_model varchar(100)
+  solar_inverter_power decimal(2,2)
+  solar_inverter_quantity int
+  solar_inverter_total_cost decimal(2,2)
+  solar_inverter_total_cost_base decimal(2,2)
+  solar_inverter_type int
+  solar_landsizekm varchar(100)
+  solar_locationid uuid [pk]
+  solar_name varchar(100) // primary name
+  solar_opendate datetime
+  solar_parkmanager uuid
+  solar_postalcode varchar(100)
+  solar_stage int
+  solar_state varchar(100)
+  solar_stockmanagement boolean
+  solar_warranty_expiry datetime
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  transactioncurrencyid uuid
+  transactioncurrencyidname varchar(100)
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_maintenance_team {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_contactinfo varchar(500)
+  solar_isactive boolean
+  solar_maintenance_teamid uuid [pk]
+  solar_name varchar(100) // primary name
+  solar_specialization varchar(255)
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_maintenanceteamcategory {
+  solar_maintenanceteamcategoryid uuid [pk]
+}
+
+Table solar_maintenanceteammember {
+  solar_maintenanceteammemberid uuid [pk]
+}
+
+Table solar_maintenanceteamperlocation {
+  solar_maintenanceteamperlocationid uuid [pk]
+  solar_location uuid [ref: > solar_location.solar_locationid]
+}
+
+Table solar_module {
+  solar_moduleid uuid [pk]
+}
+
+Table solar_notification {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_isread boolean
+  solar_message varchar(255)
+  solar_name varchar(100) // primary name
+  solar_notificationid uuid [pk]
+  solar_type int
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_section {
+  solar_sectionid uuid [pk]
+  solar_location uuid [ref: > solar_location.solar_locationid]
+  solar_sectionname nvarchar(255)
+}
+
+Table solar_sitecomments {
+  solar_sitecommentsid uuid [pk]
+  solar_location uuid [ref: > solar_location.solar_locationid]
+}
+
+Table solar_sitecredentials {
+  solar_sitecredentialsid uuid [pk]
+  solar_location uuid [ref: > solar_location.solar_locationid]
+}
+
+Table solar_solarassetcategory {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_categorycode varchar(100)
+  solar_categorydescription varchar(100)
+  solar_categorylevel int
+  solar_categorytitle varchar(850) // primary name
+  solar_isactive boolean
+  solar_notes varchar(100)
+  solar_parentcategoryreference varchar(100)
+  solar_solarassetcategoryid uuid [pk]
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_solarcountry {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_countryalpha2code varchar(100)
+  solar_countryalpha3code varchar(100)
+  solar_countryname varchar(850) // primary name
+  solar_solarcountryid uuid [pk]
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_solarinverter {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  exchangerate decimal(12,2)
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_estimatedexpirydate datetime
+  solar_invertername varchar(850) // primary name
+  solar_invertertype varchar(100)
+  solar_manufacturer varchar(100)
+  solar_model varchar(100)
+  solar_park uuid
+  solar_poweroutput decimal(2,2)
+  solar_quantity int
+  solar_solarinverterid uuid [pk]
+  solar_totalcost decimal(2,2)
+  solar_totalcost_base decimal(2,2)
+  solar_warrantyexpirydate datetime
+  solar_warrantyperiodyears int
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  transactioncurrencyid uuid
+  transactioncurrencyidname varchar(100)
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_solarmodule {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_moduledepthmm decimal(2,2)
+  solar_modulelengthmm decimal(2,2)
+  solar_modulename varchar(850) // primary name
+  solar_modulewidthmm decimal(2,2)
+  solar_mountingstructure varchar(100)
+  solar_opencircuitvoltagevoc decimal(2,2)
+  solar_park uuid
+  solar_powerratingw decimal(2,2)
+  solar_quantity int
+  solar_shortcircuitcurrentisc decimal(2,2)
+  solar_solarmoduleid uuid [pk]
+  solar_solarmodulemanufacturer varchar(100)
+  solar_solarmodulemodel varchar(100)
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_solarpreventiveplan {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_planactive boolean
+  solar_plancategory uuid
+  solar_plancode varchar(100)
+  solar_plandays int
+  solar_plandescription varchar(100)
+  solar_planenddate datetime
+  solar_planlocation uuid
+  solar_plannotes varchar(100)
+  solar_planrecurrence int
+  solar_plantitle varchar(850) // primary name
+  solar_sectionreference varchar(100)
+  solar_solarpreventiveplanid uuid [pk]
+  solar_startdate datetime
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_solarpreventiveplancategory {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_categorycode varchar(100)
+  solar_categorydescription varchar(100)
+  solar_categorytitle varchar(850) // primary name
+  solar_isactive boolean
+  solar_solarpreventiveplancategoryid uuid [pk]
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_solarpreventivetask {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_equipmentreference varchar(100)
+  solar_isactive boolean
+  solar_maintenanceteamcategoryreference varchar(100)
+  solar_park uuid
+  solar_preventivecode varchar(100)
+  solar_preventivetitle varchar(850) // primary name
+  solar_solarpreventivetaskcategory uuid
+  solar_solarpreventivetaskid uuid [pk]
+  solar_taskdescription varchar(100)
+  solar_taskfrequency int
+  solar_taskimportance int
+  solar_tasknotes varchar(100)
+  solar_warrantytype int
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_solarpreventivetaskcategory {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_categorynotes varchar(100)
+  solar_isactive boolean
+  solar_preventivecategorycode varchar(850) // primary name
+  solar_preventivecategorydescription varchar(100)
+  solar_preventivecategorytitle varchar(100)
+  solar_solarpreventivetaskcategoryid uuid [pk]
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+Table solar_task {
+  createdby uuid
+  createdon datetime
+  createdonbehalfby uuid
+  importsequencenumber int
+  modifiedby uuid
+  modifiedon datetime
+  modifiedonbehalfby uuid
+  overriddencreatedon datetime
+  ownerid uuid [not null]
+  owneridname varchar(100) [not null]
+  owneridtype varchar(100) [not null]
+  owningbusinessunit uuid
+  owningteam uuid
+  owninguser uuid
+  solar_description varchar(255)
+  solar_estimatedhours int
+  solar_name varchar(100) // primary name
+  solar_priority int
+  solar_taskid uuid [pk]
+  solar_workorderid uuid
+  solar_workorderidname varchar(100)
+  statecode int [not null]
+  statuscode int
+  timezoneruleversionnumber int
+  utcconversiontimezonecode int
+  versionnumber bigint
+}
+
+// Relationships (only between solardev tables)
+Ref: solar_solarpreventivetask.solar_park > solar_location.solar_locationid
+Ref: solar_solarpreventiveplan.solar_planlocation > solar_location.solar_locationid
+Ref: solar_corrective_work_order.solar_locationid > solar_location.solar_locationid
+Ref: solar_solarmodule.solar_park > solar_location.solar_locationid
+Ref: solar_solarinverter.solar_park > solar_location.solar_locationid
+Ref: solar_location.solar_parkmanager > account.accountid
+Ref: solar_location.solar_account > new_account.new_accountid
+Ref: solar_corrective_work_order.solar_maintenanceteamid > solar_maintenance_team.solar_maintenance_teamid
+Ref: solar_corrective_work_order.solar_team > solar_maintenance_team.solar_maintenance_teamid
+Ref: solar_solarpreventivetask.solar_solarpreventivetaskcategory > solar_solarpreventivetaskcategory.solar_solarpreventivetaskcategoryid
+Ref: account.parentaccountid > account.accountid
+Ref: account.msa_managingpartnerid > account.accountid
+Ref: contact.msa_managingpartnerid > account.accountid
+Ref: account.masterid > account.accountid
+Ref: contact.parentcustomerid > account.accountid
+Ref: account.primarycontactid > contact.contactid
+Ref: solar_solarpreventiveplan.solar_plancategory > solar_solarpreventiveplancategory.solar_solarpreventiveplancategoryid
+Ref: solar_task.solar_workorderid > solar_corrective_work_order.solar_corrective_work_orderid
+Ref: solar_corrective_work_order.solar_categoryid > solar_corrective_category.solar_corrective_categoryid
+Ref: solar_corrective_work_order.solar_employee > new_account.new_accountid

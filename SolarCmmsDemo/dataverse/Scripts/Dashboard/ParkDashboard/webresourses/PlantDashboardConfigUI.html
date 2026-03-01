@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantDashboard – Config</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f3f2f1; }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-2xl font-bold text-slate-800 mb-2">PlantDashboard Config</h1>
+        <p class="text-gray-600 mb-6">Επιλέξτε τι θα εμφανίζεται στο dashboard και ανοίξτε το με τα σωστά παράμετροι.</p>
+
+        <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
+            <!-- Record context (optional) -->
+            <div>
+                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Context (προαιρετικό)</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Record ID</label>
+                        <input type="text" id="recordId" placeholder="GUID ή κενό"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Entity (typename)</label>
+                        <input type="text" id="typename" placeholder="solar_location"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div>
+                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Tabs</h2>
+                <div class="flex flex-wrap gap-4">
+                    <label class="flex items-center gap-2"><input type="checkbox" id="tab-workorders" checked> Work Orders</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="tab-livefeed" checked> Live Feed</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="tab-map" checked> Map</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="tab-team" checked> Team</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="tab-sitedetails" checked> Site Details</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="tab-windy" checked> Live Cloud Map</label>
+                </div>
+            </div>
+
+            <!-- Widgets -->
+            <div>
+                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Widgets</h2>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showMessageBar" checked> MessageBar (efficiency warning)</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showWeatherWidget" checked> Weather widget</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showInverterStatus" checked> Inverter Status</label>
+                </div>
+            </div>
+
+            <!-- Stats cards -->
+            <div>
+                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Stats cards</h2>
+                <div class="flex flex-wrap gap-4">
+                    <label class="flex items-center gap-2"><input type="checkbox" id="stat-preventiveHealth" checked> Preventive Health</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="stat-preventiveWorkflow" checked> Preventive Workflow</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="stat-criticalDefects" checked> Critical Defects</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="stat-correctiveWorkflow" checked> Corrective Workflow</label>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
+                <button type="button" onclick="openDashboard()"
+                    class="px-4 py-2 bg-teal-600 text-white rounded-md font-medium hover:bg-teal-700">
+                    Άνοιγμα Dashboard
+                </button>
+                <button type="button" onclick="openDashboard(true)"
+                    class="px-4 py-2 bg-gray-600 text-white rounded-md font-medium hover:bg-gray-700">
+                    Άνοιγμα σε νέο tab
+                </button>
+                <button type="button" onclick="saveConfig()"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">
+                    Αποθήκευση config
+                </button>
+                <button type="button" onclick="loadConfig()"
+                    class="px-4 py-2 border border-gray-300 rounded-md font-medium hover:bg-gray-50">
+                    Φόρτωση (localStorage)
+                </button>
+                <button type="button" onclick="saveToDataverse()"
+                    class="px-4 py-2 bg-teal-700 text-white rounded-md font-medium hover:bg-teal-800">
+                    Αποθήκευση στο Dataverse
+                </button>
+                <button type="button" onclick="loadFromDataverse()"
+                    class="px-4 py-2 bg-teal-600 text-white rounded-md font-medium hover:bg-teal-700">
+                    Φόρτωση από Dataverse
+                </button>
+            </div>
+
+            <!-- Generated URL -->
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Generated URL</label>
+                <textarea id="generatedUrl" readonly rows="3"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-md text-xs font-mono bg-gray-50"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ENTITY_DASHBOARD_CONFIG = 'solar_dashboardconfig';
+        const CONFIG_KEY_PLANT_DASHBOARD = 'PlantDashboard';
+
+        function getXrmWebApi() {
+            try {
+                if (window.parent && window.parent.Xrm && window.parent.Xrm.WebApi) return window.parent.Xrm.WebApi;
+            } catch (e) { }
+            return null;
+        }
+
+        function getPayload() {
+            const tabs = TAB_IDS.reduce((o, k) => { o[k] = document.getElementById('tab-' + k).checked; return o; }, {});
+            const statsCards = STAT_IDS.reduce((o, k) => { o[k] = document.getElementById('stat-' + k).checked; return o; }, {});
+            return {
+                visibleTabs: tabs,
+                showMessageBar: document.getElementById('showMessageBar').checked,
+                showWeatherWidget: document.getElementById('showWeatherWidget').checked,
+                showInverterStatus: document.getElementById('showInverterStatus').checked,
+                statsCards: statsCards
+            };
+        }
+
+        async function saveToDataverse() {
+            const webApi = getXrmWebApi();
+            if (!webApi) { alert('Δεν βρέθηκε Xrm.WebApi. Ανοίξτε το Config UI μέσα από Power Apps.'); return; }
+            try {
+                const payload = getPayload();
+                const data = { solar_configkey: CONFIG_KEY_PLANT_DASHBOARD, solar_configjson: JSON.stringify(payload) };
+                const existing = await webApi.retrieveMultipleRecords(ENTITY_DASHBOARD_CONFIG, "?$filter=solar_configkey eq '" + CONFIG_KEY_PLANT_DASHBOARD + "'&$top=1&$select=solar_dashboardconfigid");
+                if (existing && existing.entities && existing.entities.length > 0) {
+                    await webApi.updateRecord(ENTITY_DASHBOARD_CONFIG, existing.entities[0].solar_dashboardconfigid, data);
+                    alert('Config ενημερώθηκε στο Dataverse.');
+                } else {
+                    await webApi.createRecord(ENTITY_DASHBOARD_CONFIG, data);
+                    alert('Config αποθηκεύτηκε στο Dataverse.');
+                }
+            } catch (e) { alert('Αποθήκευση απέτυχε: ' + (e.message || e)); }
+        }
+
+        async function loadFromDataverse(silent) {
+            const webApi = getXrmWebApi();
+            if (!webApi) { if (!silent) alert('Δεν βρέθηκε Xrm.WebApi. Ανοίξτε το Config UI μέσα από Power Apps.'); return false; }
+            try {
+                const result = await webApi.retrieveMultipleRecords(ENTITY_DASHBOARD_CONFIG, "?$filter=solar_configkey eq '" + CONFIG_KEY_PLANT_DASHBOARD + "'&$top=1&$select=solar_configjson");
+                if (!result || !result.entities || result.entities.length === 0 || !result.entities[0].solar_configjson) {
+                    if (!silent) alert('Δεν βρέθηκε config στο Dataverse.'); return false;
+                }
+                const cfg = JSON.parse(result.entities[0].solar_configjson);
+                if (cfg.visibleTabs) TAB_IDS.forEach(k => { const el = document.getElementById('tab-' + k); if (el) el.checked = !!cfg.visibleTabs[k]; });
+                if (typeof cfg.showMessageBar === 'boolean') document.getElementById('showMessageBar').checked = cfg.showMessageBar;
+                if (typeof cfg.showWeatherWidget === 'boolean') document.getElementById('showWeatherWidget').checked = cfg.showWeatherWidget;
+                if (typeof cfg.showInverterStatus === 'boolean') document.getElementById('showInverterStatus').checked = cfg.showInverterStatus;
+                if (cfg.statsCards) STAT_IDS.forEach(k => { const el = document.getElementById('stat-' + k); if (el) el.checked = !!cfg.statsCards[k]; });
+                updateGeneratedUrl();
+                if (!silent) alert('Config φορτώθηκε από το Dataverse.');
+                return true;
+            } catch (e) { if (!silent) alert('Φόρτωση απέτυχε: ' + (e.message || e)); return false; }
+        }
+
+        const DASHBOARD_BASE = (() => {
+            const path = location.pathname || '';
+            if (path.includes('PlantDashboardConfigUI')) {
+                return location.origin + path.replace('PlantDashboardConfigUI', 'PlantDashboard');
+            }
+            return location.origin + '/WebResources/solar_PlantDashboard.html';
+        })();
+
+        const TAB_IDS = ['workorders', 'livefeed', 'map', 'team', 'sitedetails', 'windy'];
+        const STAT_IDS = ['preventiveHealth', 'preventiveWorkflow', 'criticalDefects', 'correctiveWorkflow'];
+
+        function getParams() {
+            const params = [];
+            const id = document.getElementById('recordId').value.trim();
+            const tn = document.getElementById('typename').value.trim();
+            if (id) params.push('id=' + encodeURIComponent(id));
+            if (tn) params.push('typename=' + encodeURIComponent(tn));
+
+            const visibleTabs = TAB_IDS.filter(t => document.getElementById('tab-' + t).checked);
+            if (visibleTabs.length < TAB_IDS.length) {
+                if (visibleTabs.length > 0) params.push('tabs=' + visibleTabs.join(','));
+                else params.push('tabs=');
+            }
+
+            if (!document.getElementById('showMessageBar').checked) params.push('showMessageBar=0');
+            if (!document.getElementById('showWeatherWidget').checked) params.push('showWeatherWidget=0');
+            if (!document.getElementById('showInverterStatus').checked) params.push('showInverterStatus=0');
+
+            const hiddenStats = STAT_IDS.filter(s => !document.getElementById('stat-' + s).checked);
+            if (hiddenStats.length > 0) params.push('hideStatsCards=' + hiddenStats.join(','));
+
+            return params;
+        }
+
+        function getUrl() {
+            const params = getParams();
+            return DASHBOARD_BASE + (params.length ? '?' + params.join('&') : '');
+        }
+
+        function openDashboard(newTab) {
+            const url = getUrl();
+            if (newTab) window.open(url, '_blank');
+            else location.href = url;
+        }
+
+        function updateGeneratedUrl() {
+            document.getElementById('generatedUrl').value = getUrl();
+        }
+
+        function saveConfig() {
+            const cfg = {
+                recordId: document.getElementById('recordId').value,
+                typename: document.getElementById('typename').value,
+                tabs: TAB_IDS.reduce((o, k) => { o[k] = document.getElementById('tab-' + k).checked; return o; }, {}),
+                showMessageBar: document.getElementById('showMessageBar').checked,
+                showWeatherWidget: document.getElementById('showWeatherWidget').checked,
+                showInverterStatus: document.getElementById('showInverterStatus').checked,
+                statsCards: STAT_IDS.reduce((o, k) => { o[k] = document.getElementById('stat-' + k).checked; return o; }, {})
+            };
+            try {
+                localStorage.setItem('PlantDashboardConfig', JSON.stringify(cfg));
+                alert('Config αποθηκεύτηκε.');
+            } catch (e) { alert('Αποθήκευση απέτυχε: ' + e.message); }
+        }
+
+        function loadConfig(silent) {
+            try {
+                const s = localStorage.getItem('PlantDashboardConfig');
+                if (!s) { if (!silent) alert('Δεν βρέθηκε αποθηκευμένο config.'); return; }
+                const cfg = JSON.parse(s);
+                document.getElementById('recordId').value = cfg.recordId || '';
+                document.getElementById('typename').value = cfg.typename || '';
+                if (cfg.tabs) TAB_IDS.forEach(k => { const el = document.getElementById('tab-' + k); if (el) el.checked = !!cfg.tabs[k]; });
+                if (typeof cfg.showMessageBar === 'boolean') document.getElementById('showMessageBar').checked = cfg.showMessageBar;
+                if (typeof cfg.showWeatherWidget === 'boolean') document.getElementById('showWeatherWidget').checked = cfg.showWeatherWidget;
+                if (typeof cfg.showInverterStatus === 'boolean') document.getElementById('showInverterStatus').checked = cfg.showInverterStatus;
+                if (cfg.statsCards) STAT_IDS.forEach(k => { const el = document.getElementById('stat-' + k); if (el) el.checked = !!cfg.statsCards[k]; });
+                updateGeneratedUrl();
+                if (!silent) alert('Config φορτώθηκε.');
+            } catch (e) { if (!silent) alert('Φόρτωση απέτυχε: ' + e.message); }
+        }
+
+        TAB_IDS.forEach(k => document.getElementById('tab-' + k).addEventListener('change', updateGeneratedUrl));
+        STAT_IDS.forEach(k => document.getElementById('stat-' + k).addEventListener('change', updateGeneratedUrl));
+        ['showMessageBar','showWeatherWidget','showInverterStatus','recordId','typename'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', updateGeneratedUrl);
+            if (el && el.tagName === 'INPUT' && el.type === 'text') el.addEventListener('input', updateGeneratedUrl);
+        });
+
+        (async function init() {
+            const loaded = await loadFromDataverse(true);
+            if (!loaded) loadConfig(true);
+            updateGeneratedUrl();
+        })();
+    </script>
+</body>
+</html>

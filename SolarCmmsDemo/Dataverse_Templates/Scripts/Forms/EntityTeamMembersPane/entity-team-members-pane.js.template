@@ -1,0 +1,137 @@
+/**
+ * {{ENTITY_DISPLAY_NAME}} – Maintenance Team Members pane
+ *
+ * Model-driven app (Dataverse).
+ * Opens a side pane with an HTML web resource that shows
+ * Maintenance Team members and their job counts.
+ *
+ * Usage:
+ * - Replace all {{PLACEHOLDERS}} in this file and in the HTML web resource.
+ * - Upload this JS as a web resource (type JavaScript).
+ * - On the form Command Bar, add a button with Action = Run JavaScript.
+ * - Library: the web resource containing this script.
+ * - Function name: {{OPEN_PANE_FUNCTION_NAME}}
+ * - Parameter: PrimaryControl.
+ *
+ * The HTML web resource loaded in the pane is set in
+ * TEAM_MEMBERS_WEBRESOURCE_NAME. It receives teamId and
+ * scheduleDate (YYYY-MM-DD) via the data parameter.
+ */
+(function () {
+  'use strict';
+
+  const TEAM_MEMBERS_WEBRESOURCE_NAME = '{{TEAM_MEMBERS_WEBRESOURCE_NAME}}';
+
+  const FIELD_MAINTENANCE_TEAM = '{{FIELD_MAINTENANCE_TEAM}}';
+  const FIELD_SCHEDULE_DATE = '{{FIELD_SCHEDULE_DATE}}';
+
+  /**
+   * Handler for the ribbon / command bar button.
+   * Signature: function (primaryControl)
+   */
+  function {{OPEN_PANE_FUNCTION_NAME}}(primaryControl) {
+    var formContext = primaryControl;
+    if (!formContext || typeof formContext.getAttribute !== 'function') {
+      console.warn('[{{ENTITY_DISPLAY_NAME}}] formContext is not available.');
+      return;
+    }
+
+    var teamAttr = formContext.getAttribute(FIELD_MAINTENANCE_TEAM);
+    if (!teamAttr || !teamAttr.getValue()) {
+      Xrm.Navigation.openAlertDialog({
+        title: 'Maintenance Team',
+        text: 'Please select a Maintenance Team before opening the employee list.',
+      });
+      return;
+    }
+
+    var teamValue = teamAttr.getValue()[0];
+    var teamId = (teamValue.id || '').replace(/[{}]/g, '');
+
+    var scheduleAttr = formContext.getAttribute(FIELD_SCHEDULE_DATE);
+    var scheduleDate = scheduleAttr && scheduleAttr.getValue ? scheduleAttr.getValue() : null;
+
+    var scheduleDateString = null;
+    if (scheduleDate && typeof scheduleDate.getFullYear === 'function') {
+      var y = scheduleDate.getFullYear();
+      var mo = scheduleDate.getMonth() + 1;
+      var d = scheduleDate.getDate();
+      scheduleDateString = y + '-' + (mo < 10 ? '0' + mo : mo) + '-' + (d < 10 ? '0' + d : d);
+    } else if (typeof scheduleDate === 'string' && scheduleDate.length >= 10) {
+      var parsed = scheduleDate.substring(0, 10);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(parsed)) {
+        scheduleDateString = parsed;
+      }
+    }
+
+    var paneId = '{{PANE_ID}}';
+
+    function getOrCreatePane() {
+      try {
+        var existing = Xrm.App.sidePanes.getPane && Xrm.App.sidePanes.getPane(paneId);
+        if (existing) {
+          return Promise.resolve(existing);
+        }
+      } catch (e) {}
+      return Xrm.App.sidePanes.createPane({
+        title: '{{PANE_TITLE}}',
+        paneId: paneId,
+        canClose: true,
+        width: 450,
+      }).catch(function (err) {
+        if (err && (err.code === 2415919128 || (err.message && err.message.indexOf('Duplicate paneId') >= 0))) {
+          var p = Xrm.App.sidePanes.getPane && Xrm.App.sidePanes.getPane(paneId);
+          if (p) return Promise.resolve(p);
+        }
+        throw err;
+      });
+    }
+
+    var panePromise = getOrCreatePane();
+
+    try {
+      (window.top || window).{{FORM_CONTEXT_GLOBAL}} = formContext;
+    } catch (e) {}
+
+    var recordId = null;
+    try {
+      recordId = formContext.data.entity.getId();
+    } catch (e) {}
+
+    var navigationData = {
+      teamId: teamId,
+      teamName: teamValue.name || '',
+      scheduleDate: scheduleDateString,
+      recordId: recordId,
+    };
+    var dataJson = JSON.stringify(navigationData);
+
+    try {
+      (window.top || window).{{PANEDATA_GLOBAL}} = navigationData;
+    } catch (ignore) {}
+
+    try {
+      sessionStorage.setItem('{{PANEDATA_STORAGE_KEY}}', dataJson);
+    } catch (ignore) {}
+
+    panePromise
+      .then(function (pane) {
+        return pane.navigate({
+          pageType: 'webresource',
+          webresourceName: TEAM_MEMBERS_WEBRESOURCE_NAME,
+          data: dataJson,
+        });
+      })
+      .catch(function (error) {
+        console.error('[{{ENTITY_DISPLAY_NAME}}] Failed to create/navigate pane:', error);
+        Xrm.Navigation.openAlertDialog({
+          title: 'Error',
+          text:
+            'An error occurred while opening the employee list.\n\n' +
+            (error && error.message ? error.message : String(error)),
+        });
+      });
+  }
+
+  window.{{OPEN_PANE_FUNCTION_NAME}} = {{OPEN_PANE_FUNCTION_NAME}};
+})();

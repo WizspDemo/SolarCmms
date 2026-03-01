@@ -1,0 +1,357 @@
+[
+  {
+    "name": "DeviceChannels",
+    "internalName": "DeviceChannels",
+    "type": "genericList"
+  },
+  {
+    "name": "Shared Documents",
+    "internalName": "Shared Documents",
+    "type": "documentLibrary"
+  },
+  {
+    "name": "CountryList",
+    "internalName": "CountryList",
+    "type": "genericList"
+  },
+  {
+    "name": "EquipmentTracking",
+    "internalName": "EquipmentTracking",
+    "type": "genericList"
+  },
+  {
+    "name": "Strings",
+    "internalName": "Strings",
+    "type": "genericList"
+  },
+  {
+    "name": "TestPreventative",
+    "internalName": "TestPreventative",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "Corrective",
+    "internalName": "Corrective",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "ProjectPolicyItemList",
+    "internalName": "ProjectPolicyItemList",
+    "type": "genericList"
+  },
+  {
+    "name": "Menu Icons",
+    "internalName": "Menu Icons",
+    "type": "genericList"
+  },
+  {
+    "name": "PlantPreventative",
+    "internalName": "PlantPreventative",
+    "type": "genericList"
+  },
+  {
+    "name": "update workflow task to string Tasks",
+    "internalName": "update workflow task to string Tasks",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "SiteCollectionImages",
+    "internalName": "SiteCollectionImages",
+    "type": "851"
+  },
+  {
+    "name": "Preventative",
+    "internalName": "Preventative",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "Translation Status",
+    "internalName": "Translation Status",
+    "type": "genericList"
+  },
+  {
+    "name": "Services",
+    "internalName": "Services",
+    "type": "genericList"
+  },
+  {
+    "name": "TaskManagement",
+    "internalName": "TaskManagement",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "BGEWarehouseTracking",
+    "internalName": "BGEWarehouseTracking",
+    "type": "genericList"
+  },
+  {
+    "name": "PlantsRemedials",
+    "internalName": "PlantsRemedials",
+    "type": "genericList"
+  },
+  {
+    "name": "testcal",
+    "internalName": "testcal",
+    "type": "events"
+  },
+  {
+    "name": "DNOs",
+    "internalName": "DNOs",
+    "type": "genericList"
+  },
+  {
+    "name": "CustomScripts",
+    "internalName": "CustomScripts",
+    "type": "documentLibrary"
+  },
+  {
+    "name": "Clients",
+    "internalName": "Clients",
+    "type": "genericList"
+  },
+  {
+    "name": "Pages",
+    "internalName": "Pages",
+    "type": "850"
+  },
+  {
+    "name": "Variation Labels",
+    "internalName": "Variation Labels",
+    "type": "genericList"
+  },
+  {
+    "name": "Workflow History",
+    "internalName": "Workflow History",
+    "type": "workflowHistory"
+  },
+  {
+    "name": "RemedialArchive",
+    "internalName": "RemedialArchive",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "wizsp",
+    "internalName": "wizsp",
+    "type": "documentLibrary"
+  },
+  {
+    "name": "SiteCollectionDocuments",
+    "internalName": "SiteCollectionDocuments",
+    "type": "documentLibrary"
+  },
+  {
+    "name": "Quick Deploy Items",
+    "internalName": "Quick Deploy Items",
+    "type": "genericList"
+  },
+  {
+    "name": "PVGroup",
+    "internalName": "PVGroup",
+    "type": "genericList"
+  },
+  {
+    "name": "Notification Pages",
+    "internalName": "Notification Pages",
+    "type": "genericList"
+  },
+  {
+    "name": "RemedialDocs",
+    "internalName": "RemedialDocs",
+    "type": "genericList"
+  },
+  {
+    "name": "1 History",
+    "internalName": "1 History",
+    "type": "workflowHistory"
+  },
+  {
+    "name": "RemedialsImages",
+    "internalName": "RemedialsImages",
+    "type": "pictureLibrary"
+  },
+  {
+    "name": "SCB",
+    "internalName": "SCB",
+    "type": "genericList"
+  },
+  {
+    "name": "Warehouses",
+    "internalName": "Warehouses",
+    "type": "genericList"
+  },
+  {
+    "name": "ContentTypeSyncLog",
+    "internalName": "ContentTypeSyncLog",
+    "type": "genericList"
+  },
+  {
+    "name": "PlantPreventativeCopy",
+    "internalName": "PlantPreventativeCopy",
+    "type": "genericList"
+  },
+  {
+    "name": "RemedialTask",
+    "internalName": "RemedialTask",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "PublishingImages",
+    "internalName": "PublishingImages",
+    "type": "851"
+  },
+  {
+    "name": "CategoriesPerFarm",
+    "internalName": "CategoriesPerFarm",
+    "type": "genericList"
+  },
+  {
+    "name": "PreventativeArchive",
+    "internalName": "PreventativeArchive",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "Long Running Operation Status",
+    "internalName": "Long Running Operation Status",
+    "type": "genericList"
+  },
+  {
+    "name": "Cache Profiles",
+    "internalName": "Cache Profiles",
+    "type": "genericList"
+  },
+  {
+    "name": "Contracts",
+    "internalName": "Contracts",
+    "type": "genericList"
+  },
+  {
+    "name": "ContactInfoMisc",
+    "internalName": "ContactInfoMisc",
+    "type": "genericList"
+  },
+  {
+    "name": "HealthAndSafetyOnSite",
+    "internalName": "HealthAndSafetyOnSite",
+    "type": "genericList"
+  },
+  {
+    "name": "SolarSiteContactInfo",
+    "internalName": "SolarSiteContactInfo",
+    "type": "genericList"
+  },
+  {
+    "name": "BGEWarehouse",
+    "internalName": "BGEWarehouse",
+    "type": "genericList"
+  },
+  {
+    "name": "PlantEngineer",
+    "internalName": "PlantEngineer",
+    "type": "genericList"
+  },
+  {
+    "name": "Image Library",
+    "internalName": "Image Library",
+    "type": "pictureLibrary"
+  },
+  {
+    "name": "SLALevels",
+    "internalName": "SLALevels",
+    "type": "genericList"
+  },
+  {
+    "name": "DocumentsToFill",
+    "internalName": "DocumentsToFill",
+    "type": "genericList"
+  },
+  {
+    "name": "LandOwner",
+    "internalName": "LandOwner",
+    "type": "contacts"
+  },
+  {
+    "name": "TeamLeader",
+    "internalName": "TeamLeader",
+    "type": "events"
+  },
+  {
+    "name": "CorrectiveArchive",
+    "internalName": "CorrectiveArchive",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "Reports List",
+    "internalName": "Reports List",
+    "type": "genericList"
+  },
+  {
+    "name": "Calendar",
+    "internalName": "Calendar",
+    "type": "events"
+  },
+  {
+    "name": "PeriodicScheduledActions",
+    "internalName": "PeriodicScheduledActions",
+    "type": "genericList"
+  },
+  {
+    "name": "Tasks",
+    "internalName": "Tasks",
+    "type": "tasksWithTimelineAndHierarchy"
+  },
+  {
+    "name": "CCTVGateCodes",
+    "internalName": "CCTVGateCodes",
+    "type": "genericList"
+  },
+  {
+    "name": "DNOStations",
+    "internalName": "DNOStations",
+    "type": "genericList"
+  },
+  {
+    "name": "SolarSites",
+    "internalName": "SolarSites",
+    "type": "genericList"
+  },
+  {
+    "name": "HomePageTitles",
+    "internalName": "HomePageTitles",
+    "type": "promotedLinks"
+  },
+  {
+    "name": "SolarSitesSystemInfo",
+    "internalName": "SolarSitesSystemInfo",
+    "type": "genericList"
+  },
+  {
+    "name": "Translation Packages",
+    "internalName": "Translation Packages",
+    "type": "documentLibrary"
+  },
+  {
+    "name": "EquipmentCategories",
+    "internalName": "EquipmentCategories",
+    "type": "genericList"
+  },
+  {
+    "name": "DailyDocs",
+    "internalName": "DailyDocs",
+    "type": "genericList"
+  },
+  {
+    "name": "SiteCredentials",
+    "internalName": "SiteCredentials",
+    "type": "genericList"
+  },
+  {
+    "name": "SolarSiteComments",
+    "internalName": "SolarSiteComments",
+    "type": "genericList"
+  },
+  {
+    "name": "PublishedFeed",
+    "internalName": "PublishedFeed",
+    "type": "544"
+  }
+]

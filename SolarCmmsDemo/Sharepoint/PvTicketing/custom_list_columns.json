@@ -1,0 +1,345 @@
+[
+  {
+    "listName": "Services",
+    "listId": "f60bcf4d-1ddd-46ce-90ba-25c6e89ff609",
+    "internalName": "Services",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "BGE Owned Spares Tracking",
+    "listId": "94e4c1c7-d831-40a0-a6c1-3e2a8c5e7a59",
+    "internalName": "BGEOwnedSparesTracking",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Plant Remedials",
+    "listId": "2c80cf7a-e0f0-43ef-aeb9-42ab6e8a9d0f",
+    "internalName": "PlantRemedials",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "DNOs",
+    "listId": "1c83ef46-f003-4151-a019-371790a307cc",
+    "internalName": "DNOs",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Clients",
+    "listId": "408ec8a0-2358-4d1f-b93b-3c2a3652790f",
+    "internalName": "Clients",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "PVGroup",
+    "listId": "a8bb1af5-f8f9-41e4-ba7b-451e22d26c72",
+    "internalName": "PVGroup",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Remedial Docs",
+    "listId": "be3d0a14-8c14-4e60-9fb4-49eb8a3de63a",
+    "internalName": "RemedialDocs",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "SCB",
+    "listId": "95b0b63d-0799-4088-8147-5dd5f5f6e90a",
+    "internalName": "SCB",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Warehouses",
+    "listId": "47bf52b6-db5f-42a0-a9c5-5f9ff9cfd9a2",
+    "internalName": "Warehouses",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "PlantPreventativeCopy",
+    "listId": "4f1aab3f-9ee0-4f8f-9bd2-6225edde19fc",
+    "internalName": "PlantPreventativeCopy",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "CategoriesPerFarm",
+    "listId": "51e81779-bae8-4548-a67e-67d19e2b3a4c",
+    "internalName": "CategoriesPerFarm",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Contracts",
+    "listId": "9e36cc81-6c14-4cd2-a6bb-7b0e5eac2b05",
+    "internalName": "Contracts",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Contact Info Misc",
+    "listId": "59041ec8-6d23-4384-9e88-b5a718ee7069",
+    "internalName": "ContactInfoMisc",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Health And Safety On-site",
+    "listId": "c5d70d6f-4b85-42e3-8aba-8bbe1e2a6e79",
+    "internalName": "HealthAndSafetyOnSite",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "PV Plants Contact Info",
+    "listId": "4e5c49b7-6ea8-47b4-a31c-94f6f9c7b2c8",
+    "internalName": "PVPlantsContactInfo",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "BGE Owned Spares",
+    "listId": "fc16f745-58d5-4068-9467-6846e47c8caa",
+    "internalName": "BGEOwnedSpares",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Plant Engineer",
+    "listId": "c7ddcef2-c74b-49c9-a36e-9fbc1e8fd3e9",
+    "internalName": "PlantEngineer",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "SLA Levels",
+    "listId": "0ac61c4f-1773-4ea9-b71e-a27ff8f7b27e",
+    "internalName": "SLALevels",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Documents To Fill",
+    "listId": "1f8c9c44-8d95-4e8e-b24a-a80e10f99aae",
+    "internalName": "DocumentsToFill",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Content and Structure Reports",
+    "listId": "82fe5e9f-56d8-48e2-b4f8-b48e1a2ad4bc",
+    "internalName": "ContentAndStructureReports",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Periodic Scheduled Actions",
+    "listId": "52fe5e26-0556-416b-b742-d6308c2c5072",
+    "internalName": "PeriodicScheduledActions",
+    "columns": [
+      {"name": "Title", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "ActionCode", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "ActionDate", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "Description", "type": "text", "required": false, "readOnly": false, "allowMultipleLines": true}
+    ]
+  },
+  {
+    "listName": "PV Plants CCTV Gate Codes",
+    "listId": "98be3580-f842-4a55-b034-d9d0ac32b6aa",
+    "internalName": "PVPlantsCCTVGateCodes",
+    "columns": [
+      {"name": "Title", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "GateCode", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "CCTVCode", "type": "text", "required": false, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "PV Plants DNO Stations",
+    "listId": "0efcd3ee-b84e-41de-9221-da39203b3aae",
+    "internalName": "PVPlantsDNOStations",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "DNOStation", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "DNOContact", "type": "text", "required": false, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "PV Plants",
+    "listId": "a7871c2a-bec4-42d5-be48-db0a891595e7",
+    "internalName": "PVPlants",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "Country", "type": "lookup", "required": false, "readOnly": false},
+      {"name": "Location", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Status", "type": "choice", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "PV Plants System Info",
+    "listId": "873f7a23-b4d4-4167-8e45-e2d0f540743e",
+    "internalName": "PVPlantsSystemInfo",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "SystemCapacity", "type": "number", "required": false, "readOnly": false},
+      {"name": "InverterType", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "ModuleType", "type": "text", "required": false, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Asset Categories",
+    "listId": "b7299269-177e-4357-9537-e813621f981a",
+    "internalName": "AssetCategories",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "CategoryCode", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "Description", "type": "text", "required": false, "readOnly": false, "allowMultipleLines": true}
+    ]
+  },
+  {
+    "listName": "DailyDocs",
+    "listId": "b1b2220f-7fb7-4c1a-902e-ea3471b14436",
+    "internalName": "DailyDocs",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "DocumentDate", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "DocumentType", "type": "choice", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "Countries",
+    "listId": "ec558ced-42d9-4c65-8573-09b409bd90f9",
+    "internalName": "Countries",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "ISOAlpha2", "type": "text", "required": false, "readOnly": false, "maxLength": 2},
+      {"name": "ISOALPHA3", "type": "text", "required": false, "readOnly": false, "maxLength": 3}
+    ]
+  },
+  {
+    "listName": "Equipment Tracking",
+    "listId": "d5d750c1-d372-4701-ac3b-0c940ebb18b5",
+    "internalName": "EquipmentTracking",
+    "columns": [
+      {"name": "Title", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "RecordDate", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "Record", "type": "choice", "required": false, "readOnly": false, "choices": ["Add", "Subtraction"]},
+      {"name": "Quantity", "type": "number", "required": false, "readOnly": false},
+      {"name": "Person", "type": "personOrGroup", "required": false, "readOnly": false},
+      {"name": "TaskId", "type": "number", "required": false, "readOnly": false},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "SubTask", "type": "text", "required": false, "readOnly": false, "maxLength": 10},
+      {"name": "TaskType", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Cause", "type": "choice", "required": false, "readOnly": false, "choices": ["Addition", "Transportation", "Installation", "Uninstall", "Service", "Return", "BGE Owned Spares", "Other"]},
+      {"name": "Warehouse", "type": "choice", "required": false, "readOnly": false, "choices": ["Choice", "Installed at Site", "Spares at Site", "External Warehouse", "BGE Warehouse", "Supplier Premises"]},
+      {"name": "Details", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Category", "type": "lookup", "required": false, "readOnly": false, "lookupListId": "b7299269-177e-4357-9537-e813621f981a"},
+      {"name": "Asset", "type": "lookup", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "Strings",
+    "listId": "6392d14f-dab5-40ce-89af-0eb5b08d0a0b",
+    "internalName": "Strings",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255}
+    ]
+  },
+  {
+    "listName": "Plant Preventative",
+    "listId": "f5612c78-e513-4df2-b024-13e906ea2b69",
+    "internalName": "PlantPreventative",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "Frequency", "type": "choice", "required": false, "readOnly": false, "choices": ["Annually", "Semi-annually", "Quarterly", "Monthly", "Daily", "2 Yearly", "3 Yearly", "4 Yearly", "5 Yearly", "Every 2 Years", "Every 3 Years", "Every 4 Years", "Every 5 Years", "As required by manufacturer's guidance", "Up to three times", "Other"]},
+      {"name": "Comments", "type": "text", "required": false, "readOnly": false, "allowMultipleLines": true},
+      {"name": "Code", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "DescriptionServices", "type": "choice", "required": false, "readOnly": false, "choices": ["General Inspection", "Access & Egress", "Grounds", "Modules", "Mounting Structure", "Inverter Stations", "Security Monitoring & CCTV", "String Combiner Boxes", "Fences / Gates", "LV AC & DC Inspection", "Circuit Breakers & Switchgear", "HV Transformer", "Substation Housing", "Partial Discharge Testing", "Current Transformer Circuit Maintenance", "Transformer Buchholz & Winding Temperature Indicator Maintenance (where applicable)", "Spares", "Under Construction", "Miscellaneous Services", "Other"]},
+      {"name": "January", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "February", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "March", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "April", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "May", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "June", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "July", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "August", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "September", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "October", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "November", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "December", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "Enable", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "Scheduled", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "Description", "type": "text", "required": false, "readOnly": false, "allowMultipleLines": true}
+    ]
+  },
+  {
+    "listName": "Translation Status",
+    "listId": "6e084852-95e4-41bc-9799-21edbd21db7e",
+    "internalName": "TranslationStatus",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateJobId", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateStartTime", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "TranslationStateEndTime", "type": "dateTime", "required": false, "readOnly": false},
+      {"name": "TranslationStateTranslationType", "type": "choice", "required": false, "readOnly": false, "choices": ["Machine Translation", "Human Translation"]},
+      {"name": "TranslationStateTranslatorName", "type": "text", "required": false, "readOnly": false, "maxLength": 255},
+      {"name": "TranslationStateStatus", "type": "choice", "required": false, "readOnly": false, "choices": ["Queued", "Translated", "In Progress", "With Human Translator", "Throttled", "Error"]},
+      {"name": "TranslationStateNumberOfItems", "type": "number", "required": false, "readOnly": false}
+    ]
+  },
+  {
+    "listName": "PV Plants Site Credentials",
+    "listId": "f0f2774b-fc42-450d-a711-f6831a4bd4e9",
+    "internalName": "SiteCredentials",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "IPAddress", "type": "text", "required": false, "readOnly": false, "maxLength": 24},
+      {"name": "UsernamePassword", "type": "text", "required": false, "readOnly": false, "maxLength": 128},
+      {"name": "PlantId", "type": "text", "required": false, "readOnly": false, "maxLength": 50},
+      {"name": "SolarSite", "type": "lookup", "required": false, "readOnly": false, "lookupListId": "a7871c2a-bec4-42d5-be48-db0a891595e7"}
+    ]
+  },
+  {
+    "listName": "Comments - Remarks",
+    "listId": "b6c7c812-4cec-4086-96b8-f6a5be622b8d",
+    "internalName": "SolarSiteComments",
+    "columns": [
+      {"name": "Title", "type": "text", "required": true, "readOnly": false, "maxLength": 255},
+      {"name": "Description", "type": "text", "required": false, "readOnly": false, "allowMultipleLines": true},
+      {"name": "SendEmail", "type": "boolean", "required": false, "readOnly": false},
+      {"name": "SendEmailTo", "type": "personOrGroup", "required": false, "readOnly": false},
+      {"name": "SiteId", "type": "text", "required": false, "readOnly": false, "maxLength": 50}
+    ]
+  }
+]

@@ -1,0 +1,248 @@
+// Solardev - Phase 1 Live Schema
+// Περιλαμβάνει τους βασικούς πίνακες και τις συνδέσεις τους
+
+Project "Solardev Phase1 Live" {
+  database_type: "Dataverse"
+}
+
+Table account {
+  accountid uuid [pk]
+  name varchar(160) // primary name
+}
+
+Table contact {
+  contactid uuid [pk]
+  fullname varchar(255) // primary name
+}
+
+Table new_account {
+  new_accountid uuid [pk]
+  new_name varchar(850) // primary name
+}
+
+Table solar_clients {
+  solar_clientsid uuid [pk]
+  solar_solarname varchar(255) [note: "primary name"]
+}
+
+Table solar_country {
+  solar_countryid uuid [pk]
+  solar_solarcountryname varchar(255) [note: "primary name"]
+}
+
+Table solar_location {
+  solar_locationid uuid [pk, note: "Primary key (υπάρχον)"]
+
+  // Βασικά / υπάρχοντα (σύνοψη, όχι πλήρης λίστα)
+  solar_name           nvarchar(255) [not null, note: "Όνομα τοποθεσίας (υπάρχον)"]
+  solar_address        nvarchar(500) [note: "Διεύθυνση (υπάρχον)"]
+  solar_city           nvarchar(255)
+  solar_postalcode     nvarchar(50)
+  solar_state          nvarchar(255)
+  solar_country        uuid [note: "Lookup προς πίνακα χωρών"]
+  solar_opendate       datetime
+  solar_closedate      datetime
+  solar_stage          nvarchar(100)
+  solar_capacity_mw    decimal(18,3)
+  solar_stockmanagement bit
+  solar_account        uuid [note: "Lookup προς new_account (client)"]
+  solar_parkmanager    uuid [note: "Lookup προς account (park manager)"]
+
+  // Νέα / τροποποιημένα attributes
+  solar_code                    nvarchar(255) [unique, not null, note: "Code (unique κωδικός τοποθεσίας)"]
+  solar_annualoutputgwh        decimal(18,3) [note: "Annual Output GWh"]
+  solar_zones                  uuid [note: "Self-lookup: περιοχή/ζώνη, πολλαπλή τιμή σε Dataverse"]
+  solar_contains_sections      bit [note: "Contains Sections"]
+  solar_description            nvarchar(max)
+  solar_landsizehectares       decimal(18,3) [note: "Land Size Hectares"]
+  solar_addressdescription     nvarchar(max)
+  solar_googleearth            nvarchar(500) [note: "URL"]
+  solar_embedmap               nvarchar(max)
+  solar_what3words             nvarchar(100)
+  solar_grazed                 bit
+  solar_landownerfarmerdetails nvarchar(max)
+
+  // Module*
+  solar_modulemanufacturer nvarchar(255)
+  solar_modulemodel        nvarchar(255)
+  solar_modulequantity     int
+  solar_modulepower        decimal(18,3)
+  solar_modulevoc          decimal(18,3)
+  solar_moduleisc          decimal(18,3)
+  solar_modulelength       decimal(18,3)
+  solar_modulewidth        decimal(18,3)
+  solar_moduledepth        decimal(18,3)
+  solar_modulestructure    nvarchar(255)
+
+  // Δικτύωση / SCADA
+  solar_satellite3g4g  nvarchar(255)
+  solar_lannetwork     nvarchar(255)
+  solar_scadaprovider  nvarchar(255)
+  solar_adasinstalled  bit
+  solar_dataloggers    nvarchar(255)
+
+  // DNO / HV
+  solar_dnogridoperator uuid [note: "Lookup προς solar_dno"]
+  solar_dnosizekv       nvarchar(50)
+  solar_dnocontact      nvarchar(max)
+  solar_dnocontact2     nvarchar(max)
+  solar_dnocontact3     nvarchar(max)
+  solar_sitereferencenumber nvarchar(255)
+  solar_hvcontractor    nvarchar(255)
+  solar_tbootsub        nvarchar(255)
+
+  // Μετασχηματιστές
+  solar_transformerquantity  int
+  solar_transformermake      nvarchar(255)
+  solar_transformermodel     nvarchar(255)
+  solar_transformerratingkva decimal(18,3)
+
+  // Security / Access / Meters
+  solar_security               nvarchar(255)
+  solar_securitycodes          nvarchar(max)
+  solar_siteaccessdetails      nvarchar(max)
+  solar_accessgatecodes        nvarchar(max)
+  solar_exportmeterlocation    nvarchar(255)
+  solar_exportmeteraccessdetails nvarchar(max)
+
+  // Διαχείριση & Λοιπά
+  solar_supervisor     uuid [note: "Lookup προς systemuser ή contact"]
+  solar_otherinformation nvarchar(max)
+  solar_notes          nvarchar(max)
+  solar_active         bit
+}
+
+Table solar_section {
+  solar_sectionid uuid [pk]
+  solar_sectionname varchar(255) [note: "primary name"]
+
+  // Σχέσεις
+  solar_location uuid [ref: > solar_location.solar_locationid]
+}
+
+Table solar_maintenance_team {
+  solar_maintenance_teamid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+
+  // Σχέσεις
+  solar_maintenance_team_category uuid [ref: > solar_maintenanceteamcategory.solar_maintenanceteamcategoryid]
+}
+
+Table solar_maintenanceteamcategory {
+  solar_maintenanceteamcategoryid uuid [pk]
+  solar_maintenanceteamcategoryname varchar(255) [note: "primary name"]
+}
+
+Table solar_maintenanceteammember {
+  solar_maintenanceteammemberid uuid [pk]
+  solar_maintenanceteammembername varchar(255) [note: "primary name"]
+
+  // Σχέσεις
+  solar_maintenance_team uuid [ref: > solar_maintenance_team.solar_maintenance_teamid]
+}
+
+Table solar_maintenanceteamperlocation {
+  solar_maintenanceteamperlocationid uuid [pk]
+  solar_maintenanceteamperlocationname varchar(255) [note: "primary name"]
+
+  // Σχέσεις
+  solar_location uuid [ref: > solar_location.solar_locationid]
+  solar_maintenance_team uuid [ref: > solar_maintenance_team.solar_maintenance_teamid]
+}
+
+Table solar_sitecredentials {
+  solar_sitecredentialsid uuid [pk]
+  solar_sitecredentialsname varchar(255) [note: "primary name"]
+
+  // Σχέσεις
+  solar_location uuid [ref: > solar_location.solar_locationid]
+}
+
+Table solar_sitecomments {
+  solar_sitecommentsid uuid [pk]
+  solar_sitecommentsname varchar(255) [note: "primary name"]
+
+  // Σχέσεις
+  solar_location uuid [ref: > solar_location.solar_locationid]
+}
+
+Table solar_corrective_category {
+  solar_corrective_categoryid uuid [pk]
+  solar_name varchar(100) [note: "primary name"]
+}
+
+Table solar_corrective_work_order {
+  solar_corrective_work_orderid uuid [pk]
+  solar_name varchar(100) [note: "primary name"]
+
+  // Σχέσεις
+  solar_categoryid uuid [ref: > solar_corrective_category.solar_corrective_categoryid]
+  solar_locationid uuid [ref: > solar_location.solar_locationid]
+  solar_maintenanceteamid uuid [ref: > solar_maintenance_team.solar_maintenance_teamid]
+}
+
+Table solar_task {
+  solar_taskid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_notification {
+  solar_notificationid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_solarassetcategory {
+  solar_solarassetcategoryid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_solarpreventiveplan {
+  solar_solarpreventiveplanid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_solarpreventiveplancategory {
+  solar_solarpreventiveplancategoryid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_solarpreventivetaskcategory {
+  solar_solarpreventivetaskcategoryid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_solarpreventivetask {
+  solar_solarpreventivetaskid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+
+  // Σχέσεις
+  solar_solarpreventiveplanid uuid [ref: > solar_solarpreventiveplan.solar_solarpreventiveplanid]
+  solar_solarpreventiveplancategoryid uuid [ref: > solar_solarpreventiveplancategory.solar_solarpreventiveplancategoryid]
+  solar_solarpreventivetaskcategoryid uuid [ref: > solar_solarpreventivetaskcategory.solar_solarpreventivetaskcategoryid]
+}
+
+Table solar_solarmodule {
+  solar_solarmoduleid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_solarinverter {
+  solar_solarinverterid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_equipmentwarehouse {
+  solar_equipmentwarehouseid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_inverter {
+  solar_inverterid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+
+Table solar_module {
+  solar_moduleid uuid [pk]
+  solar_name varchar(255) [note: "primary name"]
+}
+

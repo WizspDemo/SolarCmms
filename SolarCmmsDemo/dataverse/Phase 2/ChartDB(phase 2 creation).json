@@ -1,0 +1,2202 @@
+{
+  "id": "0",
+  "name": "phase 2 creation",
+  "createdAt": "2026-02-22T17:03:04.930Z",
+  "updatedAt": "2026-02-22T17:11:52.053Z",
+  "databaseType": "mysql",
+  "tables": [
+    {
+      "id": "1",
+      "name": "solar_service",
+      "schema": "",
+      "x": 394.90703137058136,
+      "y": -1764.6710838616345,
+      "fields": [
+        {
+          "id": "2",
+          "name": "solar_serviceid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "3",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "4",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "5",
+          "name": "solar_om_categoryid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "6",
+          "name": "solar_default_service_companyid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "7",
+          "name": "solar_description",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "8",
+          "name": "pk_solar_service_solar_serviceid",
+          "unique": true,
+          "fieldIds": [
+            "2"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "comments": "SharePoint Service / Services.",
+      "order": 28,
+      "parentAreaId": "afh8q858ef68ladv39o6unp0o",
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "9",
+      "name": "solar_equipment_category",
+      "schema": "",
+      "x": 21.29335366529969,
+      "y": 379.0211716219566,
+      "fields": [
+        {
+          "id": "10",
+          "name": "solar_equipment_categoryid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "11",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "12",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "13",
+          "name": "solar_parentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "14",
+          "name": "solar_description",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "15",
+          "name": "pk_solar_equipment_category_solar_equipment_categoryid",
+          "unique": true,
+          "fieldIds": [
+            "10"
+          ],
+          "createdAt": 1769605528927,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528927,
+      "width": 337,
+      "comments": "SharePoint EquipmentCategories (Φάση 2).",
+      "order": 5,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "16",
+      "name": "solar_location_configuration",
+      "schema": "",
+      "x": -1230.386521959645,
+      "y": -1118.3928850994582,
+      "fields": [
+        {
+          "id": "17",
+          "name": "solar_location_configurationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "18",
+          "name": "solar_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "19",
+          "name": "solar_location_configuration_item_typeid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "20",
+          "name": "solar_value",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "21",
+          "name": "pk_solar_location_configuration_solar_location_configurationid",
+          "unique": true,
+          "fieldIds": [
+            "17"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint LocationConfiguration.",
+      "order": 12,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "22",
+      "name": "solar_warehouse_equipment_serial",
+      "schema": "",
+      "x": 875.3514183138786,
+      "y": 662.609946656715,
+      "fields": [
+        {
+          "id": "23",
+          "name": "solar_warehouse_equipment_serialid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "24",
+          "name": "solar_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "25",
+          "name": "solar_equipmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "26",
+          "name": "solar_serial",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "27",
+          "name": "solar_quantity",
+          "type": {
+            "id": "int",
+            "name": "int"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        }
+      ],
+      "indexes": [
+        {
+          "id": "28",
+          "name": "pk_solar_warehouse_equipment_serial_solar_warehouse_equipment_serialid",
+          "unique": true,
+          "fieldIds": [
+            "23"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint WarehouseEquipmentSerial.",
+      "order": 14,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "29",
+      "name": "solar_manufacturer_brand",
+      "schema": "",
+      "x": 945.9940474756685,
+      "y": -164.41360883620018,
+      "fields": [
+        {
+          "id": "30",
+          "name": "solar_manufacturer_brandid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "31",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "32",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "33",
+          "name": "solar_website",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "500"
+        },
+        {
+          "id": "34",
+          "name": "solar_notes",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "35",
+          "name": "pk_solar_manufacturer_brand_solar_manufacturer_brandid",
+          "unique": true,
+          "fieldIds": [
+            "30"
+          ],
+          "createdAt": 1769605528927,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528927,
+      "width": 230,
+      "comments": "SharePoint ManufacturerBrands (Φάση 2).",
+      "order": 3,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "36",
+      "name": "solar_warehouse",
+      "schema": "",
+      "x": -606.4018501131502,
+      "y": 750.5684081875487,
+      "fields": [
+        {
+          "id": "37",
+          "name": "solar_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "38",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "39",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "40",
+          "name": "solar_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "41",
+          "name": "solar_address",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "500"
+        },
+        {
+          "id": "42",
+          "name": "solar_isprimary",
+          "type": {
+            "id": "bit",
+            "name": "bit"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "43",
+          "name": "solar_notes",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "44",
+          "name": "pk_solar_warehouse_solar_warehouseid",
+          "unique": true,
+          "fieldIds": [
+            "37"
+          ],
+          "createdAt": 1769605528927,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528927,
+      "comments": "SharePoint Warehouses (Φάση 2).",
+      "order": 7,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "45",
+      "name": "solar_warehouse_to_location",
+      "schema": "",
+      "x": -732.2690107083931,
+      "y": 1155.9622731077247,
+      "fields": [
+        {
+          "id": "46",
+          "name": "solar_warehouse_to_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "47",
+          "name": "solar_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "48",
+          "name": "solar_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "49",
+          "name": "solar_isdefault",
+          "type": {
+            "id": "bit",
+            "name": "bit"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        }
+      ],
+      "indexes": [
+        {
+          "id": "50",
+          "name": "pk_solar_warehouse_to_location_solar_warehouse_to_locationid",
+          "unique": true,
+          "fieldIds": [
+            "46"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint WarehouseToLocation.",
+      "order": 13,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "51",
+      "name": "solar_service_order",
+      "schema": "",
+      "x": 215.7944888270886,
+      "y": -1507.1368903215946,
+      "fields": [
+        {
+          "id": "52",
+          "name": "solar_service_orderid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "53",
+          "name": "solar_service_companyid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "54",
+          "name": "solar_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "55",
+          "name": "solar_serviceid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "56",
+          "name": "solar_orderdate",
+          "type": {
+            "id": "datetime",
+            "name": "datetime"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "57",
+          "name": "solar_status",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "50"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "58",
+          "name": "pk_solar_service_order_solar_service_orderid",
+          "unique": true,
+          "fieldIds": [
+            "52"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "comments": "SharePoint ServiceOrder.",
+      "order": 29,
+      "parentAreaId": "afh8q858ef68ladv39o6unp0o",
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "59",
+      "name": "solar_equipment_transaction",
+      "schema": "",
+      "x": -22.599187226757124,
+      "y": 749.3438495442443,
+      "fields": [
+        {
+          "id": "60",
+          "name": "solar_equipment_transactionid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "61",
+          "name": "solar_equipmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "62",
+          "name": "solar_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "63",
+          "name": "solar_equipment_categoryid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "64",
+          "name": "solar_quantity",
+          "type": {
+            "id": "int",
+            "name": "int"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "65",
+          "name": "solar_transactiondate",
+          "type": {
+            "id": "datetime",
+            "name": "datetime"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "66",
+          "name": "solar_reason",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "67",
+          "name": "pk_solar_equipment_transaction_solar_equipment_transactionid",
+          "unique": true,
+          "fieldIds": [
+            "60"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint EquipmentTransaction.",
+      "order": 19,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "68",
+      "name": "solar_service_company",
+      "schema": "",
+      "x": -62.97660198118726,
+      "y": -1745.6414398823606,
+      "fields": [
+        {
+          "id": "69",
+          "name": "solar_service_companyid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "70",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "71",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "72",
+          "name": "solar_phone",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "73",
+          "name": "solar_email",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "74",
+          "name": "solar_address",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "500"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "75",
+          "name": "pk_solar_service_company_solar_service_companyid",
+          "unique": true,
+          "fieldIds": [
+            "69"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "comments": "SharePoint ServiceCompanys.",
+      "order": 26,
+      "parentAreaId": "afh8q858ef68ladv39o6unp0o",
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "76",
+      "name": "solar_equipment_serial",
+      "schema": "",
+      "x": 870.8981735162677,
+      "y": 319.7459773346191,
+      "fields": [
+        {
+          "id": "77",
+          "name": "solar_equipment_serialid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "78",
+          "name": "solar_equipmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "79",
+          "name": "solar_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "80",
+          "name": "solar_sectionid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "81",
+          "name": "solar_serial",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "82",
+          "name": "solar_status",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "50"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "83",
+          "name": "pk_solar_equipment_serial_solar_equipment_serialid",
+          "unique": true,
+          "fieldIds": [
+            "77"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 271,
+      "comments": "SharePoint EquipmentSerial.",
+      "order": 15,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "84",
+      "name": "solar_equipment_tracking",
+      "schema": "",
+      "x": -621.8047269452882,
+      "y": 464.44907949195186,
+      "fields": [
+        {
+          "id": "85",
+          "name": "solar_equipment_trackingid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "86",
+          "name": "solar_locationid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "87",
+          "name": "solar_equipmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "88",
+          "name": "solar_status",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "50"
+        },
+        {
+          "id": "89",
+          "name": "solar_notes",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "90",
+          "name": "pk_solar_equipment_tracking_solar_equipment_trackingid",
+          "unique": true,
+          "fieldIds": [
+            "85"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint EquipmentTracking (PlantId → solar_location).",
+      "order": 32,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "91",
+      "name": "solar_equipment_to_warehouse",
+      "schema": "",
+      "x": -642.9113293565465,
+      "y": 146.327680870386,
+      "fields": [
+        {
+          "id": "92",
+          "name": "solar_equipment_to_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "93",
+          "name": "solar_equipmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "94",
+          "name": "solar_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "95",
+          "name": "solar_quantity",
+          "type": {
+            "id": "int",
+            "name": "int"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        }
+      ],
+      "indexes": [
+        {
+          "id": "96",
+          "name": "pk_solar_equipment_to_warehouse_solar_equipment_to_warehouseid",
+          "unique": true,
+          "fieldIds": [
+            "92"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint EquipmentToWarehouse.",
+      "order": 16,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "97",
+      "name": "solar_supplier",
+      "schema": "",
+      "x": 1539.7245019100358,
+      "y": 1.2824752978944147,
+      "fields": [
+        {
+          "id": "98",
+          "name": "solar_supplierid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "99",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "100",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "101",
+          "name": "solar_phone",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "102",
+          "name": "solar_email",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "103",
+          "name": "solar_address",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "500"
+        },
+        {
+          "id": "104",
+          "name": "solar_notes",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528927,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "105",
+          "name": "pk_solar_supplier_solar_supplierid",
+          "unique": true,
+          "fieldIds": [
+            "98"
+          ],
+          "createdAt": 1769605528927,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528927,
+      "comments": "SharePoint Suppliers (Φάση 2).",
+      "order": 2,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "106",
+      "name": "solar_parts_transaction",
+      "schema": "",
+      "x": 30.207753451810845,
+      "y": 1088.7360818585319,
+      "fields": [
+        {
+          "id": "107",
+          "name": "solar_parts_transactionid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "108",
+          "name": "solar_partid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "109",
+          "name": "solar_from_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "110",
+          "name": "solar_to_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "111",
+          "name": "solar_quantity",
+          "type": {
+            "id": "int",
+            "name": "int"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "112",
+          "name": "solar_transactiondate",
+          "type": {
+            "id": "datetime",
+            "name": "datetime"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "113",
+          "name": "solar_reason",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "114",
+          "name": "pk_solar_parts_transaction_solar_parts_transactionid",
+          "unique": true,
+          "fieldIds": [
+            "107"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "comments": "SharePoint PartsTransaction.",
+      "order": 17,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "115",
+      "name": "solar_location_configuration_item_type",
+      "schema": "",
+      "x": -1294.7068668077966,
+      "y": -697.0846471622838,
+      "fields": [
+        {
+          "id": "116",
+          "name": "solar_location_configuration_item_typeid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "117",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "118",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "119",
+          "name": "solar_description",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "120",
+          "name": "pk_solar_location_configuration_item_type_solar_location_configuration_item_typeid",
+          "unique": true,
+          "fieldIds": [
+            "116"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint LocationConfigurationItemTypes.",
+      "order": 11,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "121",
+      "name": "solar_stock_adjustment",
+      "schema": "",
+      "x": 1497.5721387814522,
+      "y": 900.6771331456973,
+      "fields": [
+        {
+          "id": "122",
+          "name": "solar_stock_adjustmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "123",
+          "name": "solar_partid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "124",
+          "name": "solar_equipmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "125",
+          "name": "solar_warehouseid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "126",
+          "name": "solar_quantitydiff",
+          "type": {
+            "id": "int",
+            "name": "int"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "127",
+          "name": "solar_adjustmentdate",
+          "type": {
+            "id": "datetime",
+            "name": "datetime"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "128",
+          "name": "solar_reason",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "129",
+          "name": "pk_solar_stock_adjustment_solar_stock_adjustmentid",
+          "unique": true,
+          "fieldIds": [
+            "122"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "width": 337,
+      "comments": "SharePoint StockAdjustments.",
+      "order": 18,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "130",
+      "name": "solar_om_category",
+      "schema": "",
+      "x": 894.375123835885,
+      "y": -1752.373827723315,
+      "fields": [
+        {
+          "id": "131",
+          "name": "solar_om_categoryid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "132",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "133",
+          "name": "solar_parentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "134",
+          "name": "solar_description",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "135",
+          "name": "pk_solar_om_category_solar_om_categoryid",
+          "unique": true,
+          "fieldIds": [
+            "131"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "comments": "SharePoint OMCategories.",
+      "order": 27,
+      "parentAreaId": "afh8q858ef68ladv39o6unp0o",
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "136",
+      "name": "solar_equipment",
+      "schema": "",
+      "x": 59.58623579996535,
+      "y": -2.078142009218311,
+      "fields": [
+        {
+          "id": "137",
+          "name": "solar_equipmentid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1769605528927
+        },
+        {
+          "id": "138",
+          "name": "solar_name",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "139",
+          "name": "solar_code",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "140",
+          "name": "solar_equipment_categoryid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "141",
+          "name": "solar_manufacturer_brandid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "142",
+          "name": "solar_supplierid",
+          "type": {
+            "id": "uuid",
+            "name": "uuid"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928
+        },
+        {
+          "id": "143",
+          "name": "solar_description",
+          "type": {
+            "id": "nvarchar",
+            "name": "nvarchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1769605528928,
+          "characterMaximumLength": "max"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "144",
+          "name": "pk_solar_equipment_solar_equipmentid",
+          "unique": true,
+          "fieldIds": [
+            "137"
+          ],
+          "createdAt": 1769605528928,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1769605528928,
+      "comments": "SharePoint Equipment (Φάση 2).",
+      "order": 8,
+      "diagramId": "oiwzf31cq7eg"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "145",
+      "name": "solar_equipment_category_solar_equipment_categoryid_solar_equipment_category_solar_parentid",
+      "sourceSchema": "",
+      "sourceTableId": "9",
+      "targetSchema": "",
+      "targetTableId": "9",
+      "sourceFieldId": "10",
+      "targetFieldId": "13",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528928,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "146",
+      "name": "solar_equipment_category_solar_equipment_categoryid_solar_equipment_solar_equipment_categoryid",
+      "sourceSchema": "",
+      "sourceTableId": "9",
+      "targetSchema": "",
+      "targetTableId": "136",
+      "sourceFieldId": "10",
+      "targetFieldId": "140",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528928,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "147",
+      "name": "solar_equipment_category_solar_equipment_categoryid_solar_equipment_transaction_solar_equipment_categoryid",
+      "sourceSchema": "",
+      "sourceTableId": "9",
+      "targetSchema": "",
+      "targetTableId": "59",
+      "sourceFieldId": "10",
+      "targetFieldId": "63",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "148",
+      "name": "solar_equipment_solar_equipmentid_solar_equipment_serial_solar_equipmentid",
+      "sourceSchema": "",
+      "sourceTableId": "136",
+      "targetSchema": "",
+      "targetTableId": "76",
+      "sourceFieldId": "137",
+      "targetFieldId": "78",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "149",
+      "name": "solar_equipment_solar_equipmentid_solar_equipment_to_warehouse_solar_equipmentid",
+      "sourceSchema": "",
+      "sourceTableId": "136",
+      "targetSchema": "",
+      "targetTableId": "91",
+      "sourceFieldId": "137",
+      "targetFieldId": "93",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "150",
+      "name": "solar_equipment_solar_equipmentid_solar_equipment_tracking_solar_equipmentid",
+      "sourceSchema": "",
+      "sourceTableId": "136",
+      "targetSchema": "",
+      "targetTableId": "84",
+      "sourceFieldId": "137",
+      "targetFieldId": "87",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "151",
+      "name": "solar_equipment_solar_equipmentid_solar_equipment_transaction_solar_equipmentid",
+      "sourceSchema": "",
+      "sourceTableId": "136",
+      "targetSchema": "",
+      "targetTableId": "59",
+      "sourceFieldId": "137",
+      "targetFieldId": "61",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "152",
+      "name": "solar_equipment_solar_equipmentid_solar_stock_adjustment_solar_equipmentid",
+      "sourceSchema": "",
+      "sourceTableId": "136",
+      "targetSchema": "",
+      "targetTableId": "121",
+      "sourceFieldId": "137",
+      "targetFieldId": "124",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "153",
+      "name": "solar_equipment_solar_equipmentid_solar_warehouse_equipment_serial_solar_equipmentid",
+      "sourceSchema": "",
+      "sourceTableId": "136",
+      "targetSchema": "",
+      "targetTableId": "22",
+      "sourceFieldId": "137",
+      "targetFieldId": "25",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "154",
+      "name": "solar_location_configuration_item_type_solar_location_configuration_item_typeid_solar_location_configuration_solar_location_configuration_item_typeid",
+      "sourceSchema": "",
+      "sourceTableId": "115",
+      "targetSchema": "",
+      "targetTableId": "16",
+      "sourceFieldId": "116",
+      "targetFieldId": "19",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "155",
+      "name": "solar_manufacturer_brand_solar_manufacturer_brandid_solar_equipment_solar_manufacturer_brandid",
+      "sourceSchema": "",
+      "sourceTableId": "29",
+      "targetSchema": "",
+      "targetTableId": "136",
+      "sourceFieldId": "30",
+      "targetFieldId": "141",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528928,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "156",
+      "name": "solar_om_category_solar_om_categoryid_solar_om_category_solar_parentid",
+      "sourceSchema": "",
+      "sourceTableId": "130",
+      "targetSchema": "",
+      "targetTableId": "130",
+      "sourceFieldId": "131",
+      "targetFieldId": "133",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "157",
+      "name": "solar_om_category_solar_om_categoryid_solar_service_solar_om_categoryid",
+      "sourceSchema": "",
+      "sourceTableId": "130",
+      "targetSchema": "",
+      "targetTableId": "1",
+      "sourceFieldId": "131",
+      "targetFieldId": "5",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "158",
+      "name": "solar_service_company_solar_service_companyid_solar_service_order_solar_service_companyid",
+      "sourceSchema": "",
+      "sourceTableId": "68",
+      "targetSchema": "",
+      "targetTableId": "51",
+      "sourceFieldId": "69",
+      "targetFieldId": "53",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "159",
+      "name": "solar_service_company_solar_service_companyid_solar_service_solar_default_service_companyid",
+      "sourceSchema": "",
+      "sourceTableId": "68",
+      "targetSchema": "",
+      "targetTableId": "1",
+      "sourceFieldId": "69",
+      "targetFieldId": "6",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "160",
+      "name": "solar_service_solar_serviceid_solar_service_order_solar_serviceid",
+      "sourceSchema": "",
+      "sourceTableId": "1",
+      "targetSchema": "",
+      "targetTableId": "51",
+      "sourceFieldId": "2",
+      "targetFieldId": "55",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "161",
+      "name": "solar_supplier_solar_supplierid_solar_equipment_solar_supplierid",
+      "sourceSchema": "",
+      "sourceTableId": "97",
+      "targetSchema": "",
+      "targetTableId": "136",
+      "sourceFieldId": "98",
+      "targetFieldId": "142",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528928,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "162",
+      "name": "solar_warehouse_solar_warehouseid_solar_equipment_to_warehouse_solar_warehouseid",
+      "sourceSchema": "",
+      "sourceTableId": "36",
+      "targetSchema": "",
+      "targetTableId": "91",
+      "sourceFieldId": "37",
+      "targetFieldId": "94",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "163",
+      "name": "solar_warehouse_solar_warehouseid_solar_parts_transaction_solar_from_warehouseid",
+      "sourceSchema": "",
+      "sourceTableId": "36",
+      "targetSchema": "",
+      "targetTableId": "106",
+      "sourceFieldId": "37",
+      "targetFieldId": "109",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "164",
+      "name": "solar_warehouse_solar_warehouseid_solar_parts_transaction_solar_to_warehouseid",
+      "sourceSchema": "",
+      "sourceTableId": "36",
+      "targetSchema": "",
+      "targetTableId": "106",
+      "sourceFieldId": "37",
+      "targetFieldId": "110",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "165",
+      "name": "solar_warehouse_solar_warehouseid_solar_stock_adjustment_solar_warehouseid",
+      "sourceSchema": "",
+      "sourceTableId": "36",
+      "targetSchema": "",
+      "targetTableId": "121",
+      "sourceFieldId": "37",
+      "targetFieldId": "125",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "166",
+      "name": "solar_warehouse_solar_warehouseid_solar_warehouse_equipment_serial_solar_warehouseid",
+      "sourceSchema": "",
+      "sourceTableId": "36",
+      "targetSchema": "",
+      "targetTableId": "22",
+      "sourceFieldId": "37",
+      "targetFieldId": "24",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    },
+    {
+      "id": "167",
+      "name": "solar_warehouse_solar_warehouseid_solar_warehouse_to_location_solar_warehouseid",
+      "sourceSchema": "",
+      "sourceTableId": "36",
+      "targetSchema": "",
+      "targetTableId": "45",
+      "sourceFieldId": "37",
+      "targetFieldId": "47",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1769605528929,
+      "diagramId": "oiwzf31cq7eg"
+    }
+  ],
+  "dependencies": [],
+  "areas": [
+    {
+      "id": "168",
+      "name": "Service",
+      "x": -214.26502237748923,
+      "y": -1783.2479135747785,
+      "width": 1377,
+      "height": 553,
+      "color": "#b067e9",
+      "diagramId": "oiwzf31cq7eg"
+    }
+  ],
+  "customTypes": [],
+  "notes": [
+    {
+      "id": "169",
+      "content": "",
+      "x": -2814.8327609671846,
+      "y": -2002.8253860439174,
+      "width": 200,
+      "height": 150,
+      "color": "#ffe374",
+      "diagramId": "oiwzf31cq7eg"
+    }
+  ]
+}
