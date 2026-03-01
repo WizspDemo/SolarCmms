@@ -1,0 +1,5 @@
+{
+  "name": "SolarCMMS | Manager Dashboard - Single Solar Park",
+  "description": "Enterprise-grade Solar O&M Dashboard featuring real-time inverter telemetry, intelligent fault detection, and work order management using Microsoft Fluent UI design principles.",
+  "requestFramePermissions": []
+}

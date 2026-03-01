@@ -1,0 +1,360 @@
+{
+  "solarMaintenance": {
+    "AssetList": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/AssetList",
+      "new": [],
+      "edit": ["EditForm.js"],
+      "view": []
+    },
+    "BGEWarehouse": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/BGEWarehouse",
+      "new": ["Newform.js"],
+      "edit": [],
+      "view": ["DispFrom.js"]
+    },
+    "BgeWarehouseTraking": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/BgeWarehouseTraking",
+      "new": ["NewForm.js"],
+      "edit": [],
+      "view": []
+    },
+    "Calendar": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Calendar",
+      "new": [],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "CCTV": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/CCTV",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "ContactsInfo": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/ContactsInfo",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "Corrective": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Corrective",
+      "new": ["Newform.js"],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "CorrectiveArchive": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/CorrectiveArchive",
+      "new": [],
+      "edit": [],
+      "view": ["dispForm.js"]
+    },
+    "Credencials": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Credencials",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "DNO": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/DNO",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "EquipementCategory": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/EquipementCategory",
+      "new": ["NewForm.js"],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "Equipment": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Equipment",
+      "new": ["Newform.html", "NewForm.js"],
+      "edit": ["EditForm.html", "EditForm.js"],
+      "view": ["DispForm.html", "DispForm.js"]
+    },
+    "EquipmentSerial": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/EquipmentSerial",
+      "new": ["Newform.html", "NewForm.js"],
+      "edit": ["EditForm.html", "EditForm.js"],
+      "view": ["DispForm.html", "DispForm.js"]
+    },
+    "EquipmentTracking": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/EquipmentTracking",
+      "new": ["Newform.html", "NewForm.js", "NewForm_old.js"],
+      "edit": [],
+      "view": []
+    },
+    "General_Clients": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/General",
+      "new": [],
+      "edit": [],
+      "view": [],
+      "otherScripts": ["Clients.js"]
+    },
+    "Landowners": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Landowners",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "Locations": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Locations",
+      "new": ["Newform.html", "NewForm.js"],
+      "edit": ["EditForm.html", "EditForm.js"],
+      "view": ["DispForm.html", "DispForm.js"]
+    },
+    "PlantEngineer": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/PlantEngineer",
+      "new": ["Newform.js"],
+      "edit": [],
+      "view": []
+    },
+    "Preventative": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Preventative",
+      "new": [],
+      "edit": ["Editform.js"],
+      "view": ["DispForm.js"],
+      "otherScripts": ["AddPreventative.js", "PreventativePage.js"]
+    },
+    "PreventativeArchive": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/PreventativeArchive",
+      "new": [],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "Pvplant": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Pvplant",
+      "new": ["Newform.html", "NewForm.js"],
+      "edit": ["EditForm.html", "EditForm.js"],
+      "view": ["DispForm.html", "DispForm.js"]
+    },
+    "Remedial": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Remedial",
+      "new": ["Newfrom.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"],
+      "otherScripts": [
+        "AddRemedial.js",
+        "BulkUpload.js",
+        "EditRemedial.js",
+        "ExportRemedials.js",
+        "RemedialPage.js",
+        "RemedilaDocs.js",
+        "Untitled_1.js"
+      ]
+    },
+    "RemedialDocs": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/RemedialDocs",
+      "new": ["Newform.js"],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "SCB": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/SCB",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"],
+      "otherScripts": [
+        "AddString_fabric.js",
+        "AddString.js",
+        "ChoseActions.js",
+        "MassUpload.js",
+        "SubtractString.js"
+      ]
+    },
+    "SiteInfo": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/SiteInfo",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "SolarSiteComments": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/SolarSiteComments",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "SolarSites": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/SolarSites",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispFrom.js"]
+    },
+    "SubCorrective": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/SubCorrective",
+      "new": ["Newform.js"],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "SystemInfo": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/SystemInfo",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "Warehouse": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/Warehouse",
+      "new": ["NewForm.html", "NewForm.js"],
+      "edit": ["EdiForm.html", "EditForm.js"],
+      "view": ["DispForm.html", "DispForm.js"]
+    },
+    "WarehouseEquipment": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/WarehouseEquipment",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.html", "EditForm.js"],
+      "view": ["DispForm.html", "DispForm.js"]
+    },
+    "tempFolder": {
+      "folder": "Solar Plant Maintenance Management - Wizsp/ListScript/tempFolder",
+      "new": ["Newform.html", "NewForm.js"],
+      "edit": ["EditForm.html", "EditForm.js"],
+      "view": ["DispForm.html", "DispForm.js"]
+    }
+  },
+  "bgePvTicketing": {
+    "BGEWarehouse": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/BGEWarehouse",
+      "new": ["Newform.js"],
+      "edit": [],
+      "view": []
+    },
+    "Calendar": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/Calendar",
+      "new": [],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "CCTV": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/CCTV",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "ContactsInfo": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/ContactsInfo",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "Corrective": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/Corrective",
+      "new": ["Newform.js"],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "Credencials": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/Credencials",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "DNO": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/DNO",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "EquipmentTracking": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/EquipmentTracking",
+      "new": ["NewForm.js"],
+      "edit": [],
+      "view": []
+    },
+    "General_Clients": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/General",
+      "new": [],
+      "edit": [],
+      "view": [],
+      "otherScripts": ["Clients.js"]
+    },
+    "Landowners": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/Landowners",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "PlantEngineer": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/PlantEngineer",
+      "new": ["Newform.js"],
+      "edit": [],
+      "view": []
+    },
+    "Preventative": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/Preventative",
+      "new": [],
+      "edit": ["Editform.js"],
+      "view": ["DispForm.js"],
+      "otherScripts": ["AddPreventative.js", "PreventativePage.js"]
+    },
+    "PreventativeArchive": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/PreventativeArchive",
+      "new": [],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "Remedial": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/Remedial",
+      "new": ["Newfrom.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"],
+      "otherScripts": [
+        "AddRemedial.js",
+        "BulkUpload.js",
+        "EditRemedial.js",
+        "ExportRemedials.js",
+        "RemedialPage.js",
+        "RemedilaDocs.js",
+        "Untitled_1.js"
+      ]
+    },
+    "RemedialDocs": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/RemedialDocs",
+      "new": ["Newform.js"],
+      "edit": ["Editform.js"],
+      "view": ["Dispform.js"]
+    },
+    "SCB": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/SCB",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"],
+      "otherScripts": [
+        "AddString_fabric.js",
+        "AddString.js",
+        "ChoseActions.js",
+        "MassUpload.js",
+        "SubtractString.js"
+      ]
+    },
+    "SiteInfo": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/SiteInfo",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "SolarSiteComments": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/SolarSiteComments",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "SolarSites": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/SolarSites",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispFrom.js"]
+    },
+    "SystemInfo": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/SystemInfo",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    },
+    "Warehouse": {
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/ListScript/Warehouse",
+      "new": ["NewForm.js"],
+      "edit": ["EditForm.js"],
+      "view": ["DispForm.js"]
+    }
+  }
+}

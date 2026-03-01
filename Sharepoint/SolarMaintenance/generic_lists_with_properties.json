@@ -1,0 +1,428 @@
+[
+  {
+    "name": "Suppliers",
+    "internalName": "Suppliers",
+    "type": "genericList",
+    "listId": "3acfaa89-06f0-46e0-abf6-026b118a761e"
+  },
+  {
+    "name": "WorkflowTasks",
+    "internalName": "WorkflowTasks",
+    "type": "tasks",
+    "listId": "30740eba-5a56-4eaf-9621-087a66cc0bfa"
+  },
+  {
+    "name": "PublishedFeed",
+    "internalName": "PublishedFeed",
+    "type": "544",
+    "listId": "2bbed0e7-9d77-47a9-95f3-08e411435f53"
+  },
+  {
+    "name": "Equipment",
+    "internalName": "Equipment",
+    "type": "genericList",
+    "listId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d"
+  },
+  {
+    "name": "Parts",
+    "internalName": "Parts",
+    "type": "genericList",
+    "listId": "65ec8d4e-2329-401d-b46e-0cd869efef7c"
+  },
+  {
+    "name": "DeviceChannels",
+    "internalName": "DeviceChannels",
+    "type": "genericList",
+    "listId": "7009445a-96a9-4c20-8b62-259650ba7544"
+  },
+  {
+    "name": "DNO",
+    "internalName": "DNO",
+    "type": "genericList",
+    "listId": "fec26b5a-5cc0-4b6e-8b87-261d766d9327"
+  },
+  {
+    "name": "SiteCollectionDocuments",
+    "internalName": "SiteCollectionDocuments",
+    "type": "documentLibrary",
+    "listId": "cd8dcd44-12f1-495a-a8f2-2d30e3b9b7c3"
+  },
+  {
+    "name": "CorrectiveTaskCategories",
+    "internalName": "CorrectiveTaskCategories",
+    "type": "genericList",
+    "listId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329"
+  },
+  {
+    "name": "Locations",
+    "internalName": "Locations",
+    "type": "genericList",
+    "listId": "4b1423a7-5176-46a7-b509-38070860f70b"
+  },
+  {
+    "name": "ProjectPolicyItemList",
+    "internalName": "ProjectPolicyItemList",
+    "type": "genericList",
+    "listId": "7df6303a-7a38-42b6-a65b-39fba56b3524"
+  },
+  {
+    "name": "Translation Packages",
+    "internalName": "Translation Packages",
+    "type": "documentLibrary",
+    "listId": "7f9d8f59-44df-4ad4-85c0-3f208d3a1e65"
+  },
+  {
+    "name": "LocationConfiguration",
+    "internalName": "LocationConfiguration",
+    "type": "genericList",
+    "listId": "5301df2c-b02d-4f93-87d8-409fea9ebad8"
+  },
+  {
+    "name": "WarehouseEquipmentSerial",
+    "internalName": "WarehouseEquipmentSerial",
+    "type": "genericList",
+    "listId": "9e89371d-63d0-49ae-8ff2-40f5bc8e1fa4"
+  },
+  {
+    "name": "Shared Documents",
+    "internalName": "Shared Documents",
+    "type": "documentLibrary",
+    "listId": "1005064d-6c9f-4189-9973-4372c060a141"
+  },
+  {
+    "name": "Assets",
+    "internalName": "Assets",
+    "type": "genericList",
+    "listId": "99d1b746-a511-4822-ae4a-447a663ca2f6"
+  },
+  {
+    "name": "LocationConfigurationItemTypes",
+    "internalName": "LocationConfigurationItemTypes",
+    "type": "genericList",
+    "listId": "1087fdff-4ede-4924-adad-49aa0f41e8ec"
+  },
+  {
+    "name": "DocumentSetCategories",
+    "internalName": "DocumentSetCategories",
+    "type": "genericList",
+    "listId": "ffb69262-d6d9-49b5-846b-4a2b81ff92f9"
+  },
+  {
+    "name": "MaintenanceTeamCategories",
+    "internalName": "MaintenanceTeamCategories",
+    "type": "genericList",
+    "listId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a"
+  },
+  {
+    "name": "Reports List",
+    "internalName": "Reports List",
+    "type": "genericList",
+    "listId": "4bd51fbd-421e-43d4-b158-566abf4b1eb8"
+  },
+  {
+    "name": "Sharing Links",
+    "internalName": "Sharing Links",
+    "type": "sharingLinks",
+    "listId": "7c06eac2-646b-48bc-ba88-5b47652adb26"
+  },
+  {
+    "name": "EquipmentSerial",
+    "internalName": "EquipmentSerial",
+    "type": "genericList",
+    "listId": "7c72e6b8-7fe8-46cf-98c9-5e459ba2bd55"
+  },
+  {
+    "name": "EquipmentCategories",
+    "internalName": "EquipmentCategories",
+    "type": "genericList",
+    "listId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5"
+  },
+  {
+    "name": "Notification Pages",
+    "internalName": "Notification Pages",
+    "type": "genericList",
+    "listId": "b804280b-532a-436e-af2b-68bc75138c83"
+  },
+  {
+    "name": "PublishingImages",
+    "internalName": "PublishingImages",
+    "type": "851",
+    "listId": "b57fe313-5eef-477b-9b33-69cb99239d28"
+  },
+  {
+    "name": "TrackingSerial",
+    "internalName": "TrackingSerial",
+    "type": "genericList",
+    "listId": "43db1875-59b2-4363-bd96-6b09a6186400"
+  },
+  {
+    "name": "EquipmentToWarehouse",
+    "internalName": "EquipmentToWarehouse",
+    "type": "genericList",
+    "listId": "332412f4-534c-4697-801f-70f0db133cd4"
+  },
+  {
+    "name": "PartsCategories",
+    "internalName": "PartsCategories",
+    "type": "genericList",
+    "listId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595"
+  },
+  {
+    "name": "ServiceOrder",
+    "internalName": "ServiceOrder",
+    "type": "genericList",
+    "listId": "e9d96d5f-d143-4da2-ae41-76406a154654"
+  },
+  {
+    "name": "Quick Deploy Items",
+    "internalName": "Quick Deploy Items",
+    "type": "genericList",
+    "listId": "14d1d6dd-6f3a-4b40-be3f-7723f39ce582"
+  },
+  {
+    "name": "Variation Labels",
+    "internalName": "Variation Labels",
+    "type": "genericList",
+    "listId": "5b061253-3018-43c6-aa01-84bbb6ee7dbc"
+  },
+  {
+    "name": "SiteCollectionImages",
+    "internalName": "SiteCollectionImages",
+    "type": "851",
+    "listId": "f84ade42-c27d-42ac-a4f6-84f5c0e3ac19"
+  },
+  {
+    "name": "Warehouses",
+    "internalName": "Warehouses",
+    "type": "genericList",
+    "listId": "c4cdf76c-901e-402f-9822-86814ffe83af"
+  },
+  {
+    "name": "SubCorrectiveEvent",
+    "internalName": "SubCorrectiveEvent",
+    "type": "genericList",
+    "listId": "aec7efd8-a415-4a58-9d48-8b435970e5e4"
+  },
+  {
+    "name": "PreventivePlan",
+    "internalName": "PreventivePlan",
+    "type": "genericList",
+    "listId": "99207386-d921-44b7-be5c-8bd9b2a9cb6f"
+  },
+  {
+    "name": "PreventiveTaskCategories",
+    "internalName": "PreventiveTaskCategories",
+    "type": "genericList",
+    "listId": "269095d4-1fbb-4297-98c8-8f7f4f20b2a2"
+  },
+  {
+    "name": "Settings",
+    "internalName": "Settings",
+    "type": "genericList",
+    "listId": "1eea981e-b683-4f61-b19f-920405b73c57"
+  },
+  {
+    "name": "Relationships List",
+    "internalName": "Relationships List",
+    "type": "genericList",
+    "listId": "6c360288-1d5e-42b5-85f1-966b191d3259"
+  },
+  {
+    "name": "ManufacturerBrands",
+    "internalName": "ManufacturerBrands",
+    "type": "genericList",
+    "listId": "61464423-eece-44f8-bb01-970a40605437"
+  },
+  {
+    "name": "Calendar",
+    "internalName": "Calendar",
+    "type": "events",
+    "listId": "15ac0a22-04c4-4500-81fe-9957d806c26e"
+  },
+  {
+    "name": "WarehouseToLocation",
+    "internalName": "WarehouseToLocation",
+    "type": "genericList",
+    "listId": "55c5f780-76bc-42f3-8c7e-99f060e097c2"
+  },
+  {
+    "name": "CorrectiveEvents",
+    "internalName": "CorrectiveEvents",
+    "type": "genericList",
+    "listId": "12f453b0-c85e-423e-9a37-9b27604c071e"
+  },
+  {
+    "name": "Pages",
+    "internalName": "Pages",
+    "type": "850",
+    "listId": "0d8b729c-93b9-4890-8777-9c35ccd399dc"
+  },
+  {
+    "name": "ContentTypeSyncLog",
+    "internalName": "ContentTypeSyncLog",
+    "type": "genericList",
+    "listId": "6cf5acb8-ff84-47ce-aadf-a700ac3aa1cc"
+  },
+  {
+    "name": "PartsTransaction",
+    "internalName": "PartsTransaction",
+    "type": "genericList",
+    "listId": "751d31a7-19df-4795-9836-aa1a3729d7e3"
+  },
+  {
+    "name": "Countries",
+    "internalName": "Countries",
+    "type": "genericList",
+    "listId": "482bc28e-de9a-468c-9879-ab79768a0c6c"
+  },
+  {
+    "name": "PreventiveTasks",
+    "internalName": "PreventiveTasks",
+    "type": "genericList",
+    "listId": "d8631edd-8d1b-4068-bc9c-ac99f485714f"
+  },
+  {
+    "name": "AssetsCategories",
+    "internalName": "AssetsCategories",
+    "type": "genericList",
+    "listId": "f5dbc8b9-f224-49ae-846c-af231e5c42b7"
+  },
+  {
+    "name": "TestTask",
+    "internalName": "TestTask",
+    "type": "tasksWithTimelineAndHierarchy",
+    "listId": "594b451a-dc61-40d2-98c9-af2d6f7c52f1"
+  },
+  {
+    "name": "Accounts",
+    "internalName": "Accounts",
+    "type": "genericList",
+    "listId": "83471562-c8eb-4512-b59e-b95748b6f3a4"
+  },
+  {
+    "name": "Translation Status",
+    "internalName": "Translation Status",
+    "type": "genericList",
+    "listId": "39e55ec7-8b4a-43e0-a40f-b9f1ec86c8a1"
+  },
+  {
+    "name": "PreventivePlanCategories",
+    "internalName": "PreventivePlanCategories",
+    "type": "genericList",
+    "listId": "7ba018e5-8b85-4150-8331-bd2ce40e4eec"
+  },
+  {
+    "name": "WIZSP",
+    "internalName": "WIZSP",
+    "type": "documentLibrary",
+    "listId": "46457b18-92b7-445b-8d53-bd4ea919c0f1"
+  },
+  {
+    "name": "SectionTemplate",
+    "internalName": "SectionTemplate",
+    "type": "genericList",
+    "listId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75"
+  },
+  {
+    "name": "DocumentSets",
+    "internalName": "DocumentSets",
+    "type": "genericList",
+    "listId": "62066051-960e-44bf-8c3e-c6e48dd0f6be"
+  },
+  {
+    "name": "CorrectiveTasks",
+    "internalName": "CorrectiveTasks",
+    "type": "genericList",
+    "listId": "b2bd33af-a92d-41c8-b5e1-c93ea15ae89e"
+  },
+  {
+    "name": "Service",
+    "internalName": "Service",
+    "type": "genericList",
+    "listId": "1b602f04-692a-42d8-a70d-cbcf5f4511f5"
+  },
+  {
+    "name": "Cache Profiles",
+    "internalName": "Cache Profiles",
+    "type": "genericList",
+    "listId": "82db81ef-b616-4009-8b39-cd3024401e09"
+  },
+  {
+    "name": "EquipmentTransaction",
+    "internalName": "EquipmentTransaction",
+    "type": "genericList",
+    "listId": "5183d035-364d-4c1f-b574-cdb100179d6c"
+  },
+  {
+    "name": "Sections",
+    "internalName": "Sections",
+    "type": "genericList",
+    "listId": "7e03e461-4bbb-4178-bdef-cee61371405b"
+  },
+  {
+    "name": "test",
+    "internalName": "test",
+    "type": "genericList",
+    "listId": "81fd3ee6-692b-420a-9ed7-d02058c88d53"
+  },
+  {
+    "name": "Long Running Operation Status",
+    "internalName": "Long Running Operation Status",
+    "type": "genericList",
+    "listId": "538e3687-5988-421b-b32d-d1d6f35572e8"
+  },
+  {
+    "name": "StockAdjustments",
+    "internalName": "StockAdjustments",
+    "type": "genericList",
+    "listId": "ac668d47-ef4e-4213-9f42-d8857625063f"
+  },
+  {
+    "name": "MaintenanceTeamPerLocation",
+    "internalName": "MaintenanceTeamPerLocation",
+    "type": "genericList",
+    "listId": "28931332-e7ac-4790-bf72-d9b73db8385b"
+  },
+  {
+    "name": "ReusableContent",
+    "internalName": "ReusableContent",
+    "type": "genericList",
+    "listId": "35d0c3cd-88de-4e8b-a333-dafda25eafdf"
+  },
+  {
+    "name": "MaintenanceTeamMembers",
+    "internalName": "MaintenanceTeamMembers",
+    "type": "genericList",
+    "listId": "a56faae7-5430-4886-a035-df6d51ec4ea3"
+  },
+  {
+    "name": "ServiceCompanys",
+    "internalName": "ServiceCompanys",
+    "type": "genericList",
+    "listId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573"
+  },
+  {
+    "name": "PublishedLinks",
+    "internalName": "PublishedLinks",
+    "type": "genericList",
+    "listId": "967d5d29-9bd2-42a9-a4c4-efcd7f58a71e"
+  },
+  {
+    "name": "OMCategories",
+    "internalName": "OMCategories",
+    "type": "genericList",
+    "listId": "4143d6af-6786-44d6-a9df-f4432dabd098"
+  },
+  {
+    "name": "Tasks",
+    "internalName": "Tasks",
+    "type": "tasksWithTimelineAndHierarchy",
+    "listId": "f9f3f1b0-b225-4beb-8d59-fa98d3294f32"
+  },
+  {
+    "name": "MaintenanceTeams",
+    "internalName": "MaintenanceTeams",
+    "type": "genericList",
+    "listId": "69ad2565-e329-4866-abba-fda42a27ecd9"
+  }
+]

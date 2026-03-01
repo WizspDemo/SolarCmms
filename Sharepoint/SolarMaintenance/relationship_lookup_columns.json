@@ -1,0 +1,843 @@
+[
+  {
+    "listName": "Equipment",
+    "listId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+    "lookupColumns": [
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+        "lookupListName": "EquipmentCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "ManufacturerOrBrand",
+        "displayName": "Manufacturer or Brand",
+        "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+        "lookupListName": "ManufacturerBrands",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Supplier",
+        "displayName": "Supplier",
+        "lookupListId": "3acfaa89-06f0-46e0-abf6-026b118a761e",
+        "lookupListName": "Suppliers",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "CategoryType",
+        "displayName": "CategoryType",
+        "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+        "lookupListName": "EquipmentCategories",
+        "lookupColumnName": "CategoryType",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false,
+        "description": "Calculated lookup from Category"
+      }
+    ]
+  },
+  {
+    "listName": "Parts",
+    "listId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+    "lookupColumns": [
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+        "lookupListName": "PartsCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "ManufacturerOrBrand",
+        "displayName": "Manufacturer or Brand",
+        "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+        "lookupListName": "ManufacturerBrands",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Supplier",
+        "displayName": "Supplier",
+        "lookupListId": "3acfaa89-06f0-46e0-abf6-026b118a761e",
+        "lookupListName": "Suppliers",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Corrective Task Categories",
+    "listId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+    "lookupColumns": [
+      {
+        "columnName": "Parent",
+        "displayName": "Parent",
+        "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+        "lookupListName": "CorrectiveTaskCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": true,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "Locations",
+    "listId": "4b1423a7-5176-46a7-b509-38070860f70b",
+    "lookupColumns": [
+      {
+        "columnName": "Zones",
+        "displayName": "Zones",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": true,
+        "isSelfReferencing": true,
+        "description": "Multi-value lookup to Locations"
+      },
+      {
+        "columnName": "Account",
+        "displayName": "Account",
+        "lookupListId": null,
+        "lookupListName": null,
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false,
+        "description": "Lookup to Accounts (external list)"
+      },
+      {
+        "columnName": "Country",
+        "displayName": "Country",
+        "lookupListId": "86d88de5-f5b6-46e1-8fc3-e96ab5ce5821",
+        "lookupListName": "Countries",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "DNOGridOperator",
+        "displayName": "DNO - Grid Operator",
+        "lookupListId": "fec26b5a-5cc0-4b6e-8b87-261d766d9327",
+        "lookupListName": "DNO",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Tasks",
+    "listId": "30740eba-5a56-4eaf-9621-087a66cc0bfa",
+    "lookupColumns": [
+      {
+        "columnName": "Predecessors",
+        "displayName": "Predecessors",
+        "lookupListId": "30740eba-5a56-4eaf-9621-087a66cc0bfa",
+        "lookupListName": "Tasks",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": true,
+        "isSelfReferencing": true,
+        "description": "Self-referencing multi-value lookup for task dependencies"
+      }
+    ]
+  },
+  {
+    "listName": "Equipment Categories",
+    "listId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+    "lookupColumns": [
+      {
+        "columnName": "Parent",
+        "displayName": "Parent",
+        "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+        "lookupListName": "EquipmentCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": true,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "Parts Categories",
+    "listId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+    "lookupColumns": [
+      {
+        "columnName": "Parent",
+        "displayName": "Parent",
+        "lookupListId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+        "lookupListName": "PartsCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": true,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "Warehouses",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Assets",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": null,
+        "lookupListName": "AssetsCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Section",
+        "displayName": "Section",
+        "lookupListId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75",
+        "lookupListName": "Sections",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "ManufacturerOrBrand",
+        "displayName": "Manufacturer or Brand",
+        "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+        "lookupListName": "ManufacturerBrands",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Assets Categories",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Parent",
+        "displayName": "Parent",
+        "lookupListId": null,
+        "lookupListName": "AssetsCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "Location Configuration",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "ItemType",
+        "displayName": "Item Type",
+        "lookupListId": null,
+        "lookupListName": "LocationConfigurationItemTypes",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "WarehouseEquipmentSerial",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Equipment",
+        "displayName": "Equipment",
+        "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+        "lookupListName": "Equipment",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Warehouse",
+        "displayName": "Warehouse",
+        "lookupListId": null,
+        "lookupListName": "Warehouses",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "SubCorrectiveEvent",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "CorrectiveEvent",
+        "displayName": "Corrective Event",
+        "lookupListId": null,
+        "lookupListName": "CorrectiveEvents",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+        "lookupListName": "CorrectiveTaskCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Preventive Plan",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "AssignedTeam",
+        "displayName": "Assigned Team",
+        "lookupListId": null,
+        "lookupListName": "MaintenanceTeams",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Preventive Task Categories",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Parent",
+        "displayName": "Parent",
+        "lookupListId": null,
+        "lookupListName": "PreventiveTaskCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "Warehouse To Location",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Warehouse",
+        "displayName": "Warehouse",
+        "lookupListId": null,
+        "lookupListName": "Warehouses",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Corrective Events",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+        "lookupListName": "CorrectiveTaskCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "AssignedTeam",
+        "displayName": "Assigned Team",
+        "lookupListId": null,
+        "lookupListName": "MaintenanceTeams",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "PartsTransaction",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Part",
+        "displayName": "Part",
+        "lookupListId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+        "lookupListName": "Parts",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "FromWarehouse",
+        "displayName": "From Warehouse",
+        "lookupListId": null,
+        "lookupListName": "Warehouses",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "ToWarehouse",
+        "displayName": "To Warehouse",
+        "lookupListId": null,
+        "lookupListName": "Warehouses",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Preventive Tasks",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Plan",
+        "displayName": "Plan",
+        "lookupListId": null,
+        "lookupListName": "PreventivePlan",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": null,
+        "lookupListName": "PreventiveTaskCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Stock Adjustments",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Part",
+        "displayName": "Part",
+        "lookupListId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+        "lookupListName": "Parts",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Equipment",
+        "displayName": "Equipment",
+        "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+        "lookupListName": "Equipment",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Warehouse",
+        "displayName": "Warehouse",
+        "lookupListId": null,
+        "lookupListName": "Warehouses",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Maintenance Team Per Location",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "MaintenanceTeam",
+        "displayName": "Maintenance Team",
+        "lookupListId": null,
+        "lookupListName": "MaintenanceTeams",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Maintenance Team Members",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "MaintenanceTeam",
+        "displayName": "Maintenance Team",
+        "lookupListId": null,
+        "lookupListName": "MaintenanceTeams",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "OM Categories",
+    "listId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+    "lookupColumns": [
+      {
+        "columnName": "CategoryParent",
+        "displayName": "Parent",
+        "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+        "lookupListName": "OMCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": true,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "EquipmentSerial",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Equipment",
+        "displayName": "Equipment",
+        "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+        "lookupListName": "Equipment",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Section",
+        "displayName": "Section",
+        "lookupListId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75",
+        "lookupListName": "Sections",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "EquipmentToWarehouse",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Equipment",
+        "displayName": "Equipment",
+        "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+        "lookupListName": "Equipment",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Warehouse",
+        "displayName": "Warehouse",
+        "lookupListId": null,
+        "lookupListName": "Warehouses",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "ServiceOrder",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "ServiceCompany",
+        "displayName": "Service Company",
+        "lookupListId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573",
+        "lookupListName": "ServiceCompanys",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Service",
+    "listId": null,
+    "lookupColumns": [
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+        "lookupListName": "OMCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "DefaultServiceCompany",
+        "displayName": "Default Service Company",
+        "lookupListId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573",
+        "lookupListName": "ServiceCompanys",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "MaintenanceTeamCategories",
+    "listId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+    "lookupColumns": [
+      {
+        "columnName": "Parent",
+        "displayName": "Parent",
+        "lookupListId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+        "lookupListName": "MaintenanceTeamCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": true,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "Accounts",
+    "listId": "83471562-c8eb-4512-b59e-b95748b6f3a4",
+    "lookupColumns": [
+      {
+        "columnName": "Country",
+        "displayName": "Country",
+        "lookupListId": "482bc28e-de9a-468c-9879-ab79768a0c6c",
+        "lookupListName": "Countries",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "PreventivePlanCategories",
+    "listId": "7ba018e5-8b85-4150-8331-bd2ce40e4eec",
+    "lookupColumns": [
+      {
+        "columnName": "Parent",
+        "displayName": "Parent",
+        "lookupListId": "7ba018e5-8b85-4150-8331-bd2ce40e4eec",
+        "lookupListName": "PreventivePlanCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": true,
+        "description": "Self-referencing hierarchical lookup"
+      }
+    ]
+  },
+  {
+    "listName": "DocumentSets",
+    "listId": "62066051-960e-44bf-8c3e-c6e48dd0f6be",
+    "lookupColumns": [
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "ffb69262-d6d9-49b5-846b-4a2b81ff92f9",
+        "lookupListName": "DocumentSetCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "CorrectiveTasks",
+    "listId": "b2bd33af-a92d-41c8-b5e1-c93ea15ae89e",
+    "lookupColumns": [
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+        "lookupListName": "CorrectiveTaskCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "OMCategory",
+        "displayName": "OM Category",
+        "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+        "lookupListName": "OMCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "MaintenanceTeamCategory",
+        "displayName": "Maintenance Team Category",
+        "lookupListId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+        "lookupListName": "MaintenanceTeamCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "EquipmentTransaction",
+    "listId": "5183d035-364d-4c1f-b574-cdb100179d6c",
+    "lookupColumns": [
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      },
+      {
+        "columnName": "Category",
+        "displayName": "Category",
+        "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+        "lookupListName": "EquipmentCategories",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Sections",
+    "listId": "7e03e461-4bbb-4178-bdef-cee61371405b",
+    "lookupColumns": [
+      {
+        "columnName": "Location",
+        "displayName": "Location",
+        "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+        "lookupListName": "Locations",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  },
+  {
+    "listName": "Tasks (Timeline)",
+    "listId": "f9f3f1b0-b225-4beb-8d59-fa98d3294f32",
+    "lookupColumns": [
+      {
+        "columnName": "Predecessors",
+        "displayName": "Predecessors",
+        "lookupListId": "f9f3f1b0-b225-4beb-8d59-fa98d3294f32",
+        "lookupListName": "Tasks",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": true,
+        "isSelfReferencing": true,
+        "description": "Task dependencies - links to other tasks that must be completed first"
+      }
+    ]
+  },
+  {
+    "listName": "TrackingSerial",
+    "listId": "43db1875-59b2-4363-bd96-6b09a6186400",
+    "lookupColumns": [
+      {
+        "columnName": "Warehouse",
+        "displayName": "Warehouse",
+        "lookupListId": "c4cdf76c-901e-402f-9822-86814ffe83af",
+        "lookupListName": "Warehouses",
+        "lookupColumnName": "Title",
+        "allowMultipleValues": false,
+        "isSelfReferencing": false
+      }
+    ]
+  }
+]

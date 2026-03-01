@@ -1,0 +1,253 @@
+// PV Ticketing Database Schema
+// Generated from SharePoint list definitions
+
+Table Services {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table BGEOwnedSparesTracking {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table PlantRemedials {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table DNOs {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table Clients {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table PVGroup {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table RemedialDocs {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table SCB {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table Warehouses {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table PlantPreventativeCopy {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table CategoriesPerFarm {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table Contracts {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table ContactInfoMisc {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table HealthAndSafetyOnSite {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table PVPlantsContactInfo {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table BGEOwnedSpares {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table PlantEngineer {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table SLALevels {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table DocumentsToFill {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table ContentAndStructureReports {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table PeriodicScheduledActions {
+  id integer [pk, increment]
+  Title varchar(255) // Title
+  ActionCode varchar(255) // ActionCode
+  ActionDate datetime // ActionDate
+  Description text // Description
+}
+
+Table PVPlantsCCTVGateCodes {
+  id integer [pk, increment]
+  Title varchar(255) // Title
+  PlantId varchar(50) // PlantId
+  GateCode varchar(255) // GateCode
+  CCTVCode varchar(255) // CCTVCode
+}
+
+Table PVPlantsDNOStations {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  PlantId varchar(50) // PlantId
+  DNOStation varchar(255) // DNOStation
+  DNOContact varchar(255) // DNOContact
+}
+
+Table PVPlants {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  PlantId varchar(50) // PlantId
+  Country integer // Lookup (unknown target)
+  Location varchar(255) // Location
+  Status varchar(255) // Status
+}
+
+Table PVPlantsSystemInfo {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  PlantId varchar(50) // PlantId
+  SystemCapacity integer // SystemCapacity
+  InverterType varchar(255) // InverterType
+  ModuleType varchar(255) // ModuleType
+}
+
+Table AssetCategories {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  CategoryCode varchar(50) // CategoryCode
+  Description text // Description
+}
+
+Table DailyDocs {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  DocumentDate datetime // DocumentDate
+  DocumentType varchar(255) // DocumentType
+}
+
+Table Countries {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  ISOAlpha2 varchar(2) // ISOAlpha2
+  ISOALPHA3 varchar(3) // ISOALPHA3
+}
+
+Table EquipmentTracking {
+  id integer [pk, increment]
+  Title varchar(255) // Title
+  RecordDate datetime // RecordDate
+  Record varchar(255) // Record
+  Quantity integer // Quantity
+  Person integer // Person
+  TaskId integer // TaskId
+  PlantId varchar(50) // PlantId
+  SubTask varchar(10) // SubTask
+  TaskType varchar(255) // TaskType
+  Cause varchar(255) // Cause
+  Warehouse varchar(255) // Warehouse
+  Details varchar(255) // Details
+  Category integer // Lookup to Asset Categories
+  Asset integer // Lookup to BGE Owned Spares
+}
+
+Table Strings {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table PlantPreventative {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Frequency varchar(255) // Frequency
+  Comments text // Comments
+  Code varchar(50) // Code
+  DescriptionServices varchar(255) // DescriptionServices
+  January boolean // January
+  February boolean // February
+  March boolean // March
+  April boolean // April
+  May boolean // May
+  June boolean // June
+  July boolean // July
+  August boolean // August
+  September boolean // September
+  October boolean // October
+  November boolean // November
+  December boolean // December
+  PlantId varchar(50) // PlantId
+  Enable boolean // Enable
+  Scheduled varchar(255) // Scheduled
+  Description text // Description
+}
+
+Table TranslationStatus {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  TranslationStateJobId varchar(255) // TranslationStateJobId
+  TranslationStateStartTime datetime // TranslationStateStartTime
+  TranslationStateEndTime datetime // TranslationStateEndTime
+  TranslationStateTranslationType varchar(255) // TranslationStateTranslationType
+  TranslationStateTranslatorName varchar(255) // TranslationStateTranslatorName
+  TranslationStateStatus varchar(255) // TranslationStateStatus
+  TranslationStateNumberOfItems integer // TranslationStateNumberOfItems
+}
+
+Table SiteCredentials {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  IPAddress varchar(24) // IPAddress
+  UsernamePassword varchar(128) // UsernamePassword
+  PlantId varchar(50) // PlantId
+  SolarSite integer // Lookup to PV Plants
+}
+
+Table SolarSiteComments {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  SendEmail boolean // SendEmail
+  SendEmailTo integer // SendEmailTo
+  SiteId varchar(50) // SiteId
+}
+
+// Junction Tables for Many-to-Many Relationships
+
+// Relationships
+
+Ref: PVPlants.Client > Clients.id
+Ref: EquipmentTracking.Category > AssetCategories.id
+Ref: EquipmentTracking.Asset > BGEOwnedSpares.id
+Ref: EquipmentTracking.Assets > Warehouses.id
+Ref: SiteCredentials.SolarSite > PVPlants.id

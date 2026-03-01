@@ -1,0 +1,685 @@
+// Solar Maintenance Database Schema
+// Generated from SharePoint list definitions
+
+Table Suppliers {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table Equipment {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Category integer // Lookup to EquipmentCategories
+  Description text // Description
+  ManufacturerID varchar(255) // ManufacturerID
+  ManufacturerOrBrand integer // Lookup to ManufacturerBrands
+  Supplier integer // Lookup to Suppliers
+  StockManagement boolean // Stock Management
+  Photo varchar(255) // Photo
+  URL varchar(500) // URL
+  Notes text // Notes
+  Active boolean // Active
+  CategoryType integer // Lookup to EquipmentCategories
+  Serial boolean // Serial
+}
+
+Table Parts {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Category integer // Lookup to PartsCategories
+  Description text // Description
+  Barcode varchar(255) [unique] // Barcode
+  UPC varchar(255) [unique] // UPC
+  ManufacturerID varchar(255) // ManufacturerID
+  ManufacturerOrBrand integer // Lookup to ManufacturerBrands
+  Supplier integer // Lookup to Suppliers
+  StockManagement boolean // Stock Management
+  Consumable boolean // Consumable
+  Photo varchar(255) // Photo
+  URL varchar(500) // URL
+  MinQTY integer // MinQTY
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table DeviceChannels {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Name
+  Alias varchar(255) [unique] // Alias
+  Description text // Description
+  UserAgentSubstrings text // Device Inclusion Rules (UserAgentSubstrings)
+  Active boolean // Active
+}
+
+Table DNO {
+  id integer [pk, increment]
+  Code varchar(255) // Code
+  Title varchar(255) [not null] // Title
+  EmergencyNumber varchar(255) // Emergency Number
+  Description text // Description
+  Telephone varchar(255) // Telephone
+  Email varchar(255) // Email
+  Website varchar(500) // Website
+  Notes text // Notes
+}
+
+Table CorrectiveTaskCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Parent integer // Lookup to CorrectiveTaskCategories
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table Locations {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Name
+  OpenDate date // Open Date
+  CloseDate date // Close Date
+  Stage varchar(255) // Stage
+  CapacityMW decimal(18, 2) // Capacity MW
+  AnnualOutputGWh decimal(18, 2) // Annual Output GWh
+  Zones integer // Lookup to Locations
+  StockManagement boolean // Stock Management
+  ContainsSections boolean // Contains Sections
+  Manager integer // Manager
+  Description text // Description
+  LandSizeHectares decimal(18, 2) // Land Size Hectares
+  AddressDescription text // Address Description
+  Street varchar(255) // Street
+  ZipOrPostalCode varchar(255) // Zip or Postal Code
+  StateOrProvince varchar(255) // State or Province
+  Country integer // Lookup to Countries
+  Latitude decimal(18, 2) // Latitude
+  Longtitude decimal(18, 2) // Longtitude
+  GoogleEarth varchar(500) // GoogleEarth
+  EmbedMap text // Embed Map
+  What3Words varchar(255) // What3Words
+  Grazed boolean // Grazed
+  LandOwnerFarmerDetails text // Land Owner/Farmer Details
+  InverterManufacturer varchar(255) // Inverter Manufacturer
+  InverterType varchar(255) // Inverter Type
+  InverterModel varchar(255) // Inverter Model
+  InverterQuantity integer // Inverter Quantity
+  InverterTotal integer // Inverter Total
+  InverterLVVoltage integer // Inverter LV Voltage
+  InverterPower decimal(18, 2) // Inverter Power
+  AssumedWarrantyPeriod integer // Assumed Warranty Period
+  WarrantyExpiry date // Warranty Expiry
+  EstimatedExpiry date // Estimated Expiry
+  ModuleManufacturer varchar(255) // Module Manufacturer
+  ModuleModel varchar(255) // Module Model
+  ModuleQuantity integer // Module Quantity
+  ModulePower decimal(18, 2) // Module Power
+  ModuleVoc decimal(18, 2) // Module Voc
+  ModuleIsc decimal(18, 2) // Module Isc
+  ModuleLength decimal(18, 2) // Module Length
+  ModuleWidth decimal(18, 2) // Module Width
+  ModuleDepth decimal(18, 2) // Module Depth
+  ModuleStructure varchar(255) // Module Structure
+  Satellite3G4G varchar(255) // Satellite/3G/4G
+  LANNetwork varchar(255) // LAN Network
+  SCADAProvider varchar(255) // SCADA Provider
+  ADASInstalled boolean // ADAS Installed
+  DataLoggers varchar(255) // Data Loggers
+  DNOGridOperator integer // Lookup to DNO
+  DNOSizeKV varchar(255) // DNO Size (KV)
+  DNOContact varchar(255) // DNO Contact
+  DNOContact2 varchar(255) // DNO Contact2
+  DNOContact3 varchar(255) // DNO Contact3
+  SiteReferenceNumber varchar(255) // Site Reference Number
+  HVContractor varchar(255) // HV Contractor
+  TBootSub varchar(255) // T-Boot/sub
+  TransformerQuantity integer // Transformer Quantity
+  TransformerMake varchar(255) // Transformer Make
+  TransformerModel varchar(255) // Transformer Model
+  TransformerRatingKVA integer // Transformer Rating KVA
+  Security varchar(255) // Security
+  SecurityCodes text // Security Codes
+  SiteAccessDetails text // Site Access Details
+  AccessGateCodes text // Access Gate Codes
+  ExportMeterLocation varchar(255) // Export Meter Location
+  ExportMeterAccessDetails text // Export Meter Access Details
+  Supervisor integer // Supervisor
+  OtherInformation text // Other Information
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table Tasks {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Task Name
+  Predecessors integer // Lookup to Tasks
+  Priority varchar(255) // Priority
+  Status varchar(255) // Status
+  PercentComplete integer // % Complete
+  AssignedTo integer // Assigned To
+  TaskGroup integer // Task Group
+  Description text // Description
+  StartDate date // Start Date
+  DueDate date // Due Date
+  RelatedItems varchar(255) // Related Items
+}
+
+Table PublishedFeed {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Body text // Body
+  PublishedDate datetime // Published Date
+}
+
+Table SiteCollectionDocuments {
+  id integer [pk, increment]
+  FileLeafRef varchar(255) [not null] // Name
+  Title varchar(255) // Title
+}
+
+Table EquipmentCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  MainType varchar(255) // Main Type
+  Parent integer // Lookup to EquipmentCategories
+  Notes text // Notes
+  Active boolean // Active
+  CategoryType varchar(255) // CategoryType
+}
+
+Table PartsCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Level varchar(255) // Level
+  Parent integer // Lookup to PartsCategories
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table ManufacturerBrands {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Logo varchar(255) // Logo
+  Description text // Description
+  Website varchar(500) // Website
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table SectionTemplate_mistakenly_named_Sections {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table Countries {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Active boolean // Active
+}
+
+Table Warehouses {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Location integer // Lookup to Locations
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table Assets {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Category integer // Lookup to AssetsCategories
+  Description text // Description
+  Location integer // Lookup to Locations
+  Section integer // Lookup to Sections
+  SerialNumber varchar(255) // Serial Number
+  ManufacturerOrBrand integer // Lookup to ManufacturerBrands
+  InstallationDate date // Installation Date
+  WarrantyExpiry date // Warranty Expiry
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table AssetsCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Parent integer // Lookup to AssetsCategories
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table LocationConfiguration {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Location integer // Lookup to Locations
+  ItemType integer // Lookup to LocationConfigurationItemTypes
+  Quantity integer // Quantity
+  Description text // Description
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table LocationConfigurationItemTypes {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Active boolean // Active
+}
+
+Table WarehouseEquipmentSerial {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Equipment integer // Lookup to Equipment
+  Warehouse integer // Lookup to Warehouses
+  SerialNumber varchar(255) [unique] // Serial Number
+  Status varchar(255) // Status
+  Notes text // Notes
+}
+
+Table SubCorrectiveEvent {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  CorrectiveEvent integer // Lookup to CorrectiveEvents
+  Category integer // Lookup to CorrectiveTaskCategories
+  Description text // Description
+  Priority varchar(255) // Priority
+  Status varchar(255) // Status
+  AssignedTo integer // Assigned To
+  DueDate date // Due Date
+  Notes text // Notes
+}
+
+Table PreventivePlan {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Location integer // Lookup to Locations
+  Description text // Description
+  Frequency varchar(255) // Frequency
+  StartDate date // Start Date
+  NextDueDate date // Next Due Date
+  AssignedTeam integer // Lookup to MaintenanceTeams
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table PreventiveTaskCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Parent integer // Lookup to PreventiveTaskCategories
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table Settings {
+  id integer [pk, increment]
+  Title varchar(255) [not null, unique] // Key
+  Value text // Value
+  Description text // Description
+}
+
+Table WarehouseToLocation {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Warehouse integer // Lookup to Warehouses
+  Location integer // Lookup to Locations
+  Description text // Description
+}
+
+Table CorrectiveEvents {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Location integer // Lookup to Locations
+  Category integer // Lookup to CorrectiveTaskCategories
+  Description text // Description
+  Priority varchar(255) // Priority
+  Status varchar(255) // Status
+  ReportedDate date // Reported Date
+  DueDate date // Due Date
+  AssignedTeam integer // Lookup to MaintenanceTeams
+  AssignedTo integer // Assigned To
+  Notes text // Notes
+  CompletedDate date // Completed Date
+}
+
+Table PartsTransaction {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Part integer // Lookup to Parts
+  TransactionType varchar(255) // Transaction Type
+  Quantity integer // Quantity
+  FromWarehouse integer // Lookup to Warehouses
+  ToWarehouse integer // Lookup to Warehouses
+  TransactionDate date // Transaction Date
+  Notes text // Notes
+}
+
+Table PreventiveTasks {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Plan integer // Lookup to PreventivePlan
+  Category integer // Lookup to PreventiveTaskCategories
+  Description text // Description
+  Status varchar(255) // Status
+  ScheduledDate date // Scheduled Date
+  CompletedDate date // Completed Date
+  AssignedTo integer // Assigned To
+  Notes text // Notes
+}
+
+Table StockAdjustments {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  ItemType varchar(255) // Item Type
+  Part integer // Lookup to Parts
+  Equipment integer // Lookup to Equipment
+  Warehouse integer // Lookup to Warehouses
+  AdjustmentType varchar(255) // Adjustment Type
+  Quantity integer // Quantity
+  AdjustmentDate date // Adjustment Date
+  Reason text // Reason
+  Notes text // Notes
+}
+
+Table MaintenanceTeamPerLocation {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  MaintenanceTeam integer // Lookup to MaintenanceTeams
+  Location integer // Lookup to Locations
+  StartDate date // Start Date
+  EndDate date // End Date
+  Active boolean // Active
+}
+
+Table MaintenanceTeamMembers {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  MaintenanceTeam integer // Lookup to MaintenanceTeams
+  Member integer // Member
+  Role varchar(255) // Role
+  StartDate date // Start Date
+  EndDate date // End Date
+  Active boolean // Active
+}
+
+Table ServiceCompanys {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  ContactPerson varchar(255) // Contact Person
+  Email varchar(255) // Email
+  Phone varchar(255) // Phone
+  Website varchar(500) // Website
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table OMCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  CategoryParent integer // Lookup to OMCategories
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table MaintenanceTeams {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  TeamLeader integer // Team Leader
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table EquipmentSerial {
+  id integer [pk, increment]
+  Title varchar(255) [not null, unique] // Serial Number
+  Equipment integer // Lookup to Equipment
+  Location integer // Lookup to Locations
+  Section integer // Lookup to Sections
+  InstallationDate date // Installation Date
+  Status varchar(255) // Status
+  Notes text // Notes
+}
+
+Table EquipmentToWarehouse {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Equipment integer // Lookup to Equipment
+  Warehouse integer // Lookup to Warehouses
+  Quantity integer // Quantity
+  MinQuantity integer // Min Quantity
+  Notes text // Notes
+}
+
+Table ServiceOrder {
+  id integer [pk, increment]
+  Title varchar(255) [not null, unique] // Order Number
+  ServiceCompany integer // Lookup to ServiceCompanys
+  Location integer // Lookup to Locations
+  Description text // Description
+  OrderDate date // Order Date
+  ScheduledDate date // Scheduled Date
+  Status varchar(255) // Status
+  Priority varchar(255) // Priority
+  Notes text // Notes
+}
+
+Table Service {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Category integer // Lookup to OMCategories
+  DefaultServiceCompany integer // Lookup to ServiceCompanys
+  UnitCost decimal(18, 2) // Unit Cost
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table SectionTemplate {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  TemplateType varchar(255) // Template Type
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table DocumentSetCategories {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+}
+
+Table MaintenanceTeamCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description varchar(255) // Description
+  Parent integer // Lookup to MaintenanceTeamCategories
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table Accounts {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  DistinctiveTitle varchar(255) // Distinctive Title
+  Description text // Description
+  AddressDescription text // Address Description
+  Street varchar(255) // Street
+  ZipOrPostalCode varchar(255) // Zip or Postal Code
+  City varchar(255) // City
+  StateOrProvince varchar(255) // State or Province
+  Country integer // Lookup to Countries
+  Telephone varchar(255) // Telephone
+  Email varchar(255) // Email
+  Manager integer // Manager
+  Notes text // Notes
+}
+
+Table PreventivePlanCategories {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description text // Description
+  Level varchar(255) // Level
+  Parent integer // Lookup to PreventivePlanCategories
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table DocumentSets {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Category integer // Lookup to DocumentSetCategories
+  Comments text // Notes
+}
+
+Table CorrectiveTasks {
+  id integer [pk, increment]
+  Code varchar(255) [unique] // Code
+  Title varchar(255) [not null] // Title
+  Description varchar(255) // Description
+  Category integer // Lookup to CorrectiveTaskCategories
+  OMCategory integer // Lookup to OMCategories
+  Frequency varchar(255) // Frequency
+  MaintenanceTeamCategory integer // Lookup to MaintenanceTeamCategories
+  WarrantyType varchar(255) // Warranty Type
+  ApplicableUnit varchar(255) // Applicable Unit
+  Notes text // Notes
+  Active boolean // Active
+}
+
+Table EquipmentTransaction {
+  id integer [pk, increment]
+  Title varchar(255) [not null] // Title
+  Warehouse varchar(255) // Warehouse
+  TaskType varchar(255) // Task Type
+  JobID varchar(255) // JobID
+  HandlingDate date // HandlingDate
+  RecordType varchar(255) // Record Type
+  Reason varchar(255) // Reason
+  ToWarehouse varchar(255) // To Warehouse
+  Quantity decimal [not null] // Quantity
+  CurrentQuantity decimal // Current Quantity
+  EquipmentId varchar(255) // EquipmentId
+  Location integer // Lookup to Locations
+  Category integer // Lookup to EquipmentCategories
+  WarehouseLocationID varchar(255) // WarehouseLocationID
+  LocationId varchar(255) // LocationId
+  toWarehouseLocationID varchar(255) // toWarehouseLocationID
+  WarehouseID varchar(255) // WarehouseID
+  toWarehouseID varchar(255) // toWarehouseID
+  EquipmentWarehouseID varchar(255) // EquipmentWarehouseID
+  quid varchar(255) // quid
+  Serial boolean // Serial
+  SerialNotes varchar(255) // SerialNotes
+}
+
+// Junction Tables for Many-to-Many Relationships
+
+Table Locations_Zones {
+  id integer [pk, increment]
+  parent_id integer [ref: > Locations.id]
+  child_id integer [ref: > Locations.id]
+}
+
+Table Tasks_Predecessors {
+  id integer [pk, increment]
+  parent_id integer [ref: > Tasks.id]
+  child_id integer [ref: > Tasks.id]
+}
+
+// Relationships
+
+Ref: Equipment.Category > EquipmentCategories.id
+Ref: Equipment.ManufacturerOrBrand > ManufacturerBrands.id
+Ref: Equipment.Supplier > Suppliers.id
+Ref: Equipment.CategoryType > EquipmentCategories.id
+Ref: Parts.Category > PartsCategories.id
+Ref: Parts.ManufacturerOrBrand > ManufacturerBrands.id
+Ref: Parts.Supplier > Suppliers.id
+Ref: CorrectiveTaskCategories.Parent > CorrectiveTaskCategories.id
+Ref: Locations.Country > Countries.id
+Ref: Locations.DNOGridOperator > DNO.id
+Ref: EquipmentCategories.Parent > EquipmentCategories.id
+Ref: PartsCategories.Parent > PartsCategories.id
+Ref: Warehouses.Location > Locations.id
+Ref: Assets.Category > AssetsCategories.id
+Ref: Assets.Location > Locations.id
+Ref: Assets.Section > SectionTemplate_mistakenly_named_Sections.id
+Ref: Assets.ManufacturerOrBrand > ManufacturerBrands.id
+Ref: AssetsCategories.Parent > AssetsCategories.id
+Ref: LocationConfiguration.Location > Locations.id
+Ref: LocationConfiguration.ItemType > LocationConfigurationItemTypes.id
+Ref: WarehouseEquipmentSerial.Equipment > Equipment.id
+Ref: WarehouseEquipmentSerial.Warehouse > Warehouses.id
+Ref: SubCorrectiveEvent.CorrectiveEvent > CorrectiveEvents.id
+Ref: SubCorrectiveEvent.Category > CorrectiveTaskCategories.id
+Ref: PreventivePlan.Location > Locations.id
+Ref: PreventivePlan.AssignedTeam > MaintenanceTeams.id
+Ref: PreventiveTaskCategories.Parent > PreventiveTaskCategories.id
+Ref: WarehouseToLocation.Warehouse > Warehouses.id
+Ref: WarehouseToLocation.Location > Locations.id
+Ref: CorrectiveEvents.Location > Locations.id
+Ref: CorrectiveEvents.Category > CorrectiveTaskCategories.id
+Ref: CorrectiveEvents.AssignedTeam > MaintenanceTeams.id
+Ref: PartsTransaction.Part > Parts.id
+Ref: PartsTransaction.FromWarehouse > Warehouses.id
+Ref: PartsTransaction.ToWarehouse > Warehouses.id
+Ref: PreventiveTasks.Plan > PreventivePlan.id
+Ref: PreventiveTasks.Category > PreventiveTaskCategories.id
+Ref: StockAdjustments.Part > Parts.id
+Ref: StockAdjustments.Equipment > Equipment.id
+Ref: StockAdjustments.Warehouse > Warehouses.id
+Ref: MaintenanceTeamPerLocation.MaintenanceTeam > MaintenanceTeams.id
+Ref: MaintenanceTeamPerLocation.Location > Locations.id
+Ref: MaintenanceTeamMembers.MaintenanceTeam > MaintenanceTeams.id
+Ref: OMCategories.CategoryParent > OMCategories.id
+Ref: EquipmentSerial.Equipment > Equipment.id
+Ref: EquipmentSerial.Location > Locations.id
+Ref: EquipmentSerial.Section > SectionTemplate_mistakenly_named_Sections.id
+Ref: EquipmentToWarehouse.Equipment > Equipment.id
+Ref: EquipmentToWarehouse.Warehouse > Warehouses.id
+Ref: ServiceOrder.ServiceCompany > ServiceCompanys.id
+Ref: ServiceOrder.Location > Locations.id
+Ref: Service.Category > OMCategories.id
+Ref: Service.DefaultServiceCompany > ServiceCompanys.id
+Ref: MaintenanceTeamCategories.Parent > MaintenanceTeamCategories.id
+Ref: Accounts.Country > Countries.id
+Ref: PreventivePlanCategories.Parent > PreventivePlanCategories.id
+Ref: DocumentSets.Category > DocumentSetCategories.id
+Ref: CorrectiveTasks.Category > CorrectiveTaskCategories.id
+Ref: CorrectiveTasks.OMCategory > OMCategories.id
+Ref: CorrectiveTasks.MaintenanceTeamCategory > MaintenanceTeamCategories.id
+Ref: EquipmentTransaction.Location > Locations.id
+Ref: EquipmentTransaction.Category > EquipmentCategories.id

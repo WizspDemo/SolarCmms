@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "purpose": "Phase 2 entities and relationships for Solardev solution. Creates tables from ChartDB Phase 2 + solar_part, solar_part_category.",
+    "source": "dataverse_phase2_schema.dbml, ChartDB(phase 2 creation).json",
+    "solutionUniqueName": "Solardev",
+    "existingEntities": ["solar_location", "solar_section"]
+  },
+  "entities": [
+    {
+      "logicalName": "solar_equipment_category",
+      "displayName": "Equipment Category",
+      "displayCollectionName": "Equipment Categories",
+      "description": "SharePoint EquipmentCategories (Φάση 2)."
+    },
+    {
+      "logicalName": "solar_manufacturer_brand",
+      "displayName": "Manufacturer Brand",
+      "displayCollectionName": "Manufacturer Brands",
+      "description": "SharePoint ManufacturerBrands (Φάση 2)."
+    },
+    {
+      "logicalName": "solar_supplier",
+      "displayName": "Supplier",
+      "displayCollectionName": "Suppliers",
+      "description": "SharePoint Suppliers (Φάση 2)."
+    },
+    {
+      "logicalName": "solar_om_category",
+      "displayName": "OM Category",
+      "displayCollectionName": "OM Categories",
+      "description": "SharePoint OMCategories."
+    },
+    {
+      "logicalName": "solar_location_configuration_item_type",
+      "displayName": "Location Configuration Item Type",
+      "displayCollectionName": "Location Configuration Item Types",
+      "description": "SharePoint LocationConfigurationItemTypes."
+    },
+    {
+      "logicalName": "solar_service_company",
+      "displayName": "Service Company",
+      "displayCollectionName": "Service Companies",
+      "description": "SharePoint ServiceCompanys."
+    },
+    {
+      "logicalName": "solar_warehouse",
+      "displayName": "Warehouse",
+      "displayCollectionName": "Warehouses",
+      "description": "SharePoint Warehouses (Φάση 2)."
+    },
+    {
+      "logicalName": "solar_equipment",
+      "displayName": "Equipment",
+      "displayCollectionName": "Equipment",
+      "description": "SharePoint Equipment (Φάση 2)."
+    },
+    {
+      "logicalName": "solar_service",
+      "displayName": "Service",
+      "displayCollectionName": "Services",
+      "description": "SharePoint Service / Services."
+    },
+    {
+      "logicalName": "solar_location_configuration",
+      "displayName": "Location Configuration",
+      "displayCollectionName": "Location Configurations",
+      "description": "SharePoint LocationConfiguration."
+    },
+    {
+      "logicalName": "solar_warehouse_to_location",
+      "displayName": "Warehouse To Location",
+      "displayCollectionName": "Warehouse To Locations",
+      "description": "SharePoint WarehouseToLocation."
+    },
+    {
+      "logicalName": "solar_warehouse_equipment_serial",
+      "displayName": "Warehouse Equipment Serial",
+      "displayCollectionName": "Warehouse Equipment Serials",
+      "description": "SharePoint WarehouseEquipmentSerial."
+    },
+    {
+      "logicalName": "solar_service_order",
+      "displayName": "Service Order",
+      "displayCollectionName": "Service Orders",
+      "description": "SharePoint ServiceOrder."
+    },
+    {
+      "logicalName": "solar_equipment_serial",
+      "displayName": "Equipment Serial",
+      "displayCollectionName": "Equipment Serials",
+      "description": "SharePoint EquipmentSerial."
+    },
+    {
+      "logicalName": "solar_equipment_tracking",
+      "displayName": "Equipment Tracking",
+      "displayCollectionName": "Equipment Trackings",
+      "description": "SharePoint EquipmentTracking (PlantId → solar_location)."
+    },
+    {
+      "logicalName": "solar_equipment_to_warehouse",
+      "displayName": "Equipment To Warehouse",
+      "displayCollectionName": "Equipment To Warehouses",
+      "description": "SharePoint EquipmentToWarehouse."
+    },
+    {
+      "logicalName": "solar_part_category",
+      "displayName": "Part Category",
+      "displayCollectionName": "Part Categories",
+      "description": "SharePoint PartsCategories (Φάση 2)."
+    },
+    {
+      "logicalName": "solar_part",
+      "displayName": "Part",
+      "displayCollectionName": "Parts",
+      "description": "SharePoint Parts (Φάση 2)."
+    },
+    {
+      "logicalName": "solar_parts_transaction",
+      "displayName": "Parts Transaction",
+      "displayCollectionName": "Parts Transactions",
+      "description": "SharePoint PartsTransaction."
+    },
+    {
+      "logicalName": "solar_stock_adjustment",
+      "displayName": "Stock Adjustment",
+      "displayCollectionName": "Stock Adjustments",
+      "description": "SharePoint StockAdjustments."
+    },
+    {
+      "logicalName": "solar_equipment_transaction",
+      "displayName": "Equipment Transaction",
+      "displayCollectionName": "Equipment Transactions",
+      "description": "SharePoint EquipmentTransaction."
+    }
+  ],
+  "relationships": [
+    { "referencingEntity": "solar_warehouse", "referencedEntity": "solar_location", "referencedAttribute": "solar_locationid", "lookupSchemaName": "solar_Location", "lookupDisplayName": "Location" },
+    { "referencingEntity": "solar_equipment", "referencedEntity": "solar_equipment_category", "referencedAttribute": "solar_equipment_categoryid", "lookupSchemaName": "solar_Equipment_Category", "lookupDisplayName": "Equipment Category" },
+    { "referencingEntity": "solar_equipment", "referencedEntity": "solar_manufacturer_brand", "referencedAttribute": "solar_manufacturer_brandid", "lookupSchemaName": "solar_Manufacturer_Brand", "lookupDisplayName": "Manufacturer Brand" },
+    { "referencingEntity": "solar_equipment", "referencedEntity": "solar_supplier", "referencedAttribute": "solar_supplierid", "lookupSchemaName": "solar_Supplier", "lookupDisplayName": "Supplier" },
+    { "referencingEntity": "solar_service", "referencedEntity": "solar_om_category", "referencedAttribute": "solar_om_categoryid", "lookupSchemaName": "solar_OM_Category", "lookupDisplayName": "OM Category" },
+    { "referencingEntity": "solar_service", "referencedEntity": "solar_service_company", "referencedAttribute": "solar_service_companyid", "lookupSchemaName": "solar_Default_Service_Company", "lookupDisplayName": "Default Service Company" },
+    { "referencingEntity": "solar_location_configuration", "referencedEntity": "solar_location", "referencedAttribute": "solar_locationid", "lookupSchemaName": "solar_Location", "lookupDisplayName": "Location" },
+    { "referencingEntity": "solar_location_configuration", "referencedEntity": "solar_location_configuration_item_type", "referencedAttribute": "solar_location_configuration_item_typeid", "lookupSchemaName": "solar_Location_Configuration_Item_Type", "lookupDisplayName": "Item Type" },
+    { "referencingEntity": "solar_warehouse_to_location", "referencedEntity": "solar_warehouse", "referencedAttribute": "solar_warehouseid", "lookupSchemaName": "solar_Warehouse", "lookupDisplayName": "Warehouse" },
+    { "referencingEntity": "solar_warehouse_to_location", "referencedEntity": "solar_location", "referencedAttribute": "solar_locationid", "lookupSchemaName": "solar_Location", "lookupDisplayName": "Location" },
+    { "referencingEntity": "solar_warehouse_equipment_serial", "referencedEntity": "solar_warehouse", "referencedAttribute": "solar_warehouseid", "lookupSchemaName": "solar_Warehouse", "lookupDisplayName": "Warehouse" },
+    { "referencingEntity": "solar_warehouse_equipment_serial", "referencedEntity": "solar_equipment", "referencedAttribute": "solar_equipmentid", "lookupSchemaName": "solar_Equipment", "lookupDisplayName": "Equipment" },
+    { "referencingEntity": "solar_service_order", "referencedEntity": "solar_service_company", "referencedAttribute": "solar_service_companyid", "lookupSchemaName": "solar_Service_Company", "lookupDisplayName": "Service Company" },
+    { "referencingEntity": "solar_service_order", "referencedEntity": "solar_location", "referencedAttribute": "solar_locationid", "lookupSchemaName": "solar_Location", "lookupDisplayName": "Location" },
+    { "referencingEntity": "solar_service_order", "referencedEntity": "solar_service", "referencedAttribute": "solar_serviceid", "lookupSchemaName": "solar_Service", "lookupDisplayName": "Service" },
+    { "referencingEntity": "solar_equipment_serial", "referencedEntity": "solar_equipment", "referencedAttribute": "solar_equipmentid", "lookupSchemaName": "solar_Equipment", "lookupDisplayName": "Equipment" },
+    { "referencingEntity": "solar_equipment_serial", "referencedEntity": "solar_location", "referencedAttribute": "solar_locationid", "lookupSchemaName": "solar_Location", "lookupDisplayName": "Location" },
+    { "referencingEntity": "solar_equipment_serial", "referencedEntity": "solar_section", "referencedAttribute": "solar_sectionid", "lookupSchemaName": "solar_Section", "lookupDisplayName": "Section" },
+    { "referencingEntity": "solar_equipment_tracking", "referencedEntity": "solar_location", "referencedAttribute": "solar_locationid", "lookupSchemaName": "solar_Location", "lookupDisplayName": "Location" },
+    { "referencingEntity": "solar_equipment_tracking", "referencedEntity": "solar_equipment", "referencedAttribute": "solar_equipmentid", "lookupSchemaName": "solar_Equipment", "lookupDisplayName": "Equipment" },
+    { "referencingEntity": "solar_equipment_to_warehouse", "referencedEntity": "solar_equipment", "referencedAttribute": "solar_equipmentid", "lookupSchemaName": "solar_Equipment", "lookupDisplayName": "Equipment" },
+    { "referencingEntity": "solar_equipment_to_warehouse", "referencedEntity": "solar_warehouse", "referencedAttribute": "solar_warehouseid", "lookupSchemaName": "solar_Warehouse", "lookupDisplayName": "Warehouse" },
+    { "referencingEntity": "solar_part", "referencedEntity": "solar_part_category", "referencedAttribute": "solar_part_categoryid", "lookupSchemaName": "solar_Part_Category", "lookupDisplayName": "Part Category" },
+    { "referencingEntity": "solar_part", "referencedEntity": "solar_manufacturer_brand", "referencedAttribute": "solar_manufacturer_brandid", "lookupSchemaName": "solar_Manufacturer_Brand", "lookupDisplayName": "Manufacturer Brand" },
+    { "referencingEntity": "solar_part", "referencedEntity": "solar_supplier", "referencedAttribute": "solar_supplierid", "lookupSchemaName": "solar_Supplier", "lookupDisplayName": "Supplier" },
+    { "referencingEntity": "solar_parts_transaction", "referencedEntity": "solar_part", "referencedAttribute": "solar_partid", "lookupSchemaName": "solar_Part", "lookupDisplayName": "Part" },
+    { "referencingEntity": "solar_parts_transaction", "referencedEntity": "solar_warehouse", "referencedAttribute": "solar_warehouseid", "lookupSchemaName": "solar_From_Warehouse", "lookupDisplayName": "From Warehouse" },
+    { "referencingEntity": "solar_parts_transaction", "referencedEntity": "solar_warehouse", "referencedAttribute": "solar_warehouseid", "lookupSchemaName": "solar_To_Warehouse", "lookupDisplayName": "To Warehouse" },
+    { "referencingEntity": "solar_stock_adjustment", "referencedEntity": "solar_part", "referencedAttribute": "solar_partid", "lookupSchemaName": "solar_Part", "lookupDisplayName": "Part" },
+    { "referencingEntity": "solar_stock_adjustment", "referencedEntity": "solar_equipment", "referencedAttribute": "solar_equipmentid", "lookupSchemaName": "solar_Equipment", "lookupDisplayName": "Equipment" },
+    { "referencingEntity": "solar_stock_adjustment", "referencedEntity": "solar_warehouse", "referencedAttribute": "solar_warehouseid", "lookupSchemaName": "solar_Warehouse", "lookupDisplayName": "Warehouse" },
+    { "referencingEntity": "solar_equipment_transaction", "referencedEntity": "solar_equipment", "referencedAttribute": "solar_equipmentid", "lookupSchemaName": "solar_Equipment", "lookupDisplayName": "Equipment" },
+    { "referencingEntity": "solar_equipment_transaction", "referencedEntity": "solar_location", "referencedAttribute": "solar_locationid", "lookupSchemaName": "solar_Location", "lookupDisplayName": "Location" },
+    { "referencingEntity": "solar_equipment_transaction", "referencedEntity": "solar_equipment_category", "referencedAttribute": "solar_equipment_categoryid", "lookupSchemaName": "solar_Equipment_Category", "lookupDisplayName": "Equipment Category" }
+  ],
+  "selfRelationships": [
+    { "entity": "solar_equipment_category", "referencedAttribute": "solar_equipment_categoryid", "lookupSchemaName": "solar_Parent", "lookupDisplayName": "Parent" },
+    { "entity": "solar_om_category", "referencedAttribute": "solar_om_categoryid", "lookupSchemaName": "solar_Parent", "lookupDisplayName": "Parent" },
+    { "entity": "solar_part_category", "referencedAttribute": "solar_part_categoryid", "lookupSchemaName": "solar_Parent", "lookupDisplayName": "Parent" }
+  ]
+}

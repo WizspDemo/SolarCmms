@@ -1,0 +1,296 @@
+// Dataverse Phase 1 schema (σύνοψη)
+// Βάση του εγγράφου dataverse_sync_proposal.md
+
+Project "Solar CMMS - Dataverse Phase 1" {
+  database_type: "Dataverse"
+  note: "Κεντρικό entity: solar_location (Solar Plant). Περιλαμβάνει το solar_location (με αλλαγές), τους νέους πίνακες Φάσης 1 και τους βασικούς υπάρχοντες πίνακες που συμμετέχουν στη Φάση 1."
+}
+
+//--------------------------------------------------
+// Κύριος πίνακας: solar_location (Locations)
+//--------------------------------------------------
+
+Table solar_location {
+  solar_locationid uuid [pk, note: "Primary key (υπάρχον)"]
+
+  // Βασικά / υπάρχοντα (σύνοψη, όχι πλήρης λίστα)
+  solar_name           nvarchar(255) [not null, note: "Όνομα τοποθεσίας (υπάρχον)"]
+  solar_address        nvarchar(500) [note: "Διεύθυνση (υπάρχον)"]
+  solar_city           nvarchar(255)
+  solar_postalcode     nvarchar(50)
+  solar_state          nvarchar(255)
+  solar_country        uuid [ref: > solar_solarcountry.solar_solarcountryid, note: "Lookup προς πίνακα χωρών"]
+  solar_opendate       datetime
+  solar_closedate      datetime
+  solar_stage          nvarchar(100)
+  solar_capacity_mw    decimal(18,3)
+  solar_stockmanagement bit
+  solar_account        uuid [note: "Lookup προς new_account (client)"]
+  solar_parkmanager    uuid [note: "Lookup προς account (park manager)"]
+
+  // Νέα / τροποποιημένα attributes από § 2.1
+  solar_code                    nvarchar(255) [unique, not null, note: "Code (unique κωδικός τοποθεσίας)"]
+  solar_annualoutputgwh        decimal(18,3) [note: "Annual Output GWh"]
+  solar_zones                  uuid [note: "Self-lookup: περιοχή/ζώνη, πολλαπλή τιμή σε Dataverse"]
+  solar_contains_sections      bit [note: "Contains Sections"]
+  solar_description            nvarchar(max)
+  solar_landsizehectares       decimal(18,3) [note: "Land Size Hectares"]
+  solar_addressdescription     nvarchar(max)
+  solar_googleearth            nvarchar(500) [note: "URL"]
+  solar_embedmap               nvarchar(max)
+  solar_what3words             nvarchar(100)
+  solar_grazed                 bit
+  solar_landownerfarmerdetails nvarchar(max)
+
+  // Module*
+  solar_modulemanufacturer nvarchar(255)
+  solar_modulemodel        nvarchar(255)
+  solar_modulequantity     int
+  solar_modulepower        decimal(18,3)
+  solar_modulevoc          decimal(18,3)
+  solar_moduleisc          decimal(18,3)
+  solar_modulelength       decimal(18,3)
+  solar_modulewidth        decimal(18,3)
+  solar_moduledepth        decimal(18,3)
+  solar_modulestructure    nvarchar(255)
+
+  // Δικτύωση / SCADA
+  solar_satellite3g4g  nvarchar(255)
+  solar_lannetwork     nvarchar(255)
+  solar_scadaprovider  nvarchar(255)
+  solar_adasinstalled  bit
+  solar_dataloggers    nvarchar(255)
+
+  // DNO / HV
+  solar_dnogridoperator uuid [ref: > solar_dno.solar_dnoid, note: "Lookup προς νέο πίνακα solar_dno"]
+  solar_dnosizekv       nvarchar(50)
+  solar_dnocontact      nvarchar(max)
+  solar_dnocontact2     nvarchar(max)
+  solar_dnocontact3     nvarchar(max)
+  solar_sitereferencenumber nvarchar(255)
+  solar_hvcontractor    nvarchar(255)
+  solar_tbootsub        nvarchar(255)
+
+  // Μετασχηματιστές
+  solar_transformerquantity  int
+  solar_transformermake      nvarchar(255)
+  solar_transformermodel     nvarchar(255)
+  solar_transformerratingkva decimal(18,3)
+
+  // Security / Access / Meters
+  solar_security               nvarchar(255)
+  solar_securitycodes          nvarchar(max)
+  solar_siteaccessdetails      nvarchar(max)
+  solar_accessgatecodes        nvarchar(max)
+  solar_exportmeterlocation    nvarchar(255)
+  solar_exportmeteraccessdetails nvarchar(max)
+
+  // Διαχείριση & Λοιπά
+  solar_supervisor     uuid [note: "Lookup προς systemuser ή contact"]
+  solar_otherinformation nvarchar(max)
+  solar_notes          nvarchar(max)
+  solar_active         bit
+
+  Note: "Υπάρχον entity Locations → solar_location, εμπλουτισμένο με τα πεδία του SharePoint Locations."
+}
+
+//--------------------------------------------------
+// Νέος πίνακας: solar_dno (DNO / Grid Operator)
+//--------------------------------------------------
+
+Table solar_dno {
+  solar_dnoid uuid [pk]
+
+  solar_name             nvarchar(255) [not null]
+  solar_code             nvarchar(100)
+  solar_primarycontact   nvarchar(255)
+  solar_secondarycontact nvarchar(255)
+  solar_phone            nvarchar(100)
+  solar_email            nvarchar(255)
+  solar_address          nvarchar(500)
+  solar_notes            nvarchar(max)
+
+  Note: "SharePoint DNO / DNOs. Σχετίζεται με solar_location μέσω του solar_location.solar_dnogridoperator."
+}
+
+//--------------------------------------------------
+// Νέος πίνακας: solar_section (Sections)
+//--------------------------------------------------
+
+Table solar_section {
+  solar_sectionid uuid [pk]
+
+  solar_name        nvarchar(255) [not null]
+  solar_code        nvarchar(100)
+  solar_locationid  uuid [not null, ref: > solar_location.solar_locationid]
+  solar_type        nvarchar(100) [note: "π.χ. inverter group, string group κ.λπ."]
+  solar_description nvarchar(max)
+
+  Note: "SharePoint Sections – τμήματα ανά site, child του solar_location."
+}
+
+//--------------------------------------------------
+// Νέος πίνακας: solar_maintenance_team_per_location
+// (MaintenanceTeamPerLocation)
+//--------------------------------------------------
+
+Table solar_maintenance_team_per_location {
+  solar_maintenance_team_per_locationid uuid [pk]
+
+  solar_locationid         uuid [not null, ref: > solar_location.solar_locationid]
+  solar_maintenance_teamid uuid [not null, note: "Lookup προς υπάρχον πίνακα solar_maintenance_team"]
+
+  solar_role        nvarchar(100) [note: "κύρια/δευτερεύουσα ομάδα, ρόλος κ.λπ."]
+  solar_priority    int
+  solar_validfrom   datetime
+  solar_validto     datetime
+  solar_isactive    bit
+  solar_notes       nvarchar(max)
+
+  Note: "Assignment MaintenanceTeams ανά Location. Bridge table μεταξύ solar_location και solar_maintenance_team."
+}
+
+//--------------------------------------------------
+// Νέος πίνακας: solar_site_credentials
+// (PVPlantsSiteCredentials → solar_location)
+//--------------------------------------------------
+
+Table solar_site_credentials {
+  solar_site_credentialsid uuid [pk]
+
+  solar_locationid uuid [not null, ref: > solar_location.solar_locationid, note: "SolarSite/Location → solar_location, όχι PVPlants"]
+
+  solar_systemname   nvarchar(255) [note: "SCADA / portal / system name"]
+  solar_url          nvarchar(500)
+  solar_ipaddress    nvarchar(100)
+  solar_username     nvarchar(255)
+  solar_password     nvarchar(255)
+  solar_port         nvarchar(50)
+  solar_description  nvarchar(max)
+  solar_isprimary    bit
+  solar_isactive     bit
+
+  Note: "Credentials ανά site (IP, λογαριασμοί, πρόσβαση)."
+}
+
+//--------------------------------------------------
+// Νέος πίνακας: solar_site_comments
+// (CommentsRemarks → solar_location)
+//--------------------------------------------------
+
+Table solar_site_comments {
+  solar_site_commentsid uuid [pk]
+
+  solar_locationid uuid [not null, ref: > solar_location.solar_locationid, note: "SiteId / Location → solar_location"]
+
+  solar_title       nvarchar(255)
+  solar_comment     nvarchar(max) [not null]
+  solar_category    nvarchar(100)
+  solar_createdon   datetime
+  solar_createdby   uuid [note: "Lookup προς systemuser ή contact"]
+  solar_modifiedon  datetime
+  solar_status      nvarchar(50) [note: "π.χ. Open, In Progress, Resolved, Closed"]
+
+  Note: "Σχόλια / remarks ανά site."
+}
+
+//--------------------------------------------------
+// Υπάρχοντες πίνακες / βοηθητικοί (minimal skeletons για Phase 1)
+//--------------------------------------------------
+
+Table solar_solarcountry {
+  solar_solarcountryid uuid [pk]
+  solar_name           nvarchar(255)
+
+  Note: "Υπάρχον πίνακας χωρών, χρησιμοποιείται ως lookup από solar_location."
+}
+
+Table solar_maintenance_team {
+  solar_maintenance_teamid uuid [pk]
+  solar_name               nvarchar(255)
+
+  Note: "Υπάρχον entity MaintenanceTeams."
+}
+
+Table solar_corrective_category {
+  solar_corrective_categoryid uuid [pk]
+  solar_name                  nvarchar(255) [not null]
+
+  Note: "Corrective task categories (SharePoint CorrectiveTaskCategories)."
+}
+
+Table solar_corrective_work_order {
+  solar_corrective_work_orderid uuid [pk]
+  solar_name                    nvarchar(255) [not null]
+  solar_locationid              uuid [ref: > solar_location.solar_locationid]
+
+  Note: "CorrectiveEvents – διορθωτικά work orders ανά location."
+}
+
+Table solar_solarpreventiveplan {
+  solar_solarpreventiveplanid uuid [pk]
+  solar_name                  nvarchar(255) [not null]
+  solar_planlocation          uuid [ref: > solar_location.solar_locationid]
+
+  Note: "PreventivePlan – preventive plans ανά location."
+}
+
+Table solar_solarpreventiveplancategory {
+  solar_solarpreventiveplancategoryid uuid [pk]
+  solar_name                          nvarchar(255) [not null]
+
+  Note: "Κατηγορίες preventive plans (PreventivePlanCategories)."
+}
+
+Table solar_solarpreventivetask {
+  solar_solarpreventivetaskid uuid [pk]
+  solar_name                  nvarchar(255) [not null]
+  solar_park                  uuid [ref: > solar_location.solar_locationid]
+
+  Note: "PreventiveTasks – preventive tasks ανά location."
+}
+
+Table solar_solarpreventivetaskcategory {
+  solar_solarpreventivetaskcategoryid uuid [pk]
+  solar_name                          nvarchar(255) [not null]
+
+  Note: "Κατηγορίες preventive tasks (PreventiveTaskCategories)."
+}
+
+Table solar_solarmodule {
+  solar_solarmoduleid uuid [pk]
+  solar_name          nvarchar(255) [not null]
+  solar_park          uuid [ref: > solar_location.solar_locationid]
+
+  Note: "Modules ανά solar_location (ήδη Dataverse)."
+}
+
+Table solar_solarinverter {
+  solar_solarinverterid uuid [pk]
+  solar_name            nvarchar(255) [not null]
+  solar_park            uuid [ref: > solar_location.solar_locationid]
+
+  Note: "Inverters ανά solar_location (ήδη Dataverse)."
+}
+
+Table solar_task {
+  solar_taskid uuid [pk]
+  solar_name   nvarchar(255) [not null]
+
+  Note: "Tasks / CorrectiveTasks – ήδη Dataverse."
+}
+
+Table account {
+  accountid uuid [pk]
+  name      nvarchar(255) [not null]
+
+  Note: "Default Dataverse account – π.χ. park manager."
+}
+
+Table new_account {
+  new_accountid uuid [pk]
+  new_name      nvarchar(255) [not null]
+
+  Note: "Custom client account – χρησιμοποιείται από solar_location.solar_account."
+}
+

@@ -1,0 +1,269 @@
+{
+  "solar_corrective_category": {
+    "logicalName": "solar_corrective_category",
+    "fields": [
+      {"logicalName": "solar_comments", "type": "TEXT AREA (NVARCHAR(100))"},
+      {"logicalName": "solar_corrective_categoryid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_description", "type": "MULTILINE TEXT"},
+      {"logicalName": "solar_isactive", "type": "BIT", "required": true},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true},
+      {"logicalName": "solar_team", "type": "NVARCHAR(100)"}
+    ],
+    "lookups": []
+  },
+  "solar_corrective_work_order": {
+    "logicalName": "solar_corrective_work_order",
+    "fields": [
+      {"logicalName": "solar_categoryid", "type": "LOOKUP", "lookupTarget": "solar_corrective_category"},
+      {"logicalName": "solar_code", "type": "NVARCHAR(255)"},
+      {"logicalName": "solar_comments", "type": "TEXT AREA (NVARCHAR(100))"},
+      {"logicalName": "solar_corrective_work_orderid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_description", "type": "MULTILINE TEXT"},
+      {"logicalName": "solar_employee", "type": "LOOKUP", "lookupTarget": "new_account"},
+      {"logicalName": "solar_locationid", "type": "LOOKUP", "lookupTarget": "solar_location"},
+      {"logicalName": "solar_maintenanceteamid", "type": "LOOKUP", "lookupTarget": "solar_maintenance_team"},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true},
+      {"logicalName": "solar_status", "type": "CHOICE", "options": ["Open (100000000)", "In Progress (100000001)", "Closed (100000002)" ]},
+      {"logicalName": "solar_team", "type": "LOOKUP", "lookupTarget": "solar_maintenance_team"}
+    ],
+    "lookups": [
+      {"field": "solar_categoryid", "target": "solar_corrective_category"},
+      {"field": "solar_employee", "target": "new_account"},
+      {"field": "solar_locationid", "target": "solar_location"},
+      {"field": "solar_maintenanceteamid", "target": "solar_maintenance_team"},
+      {"field": "solar_team", "target": "solar_maintenance_team"}
+    ]
+  },
+  "solar_inverter": {
+    "logicalName": "solar_inverter",
+    "fields": [
+      {"logicalName": "solar_assumed_warranty_period", "type": "INT"},
+      {"logicalName": "solar_estimated_expiry", "type": "DATE ONLY"},
+      {"logicalName": "solar_inverter_lv_voltage", "type": "DECIMAL"},
+      {"logicalName": "solar_inverter_manufacturer", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_inverter_model", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_inverter_power", "type": "DECIMAL"},
+      {"logicalName": "solar_inverter_quantity", "type": "INT"},
+      {"logicalName": "solar_inverter_total_cost", "type": "MONEY"},
+      {"logicalName": "solar_inverter_total_cost_base", "type": "MONEY"},
+      {"logicalName": "solar_inverter_type", "type": "CHOICE", "options": ["String Inverter (1)", "Central Inverter (2)", "Power Optimizer (3)", "Microinverter (4)"]},
+      {"logicalName": "solar_inverterid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true},
+      {"logicalName": "solar_warranty_expiry", "type": "DATE ONLY"}
+    ],
+    "lookups": []
+  },
+  "solar_location": {
+    "logicalName": "solar_location",
+    "fields": [
+      {"logicalName": "solar_account", "type": "LOOKUP", "lookupTarget": "new_account"},
+      {"logicalName": "solar_address", "type": "NVARCHAR(500)"},
+      {"logicalName": "solar_assumed_warranty_period", "type": "INT"},
+      {"logicalName": "solar_capacity_mw", "type": "DECIMAL"},
+      {"logicalName": "solar_city", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_closedate", "type": "DATE ONLY"},
+      {"logicalName": "solar_containssections", "type": "BIT"},
+      {"logicalName": "solar_country", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_estimated_expiry", "type": "DATE ONLY"},
+      {"logicalName": "solar_inverter_lv_voltage", "type": "DECIMAL"},
+      {"logicalName": "solar_inverter_manufacturer", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_inverter_model", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_inverter_power", "type": "DECIMAL"},
+      {"logicalName": "solar_inverter_quantity", "type": "INT"},
+      {"logicalName": "solar_inverter_total_cost", "type": "MONEY"},
+      {"logicalName": "solar_inverter_total_cost_base", "type": "MONEY"},
+      {"logicalName": "solar_inverter_type", "type": "CHOICE", "options": ["String Inverter (1)", "Central Inverter (2)", "Power Optimizer (3)", "Microinverter (4)"]},
+      {"logicalName": "solar_landsizekm", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_locationid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true},
+      {"logicalName": "solar_opendate", "type": "DATE ONLY"},
+      {"logicalName": "solar_parkmanager", "type": "LOOKUP", "lookupTarget": "account"},
+      {"logicalName": "solar_postalcode", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_stage", "type": "CHOICE", "options": ["Oem (1)", "Full (2)", "Owend (3)"]},
+      {"logicalName": "solar_state", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_stockmanagement", "type": "BIT"},
+      {"logicalName": "solar_warranty_expiry", "type": "DATE ONLY"}
+    ],
+    "lookups": [
+      {"field": "solar_account", "target": "new_account"},
+      {"field": "solar_parkmanager", "target": "account"},
+      {"field": "solar_park", "target": "solar_location", "note": "used as a lookup target in other tables"}
+    ]
+  },
+  "solar_maintenance_team": {
+    "logicalName": "solar_maintenance_team",
+    "fields": [
+      {"logicalName": "solar_contactinfo", "type": "NVARCHAR(500)"},
+      {"logicalName": "solar_isactive", "type": "BIT", "required": true},
+      {"logicalName": "solar_maintenance_teamid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true},
+      {"logicalName": "solar_specialization", "type": "NVARCHAR(255)"}
+    ],
+    "lookups": []
+  },
+  "solar_module": {
+    "logicalName": "solar_module",
+    "fields": [
+      {"logicalName": "solar_module_depth", "type": "DECIMAL"},
+      {"logicalName": "solar_module_isc", "type": "DECIMAL"},
+      {"logicalName": "solar_module_length", "type": "DECIMAL"},
+      {"logicalName": "solar_module_manufacturer", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_module_model", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_module_power", "type": "DECIMAL"},
+      {"logicalName": "solar_module_quantity", "type": "INT"},
+      {"logicalName": "solar_module_structure", "type": "NVARCHAR(200)"},
+      {"logicalName": "solar_module_voc", "type": "DECIMAL"},
+      {"logicalName": "solar_module_width", "type": "DECIMAL"},
+      {"logicalName": "solar_moduleid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true}
+    ],
+    "lookups": []
+  },
+  "solar_notification": {
+    "logicalName": "solar_notification",
+    "fields": [
+      {"logicalName": "solar_isread", "type": "BIT", "required": true},
+      {"logicalName": "solar_message", "type": "MULTILINE TEXT", "required": true},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true},
+      {"logicalName": "solar_notificationid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_type", "type": "CHOICE", "options": ["Info (100000000)", "Warning (100000001)", "Alert (100000002)", "Critical (100000003)"]}
+    ],
+    "lookups": []
+  },
+  "solar_solarassetcategory": {
+    "logicalName": "solar_solarassetcategory",
+    "fields": [
+      {"logicalName": "solar_categorycode", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_categorydescription", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_categorylevel", "type": "CHOICE", "options": ["Option1 (0)"]},
+      {"logicalName": "solar_categorytitle", "type": "NVARCHAR(850)"},
+      {"logicalName": "solar_isactive", "type": "BIT"},
+      {"logicalName": "solar_notes", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_parentcategoryreference", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_solarassetcategoryid", "type": "GUID", "primaryKey": true}
+    ],
+    "lookups": []
+  },
+  "solar_solarcountry": {
+    "logicalName": "solar_solarcountry",
+    "fields": [
+      {"logicalName": "solar_countryalpha2code", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_countryalpha3code", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_countryname", "type": "NVARCHAR(850)"},
+      {"logicalName": "solar_solarcountryid", "type": "GUID", "primaryKey": true}
+    ],
+    "lookups": []
+  },
+  "solar_solarinverter": {
+    "logicalName": "solar_solarinverter",
+    "fields": [
+      {"logicalName": "solar_estimatedexpirydate", "type": "DATE ONLY"},
+      {"logicalName": "solar_invertername", "type": "NVARCHAR(850)"},
+      {"logicalName": "solar_invertertype", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_manufacturer", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_model", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_park", "type": "LOOKUP", "lookupTarget": "solar_location"},
+      {"logicalName": "solar_poweroutput", "type": "DECIMAL"},
+      {"logicalName": "solar_quantity", "type": "INT"},
+      {"logicalName": "solar_solarinverterid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_totalcost", "type": "MONEY"},
+      {"logicalName": "solar_totalcost_base", "type": "MONEY"},
+      {"logicalName": "solar_warrantyexpirydate", "type": "DATE ONLY"},
+      {"logicalName": "solar_warrantyperiodyears", "type": "INT"}
+    ],
+    "lookups": [
+      {"field": "solar_park", "target": "solar_location"}
+    ]
+  },
+  "solar_solarmodule": {
+    "logicalName": "solar_solarmodule",
+    "fields": [
+      {"logicalName": "solar_moduledepthmm", "type": "DECIMAL"},
+      {"logicalName": "solar_modulelengthmm", "type": "DECIMAL"},
+      {"logicalName": "solar_modulename", "type": "NVARCHAR(850)"},
+      {"logicalName": "solar_modulewidthmm", "type": "DECIMAL"},
+      {"logicalName": "solar_mountingstructure", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_opencircuitvoltagevoc", "type": "DECIMAL"},
+      {"logicalName": "solar_park", "type": "LOOKUP", "lookupTarget": "solar_location"},
+      {"logicalName": "solar_powerratingw", "type": "DECIMAL"},
+      {"logicalName": "solar_quantity", "type": "INT"},
+      {"logicalName": "solar_shortcircuitcurrentisc", "type": "DECIMAL"},
+      {"logicalName": "solar_solarmoduleid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_solarmodulemanufacturer", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_solarmodulemodel", "type": "NVARCHAR(100)"}
+    ],
+    "lookups": [
+      {"field": "solar_park", "target": "solar_location"}
+    ]
+  },
+  "solar_solarpreventiveplan": {
+    "logicalName": "solar_solarpreventiveplan",
+    "fields": [
+      {"logicalName": "solar_planactive", "type": "BIT"},
+      {"logicalName": "solar_plancategory", "type": "LOOKUP", "lookupTarget": "solar_solarpreventiveplancategory"},
+      {"logicalName": "solar_plancode", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_plandays", "type": "INT"},
+      {"logicalName": "solar_plandescription", "type": "TEXT AREA (NVARCHAR(100))"},
+      {"logicalName": "solar_planenddate", "type": "DATE ONLY"},
+      {"logicalName": "solar_planlocation", "type": "LOOKUP", "lookupTarget": "solar_location"},
+      {"logicalName": "solar_plannotes", "type": "TEXT AREA (NVARCHAR(100))"},
+      {"logicalName": "solar_planrecurrence", "type": "CHOICE", "options": ["Daily (1)"]},
+      {"logicalName": "solar_plantitle", "type": "NVARCHAR(850)"},
+      {"logicalName": "solar_sectionreference", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_solarpreventiveplanid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_startdate", "type": "DATE ONLY"}
+    ],
+    "lookups": [
+      {"field": "solar_plancategory", "target": "solar_solarpreventiveplancategory"},
+      {"field": "solar_planlocation", "target": "solar_location"}
+    ]
+  },
+  "solar_solarpreventivetask": {
+    "logicalName": "solar_solarpreventivetask",
+    "fields": [
+      {"logicalName": "solar_equipmentreference", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_isactive", "type": "BIT"},
+      {"logicalName": "solar_maintenanceteamcategoryreference", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_park", "type": "LOOKUP", "lookupTarget": "solar_location"},
+      {"logicalName": "solar_preventivecode", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_preventivetitle", "type": "NVARCHAR(850)"},
+      {"logicalName": "solar_solarpreventivetaskcategory", "type": "LOOKUP", "lookupTarget": "solar_solarpreventivetaskcategory"},
+      {"logicalName": "solar_solarpreventivetaskid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_taskdescription", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_taskfrequency", "type": "CHOICE", "options": ["Option1 (0)"]},
+      {"logicalName": "solar_taskimportance", "type": "CHOICE", "options": ["Low (0)", "Medium (1)", "High (2)"]},
+      {"logicalName": "solar_tasknotes", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_warrantytype", "type": "CHOICE", "options": ["Option1 (0)"]}
+    ],
+    "lookups": [
+      {"field": "solar_park", "target": "solar_location"},
+      {"field": "solar_solarpreventivetaskcategory", "target": "solar_solarpreventivetaskcategory"}
+    ]
+  },
+  "solar_solarpreventivetaskcategory": {
+    "logicalName": "solar_solarpreventivetaskcategory",
+    "fields": [
+      {"logicalName": "solar_categorynotes", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_isactive", "type": "BIT"},
+      {"logicalName": "solar_preventivecategorycode", "type": "NVARCHAR(850)"},
+      {"logicalName": "solar_preventivecategorydescription", "type": "TEXT AREA (NVARCHAR(100))"},
+      {"logicalName": "solar_preventivecategorytitle", "type": "NVARCHAR(100)"},
+      {"logicalName": "solar_solarpreventivetaskcategoryid", "type": "GUID", "primaryKey": true}
+    ],
+    "lookups": []
+  },
+  "solar_task": {
+    "logicalName": "solar_task",
+    "fields": [
+      {"logicalName": "solar_description", "type": "MULTILINE TEXT"},
+      {"logicalName": "solar_estimatedhours", "type": "INT"},
+      {"logicalName": "solar_name", "type": "NVARCHAR(100)", "required": true},
+      {"logicalName": "solar_priority", "type": "CHOICE", "options": ["Low (100000000)", "Medium (100000001)", "High (100000002)", "Critical (100000003)"]},
+      {"logicalName": "solar_taskid", "type": "GUID", "primaryKey": true},
+      {"logicalName": "solar_workorderid", "type": "LOOKUP", "lookupTarget": "solar_corrective_work_order"}
+    ],
+    "lookups": [
+      {"field": "solar_workorderid", "target": "solar_corrective_work_order"}
+    ]
+  }
+}

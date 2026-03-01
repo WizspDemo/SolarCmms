@@ -1,0 +1,73 @@
+// Table grouping for schema.dbml (visual/organizational only)
+//
+// Notes:
+// - Some DBML viewers do not support multi-file projects.
+// - If your viewer can't "include/import" another DBML file, simply concatenate
+//   this file at the end of `schema.dbml` when rendering the diagram.
+
+TableGroup "Lookups / Master Data" {
+  Countries
+  Accounts
+  Clients
+
+  Suppliers
+  ManufacturerBrands
+
+  EquipmentCategories
+  PartsCategories
+  AssetsCategories
+  AssetCategories
+
+  OMCategories
+  CorrectiveTaskCategories
+  PreventiveTaskCategories
+  MaintenanceTeamCategories
+  PreventivePlanCategories
+  DocumentSetCategories
+  LocationConfigurationItemTypes
+
+  DeviceChannels
+  DNO
+  DNOs
+}
+
+TableGroup "Core (Sites / Assets / Stock)" {
+  Locations
+  Sections
+  Assets
+  Equipment
+  Parts
+  Warehouses
+}
+
+TableGroup "Work Orders / Maintenance" {
+  PreventivePlan
+  PreventiveTasks
+  CorrectiveEvents
+  SubCorrectiveEvent
+  CorrectiveTasks
+  PeriodicScheduledActions
+}
+
+TableGroup "Operations / Movements" {
+  PartsTransaction
+  StockAdjustments
+  EquipmentToWarehouse
+  WarehouseEquipmentSerial
+  EquipmentSerial
+  EquipmentTransaction
+  WarehouseToLocation
+  LocationConfiguration
+  EquipmentTracking
+}
+
+TableGroup "PV Domain" {
+  PVPlants
+  PVPlantsSystemInfo
+  PVPlantsDNOStations
+  PVPlantsCCTVGateCodes
+  PVPlantsSiteCredentials
+  PVPlantsContactInfo
+  PVGroup
+  PlantEngineer
+}

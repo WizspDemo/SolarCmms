@@ -1,0 +1,5774 @@
+{
+  "custom_list_columns": [
+    {
+      "listName": "Suppliers",
+      "internalName": "Suppliers",
+      "listId": "3acfaa89-06f0-46e0-abf6-026b118a761e",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Equipment",
+      "internalName": "Equipment",
+      "listId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "ManufacturerID",
+          "name": "ManufacturerID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Manufacturer or Brand",
+          "name": "ManufacturerOrBrand",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+          "lookupListName": "ManufacturerBrands",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Supplier",
+          "name": "Supplier",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "3acfaa89-06f0-46e0-abf6-026b118a761e",
+          "lookupListName": "Suppliers",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Stock Management",
+          "name": "StockManagement",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "displayName": "Photo",
+          "name": "Photo",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "URL",
+          "name": "URL",
+          "type": "hyperlinkOrPicture",
+          "required": false,
+          "isPicture": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "displayName": "CategoryType",
+          "name": "CategoryType",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "CategoryType",
+          "allowMultipleValues": false,
+          "note": "Calculated lookup from Category"
+        },
+        {
+          "displayName": "Serial",
+          "name": "Serial",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "0"
+        }
+      ]
+    },
+    {
+      "listName": "Parts",
+      "internalName": "Parts",
+      "listId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+          "lookupListName": "PartsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Barcode",
+          "name": "Barcode",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "UPC",
+          "name": "UPC",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "ManufacturerID",
+          "name": "ManufacturerID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Manufacturer or Brand",
+          "name": "ManufacturerOrBrand",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+          "lookupListName": "ManufacturerBrands",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Supplier",
+          "name": "Supplier",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "3acfaa89-06f0-46e0-abf6-026b118a761e",
+          "lookupListName": "Suppliers",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Stock Management",
+          "name": "StockManagement",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "displayName": "Consumable",
+          "name": "Consumable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "displayName": "Photo",
+          "name": "Photo",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "URL",
+          "name": "URL",
+          "type": "hyperlinkOrPicture",
+          "required": false,
+          "isPicture": false
+        },
+        {
+          "displayName": "MinQTY",
+          "name": "MinQTY",
+          "type": "number",
+          "required": false,
+          "displayAs": "number"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "DeviceChannels",
+      "internalName": "DeviceChannels",
+      "listId": "7009445a-96a9-4c20-8b62-259650ba7544",
+      "columns": [
+        {
+          "displayName": "Name",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Alias",
+          "name": "Alias",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Device Inclusion Rules (UserAgentSubstrings)",
+          "name": "UserAgentSubstrings",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "DNO",
+      "internalName": "DNO",
+      "listId": "fec26b5a-5cc0-4b6e-8b87-261d766d9327",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Emergency Number",
+          "name": "EmergencyNumber",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Telephone",
+          "name": "Telephone",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Email",
+          "name": "Email",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Website",
+          "name": "Website",
+          "type": "hyperlinkOrPicture",
+          "required": false,
+          "isPicture": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Corrective Task Categories",
+      "internalName": "CorrectiveTaskCategories",
+      "listId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Parent",
+          "name": "Parent",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "note": "Self-referencing hierarchical lookup"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Locations",
+      "internalName": "Locations",
+      "listId": "4b1423a7-5176-46a7-b509-38070860f70b",
+      "note": "Most complex list with 73 columns covering location details, address, inverter/module specs, network, DNO/grid, transformer, security/access",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Name",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Open Date",
+          "name": "OpenDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Close Date",
+          "name": "CloseDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Stage",
+          "name": "Stage",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Construction",
+            "Oem",
+            "Repower"
+          ],
+          "defaultValue": "Oem",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Capacity MW",
+          "name": "CapacityMW",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Annual Output GWh",
+          "name": "AnnualOutputGWh",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Zones",
+          "name": "Zones",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": true,
+          "note": "Multi-value lookup to Locations"
+        },
+        {
+          "displayName": "Stock Management",
+          "name": "StockManagement",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "displayName": "Account",
+          "name": "Account",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "note": "Lookup to Accounts (external list)"
+        },
+        {
+          "displayName": "Contains Sections",
+          "name": "ContainsSections",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "displayName": "Manager",
+          "name": "Manager",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": false,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Land Size Hectares",
+          "name": "LandSizeHectares",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Address Description",
+          "name": "AddressDescription",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Street",
+          "name": "Street",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Zip or Postal Code",
+          "name": "ZipOrPostalCode",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "State or Province",
+          "name": "StateOrProvince",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Country",
+          "name": "Country",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "86d88de5-f5b6-46e1-8fc3-e96ab5ce5821",
+          "lookupListName": "Countries",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Latitude",
+          "name": "Latitude",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "6"
+        },
+        {
+          "displayName": "Longtitude",
+          "name": "Longtitude",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "6"
+        },
+        {
+          "displayName": "GoogleEarth",
+          "name": "GoogleEarth",
+          "type": "hyperlinkOrPicture",
+          "required": false,
+          "isPicture": false
+        },
+        {
+          "displayName": "Embed Map",
+          "name": "EmbedMap",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 12
+        },
+        {
+          "displayName": "What3Words",
+          "name": "What3Words",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Grazed",
+          "name": "Grazed",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "displayName": "Land Owner/Farmer Details",
+          "name": "LandOwnerFarmerDetails",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Inverter Manufacturer",
+          "name": "InverterManufacturer",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Inverter Type",
+          "name": "InverterType",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Inverter Model",
+          "name": "InverterModel",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Inverter Quantity",
+          "name": "InverterQuantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Inverter Total",
+          "name": "InverterTotal",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Inverter LV Voltage",
+          "name": "InverterLVVoltage",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Inverter Power",
+          "name": "InverterPower",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Assumed Warranty Period",
+          "name": "AssumedWarrantyPeriod",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Warranty Expiry",
+          "name": "WarrantyExpiry",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Estimated Expiry",
+          "name": "EstimatedExpiry",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Module Manufacturer",
+          "name": "ModuleManufacturer",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Module Model",
+          "name": "ModuleModel",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Module Quantity",
+          "name": "ModuleQuantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Module Power",
+          "name": "ModulePower",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Module Voc",
+          "name": "ModuleVoc",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Module Isc",
+          "name": "ModuleIsc",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Module Length",
+          "name": "ModuleLength",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Module Width",
+          "name": "ModuleWidth",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Module Depth",
+          "name": "ModuleDepth",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Module Structure",
+          "name": "ModuleStructure",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Satellite/3G/4G",
+          "name": "Satellite3G4G",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "LAN Network",
+          "name": "LANNetwork",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "SCADA Provider",
+          "name": "SCADAProvider",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "ADAS Installed",
+          "name": "ADASInstalled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "displayName": "Data Loggers",
+          "name": "DataLoggers",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "DNO - Grid Operator",
+          "name": "DNOGridOperator",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "fec26b5a-5cc0-4b6e-8b87-261d766d9327",
+          "lookupListName": "DNO",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "DNO Size (KV)",
+          "name": "DNOSizeKV",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "DNO Contact",
+          "name": "DNOContact",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "DNO Contact2",
+          "name": "DNOContact2",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "DNO Contact3",
+          "name": "DNOContact3",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Site Reference Number",
+          "name": "SiteReferenceNumber",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "HV Contractor",
+          "name": "HVContractor",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "T-Boot/sub",
+          "name": "TBootSub",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Transformer Quantity",
+          "name": "TransformerQuantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Transformer Make",
+          "name": "TransformerMake",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Transformer Model",
+          "name": "TransformerModel",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Transformer Rating KVA",
+          "name": "TransformerRatingKVA",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Security",
+          "name": "Security",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Security Codes",
+          "name": "SecurityCodes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Site Access Details",
+          "name": "SiteAccessDetails",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Access Gate Codes",
+          "name": "AccessGateCodes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Export Meter Location",
+          "name": "ExportMeterLocation",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Export Meter Access Details",
+          "name": "ExportMeterAccessDetails",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Supervisor",
+          "name": "Supervisor",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": false,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Other Information",
+          "name": "OtherInformation",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Tasks",
+      "internalName": "Tasks",
+      "listId": "30740eba-5a56-4eaf-9621-087a66cc0bfa",
+      "columns": [
+        {
+          "displayName": "Task Name",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Predecessors",
+          "name": "Predecessors",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "30740eba-5a56-4eaf-9621-087a66cc0bfa",
+          "lookupListName": "Tasks",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": true,
+          "note": "Self-referencing multi-value lookup for task dependencies"
+        },
+        {
+          "displayName": "Priority",
+          "name": "Priority",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "High",
+            "Normal",
+            "Low"
+          ],
+          "defaultValue": "Normal",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Status",
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Not Started",
+            "In Progress",
+            "Completed",
+            "Deferred",
+            "Waiting"
+          ],
+          "defaultValue": "Not Started",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "% Complete",
+          "name": "PercentComplete",
+          "type": "number",
+          "required": false,
+          "displayAs": "percentage",
+          "minimum": 0,
+          "maximum": 100,
+          "defaultValue": "0"
+        },
+        {
+          "displayName": "Assigned To",
+          "name": "AssignedTo",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": true,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Task Group",
+          "name": "TaskGroup",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": false,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Start Date",
+          "name": "StartDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly",
+          "defaultValue": "[today]"
+        },
+        {
+          "displayName": "Due Date",
+          "name": "DueDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Related Items",
+          "name": "RelatedItems",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "PublishedFeed",
+      "internalName": "PublishedFeed",
+      "listId": "2bbed0e7-9d77-47a9-95f3-08e411435f53",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Body",
+          "name": "Body",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Published Date",
+          "name": "PublishedDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateTime",
+          "displayAs": "standard"
+        }
+      ]
+    },
+    {
+      "listName": "SiteCollectionDocuments",
+      "internalName": "SiteCollectionDocuments",
+      "listId": "cd8dcd44-12f1-495a-a8f2-2d30e3b9b7c3",
+      "template": "documentLibrary",
+      "columns": [
+        {
+          "displayName": "Name",
+          "name": "FileLeafRef",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Equipment Categories",
+      "internalName": "EquipmentCategories",
+      "listId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Main Type",
+          "name": "MainType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Equipment",
+            "Asset"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Parent",
+          "name": "Parent",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "note": "Self-referencing hierarchical lookup"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "displayName": "CategoryType",
+          "name": "CategoryType",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Parts Categories",
+      "internalName": "PartsCategories",
+      "listId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Level",
+          "name": "Level",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Category Level #1",
+            "Category Level #2",
+            "Category Level #3"
+          ],
+          "defaultValue": "Category Level #1",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Parent",
+          "name": "Parent",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+          "lookupListName": "PartsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "note": "Self-referencing hierarchical lookup"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Manufacturer Brands",
+      "internalName": "ManufacturerBrands",
+      "listId": "61464423-eece-44f8-bb01-970a40605437",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Logo",
+          "name": "Logo",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Website",
+          "name": "Website",
+          "type": "hyperlinkOrPicture",
+          "required": false,
+          "isPicture": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "SectionTemplate (mistakenly named Sections)",
+      "internalName": "SectionTemplate",
+      "listId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Countries",
+      "internalName": "Countries",
+      "listId": "86d88de5-f5b6-46e1-8fc3-e96ab5ce5821",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Warehouses",
+      "internalName": "Warehouses",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Assets",
+      "internalName": "Assets",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "AssetsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Section",
+          "name": "Section",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75",
+          "lookupListName": "Sections",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Serial Number",
+          "name": "SerialNumber",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Manufacturer or Brand",
+          "name": "ManufacturerOrBrand",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+          "lookupListName": "ManufacturerBrands",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Installation Date",
+          "name": "InstallationDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Warranty Expiry",
+          "name": "WarrantyExpiry",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Assets Categories",
+      "internalName": "AssetsCategories",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Parent",
+          "name": "Parent",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "AssetsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "note": "Self-referencing hierarchical lookup"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Location Configuration",
+      "internalName": "LocationConfiguration",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Item Type",
+          "name": "ItemType",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "LocationConfigurationItemTypes",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Quantity",
+          "name": "Quantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Location Configuration Item Types",
+      "internalName": "LocationConfigurationItemTypes",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "WarehouseEquipmentSerial",
+      "internalName": "WarehouseEquipmentSerial",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Equipment",
+          "name": "Equipment",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Warehouse",
+          "name": "Warehouse",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Serial Number",
+          "name": "SerialNumber",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Status",
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "In Stock",
+            "In Use",
+            "Maintenance",
+            "Disposed"
+          ],
+          "defaultValue": "In Stock",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "SubCorrectiveEvent",
+      "internalName": "SubCorrectiveEvent",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Corrective Event",
+          "name": "CorrectiveEvent",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "CorrectiveEvents",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Priority",
+          "name": "Priority",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "High",
+            "Normal",
+            "Low"
+          ],
+          "defaultValue": "Normal",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Status",
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Open",
+            "In Progress",
+            "Completed",
+            "Cancelled"
+          ],
+          "defaultValue": "Open",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Assigned To",
+          "name": "AssignedTo",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": true,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Due Date",
+          "name": "DueDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Preventive Plan",
+      "internalName": "PreventivePlan",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Frequency",
+          "name": "Frequency",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Daily",
+            "Weekly",
+            "Monthly",
+            "Quarterly",
+            "Semi-Annual",
+            "Annual"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Start Date",
+          "name": "StartDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Next Due Date",
+          "name": "NextDueDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Assigned Team",
+          "name": "AssignedTeam",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Preventive Task Categories",
+      "internalName": "PreventiveTaskCategories",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Parent",
+          "name": "Parent",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "PreventiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "note": "Self-referencing hierarchical lookup"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Settings",
+      "internalName": "Settings",
+      "columns": [
+        {
+          "displayName": "Key",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Value",
+          "name": "Value",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Warehouse To Location",
+      "internalName": "WarehouseToLocation",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Warehouse",
+          "name": "Warehouse",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Corrective Events",
+      "internalName": "CorrectiveEvents",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Priority",
+          "name": "Priority",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Critical",
+            "High",
+            "Normal",
+            "Low"
+          ],
+          "defaultValue": "Normal",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Status",
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Reported",
+            "In Progress",
+            "Completed",
+            "Cancelled"
+          ],
+          "defaultValue": "Reported",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Reported Date",
+          "name": "ReportedDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly",
+          "defaultValue": "[today]"
+        },
+        {
+          "displayName": "Due Date",
+          "name": "DueDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Assigned Team",
+          "name": "AssignedTeam",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Assigned To",
+          "name": "AssignedTo",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": true,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Completed Date",
+          "name": "CompletedDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        }
+      ]
+    },
+    {
+      "listName": "PartsTransaction",
+      "internalName": "PartsTransaction",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Part",
+          "name": "Part",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+          "lookupListName": "Parts",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Transaction Type",
+          "name": "TransactionType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "In",
+            "Out",
+            "Transfer",
+            "Adjustment"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Quantity",
+          "name": "Quantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "From Warehouse",
+          "name": "FromWarehouse",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "To Warehouse",
+          "name": "ToWarehouse",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Transaction Date",
+          "name": "TransactionDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly",
+          "defaultValue": "[today]"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Preventive Tasks",
+      "internalName": "PreventiveTasks",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Plan",
+          "name": "Plan",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListName": "PreventivePlan",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "PreventiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Status",
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Scheduled",
+            "In Progress",
+            "Completed",
+            "Skipped"
+          ],
+          "defaultValue": "Scheduled",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Scheduled Date",
+          "name": "ScheduledDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Completed Date",
+          "name": "CompletedDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Assigned To",
+          "name": "AssignedTo",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": true,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Stock Adjustments",
+      "internalName": "StockAdjustments",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Item Type",
+          "name": "ItemType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Part",
+            "Equipment"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Part",
+          "name": "Part",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+          "lookupListName": "Parts",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Equipment",
+          "name": "Equipment",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Warehouse",
+          "name": "Warehouse",
+          "type": "lookup",
+          "required": false,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Adjustment Type",
+          "name": "AdjustmentType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Increase",
+            "Decrease",
+            "Recount"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Quantity",
+          "name": "Quantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Adjustment Date",
+          "name": "AdjustmentDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly",
+          "defaultValue": "[today]"
+        },
+        {
+          "displayName": "Reason",
+          "name": "Reason",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Maintenance Team Per Location",
+      "internalName": "MaintenanceTeamPerLocation",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Maintenance Team",
+          "name": "MaintenanceTeam",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Start Date",
+          "name": "StartDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "End Date",
+          "name": "EndDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Maintenance Team Members",
+      "internalName": "MaintenanceTeamMembers",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Maintenance Team",
+          "name": "MaintenanceTeam",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Member",
+          "name": "Member",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": false,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Role",
+          "name": "Role",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Team Leader",
+            "Technician",
+            "Helper",
+            "Supervisor"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Start Date",
+          "name": "StartDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "End Date",
+          "name": "EndDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Service Companys",
+      "internalName": "ServiceCompanys",
+      "listId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Contact Person",
+          "name": "ContactPerson",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Email",
+          "name": "Email",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Phone",
+          "name": "Phone",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Website",
+          "name": "Website",
+          "type": "hyperlinkOrPicture",
+          "required": false,
+          "isPicture": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "OM Categories",
+      "internalName": "OMCategories",
+      "listId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Parent",
+          "name": "CategoryParent",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+          "lookupListName": "OMCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "note": "Self-referencing hierarchical lookup"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Maintenance Teams",
+      "internalName": "MaintenanceTeams",
+      "listId": "69ad2565-e329-4866-abba-fda42a27ecd9",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Team Leader",
+          "name": "TeamLeader",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": false,
+          "displayAs": "nameWithPresence"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "EquipmentSerial",
+      "internalName": "EquipmentSerial",
+      "columns": [
+        {
+          "displayName": "Serial Number",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Equipment",
+          "name": "Equipment",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Section",
+          "name": "Section",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75",
+          "lookupListName": "Sections",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Installation Date",
+          "name": "InstallationDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Status",
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Active",
+            "Inactive",
+            "Maintenance",
+            "Retired"
+          ],
+          "defaultValue": "Active",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "EquipmentToWarehouse",
+      "internalName": "EquipmentToWarehouse",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Equipment",
+          "name": "Equipment",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Warehouse",
+          "name": "Warehouse",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Quantity",
+          "name": "Quantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Min Quantity",
+          "name": "MinQuantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "0"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "ServiceOrder",
+      "internalName": "ServiceOrder",
+      "columns": [
+        {
+          "displayName": "Order Number",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Service Company",
+          "name": "ServiceCompany",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573",
+          "lookupListName": "ServiceCompanys",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "indexed": true,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Order Date",
+          "name": "OrderDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly",
+          "defaultValue": "[today]"
+        },
+        {
+          "displayName": "Scheduled Date",
+          "name": "ScheduledDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "displayAs": "friendly"
+        },
+        {
+          "displayName": "Status",
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Draft",
+            "Ordered",
+            "In Progress",
+            "Completed",
+            "Cancelled"
+          ],
+          "defaultValue": "Draft",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Priority",
+          "name": "Priority",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "High",
+            "Normal",
+            "Low"
+          ],
+          "defaultValue": "Normal",
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "Service",
+      "internalName": "Service",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+          "lookupListName": "OMCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Default Service Company",
+          "name": "DefaultServiceCompany",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573",
+          "lookupListName": "ServiceCompanys",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Unit Cost",
+          "name": "UnitCost",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "2"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "SectionTemplate",
+      "internalName": "SectionTemplate",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "plain",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Template Type",
+          "name": "TemplateType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "String",
+            "Combiner",
+            "Inverter",
+            "Transformer"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "DocumentSetCategories",
+      "internalName": "DocumentSetCategories",
+      "listId": "ffb69262-d6d9-49b5-846b-4a2b81ff92f9",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "MaintenanceTeamCategories",
+      "internalName": "MaintenanceTeamCategories",
+      "listId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Parent",
+          "name": "Parent",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+          "lookupListName": "MaintenanceTeamCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "Accounts",
+      "internalName": "Accounts",
+      "listId": "83471562-c8eb-4512-b59e-b95748b6f3a4",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Distinctive Title",
+          "name": "DistinctiveTitle",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Address Description",
+          "name": "AddressDescription",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Street",
+          "name": "Street",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Zip or Postal Code",
+          "name": "ZipOrPostalCode",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "City",
+          "name": "City",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "State or Province",
+          "name": "StateOrProvince",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Country",
+          "name": "Country",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "482bc28e-de9a-468c-9879-ab79768a0c6c",
+          "lookupListName": "Countries",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Telephone",
+          "name": "Telephone",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Email",
+          "name": "Email",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Manager",
+          "name": "Manager",
+          "type": "personOrGroup",
+          "required": false,
+          "allowMultipleSelection": false,
+          "chooseFromType": "peopleOnly"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "PreventivePlanCategories",
+      "internalName": "PreventivePlanCategories",
+      "listId": "7ba018e5-8b85-4150-8331-bd2ce40e4eec",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Level",
+          "name": "Level",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Category Level #1",
+            "Category Level #2",
+            "Category Level #3"
+          ],
+          "displayAs": "dropDownMenu",
+          "defaultValue": "Category Level #1"
+        },
+        {
+          "displayName": "Parent",
+          "name": "Parent",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "7ba018e5-8b85-4150-8331-bd2ce40e4eec",
+          "lookupListName": "PreventivePlanCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "DocumentSets",
+      "internalName": "DocumentSets",
+      "listId": "62066051-960e-44bf-8c3e-c6e48dd0f6be",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "ffb69262-d6d9-49b5-846b-4a2b81ff92f9",
+          "lookupListName": "DocumentSetCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Notes",
+          "name": "Comments",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        }
+      ]
+    },
+    {
+      "listName": "CorrectiveTasks",
+      "internalName": "CorrectiveTasks",
+      "listId": "b2bd33af-a92d-41c8-b5e1-c93ea15ae89e",
+      "columns": [
+        {
+          "displayName": "Code",
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "enforceUniqueValues": true,
+          "indexed": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "OM Category",
+          "name": "OMCategory",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+          "lookupListName": "OMCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Frequency",
+          "name": "Frequency",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "As needed",
+            "2 years"
+          ],
+          "displayAs": "dropDownMenu",
+          "defaultValue": "As needed"
+        },
+        {
+          "displayName": "Maintenance Team Category",
+          "name": "MaintenanceTeamCategory",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+          "lookupListName": "MaintenanceTeamCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Warranty Type",
+          "name": "WarrantyType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "N/A",
+            "EPC",
+            "Inverter",
+            "Module (Product)",
+            "Monitoring"
+          ],
+          "displayAs": "dropDownMenu",
+          "defaultValue": "N/A"
+        },
+        {
+          "displayName": "Applicable Unit",
+          "name": "ApplicableUnit",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Acres",
+            "Block",
+            "Combiner Box",
+            "Inverter",
+            "Module",
+            "MW",
+            "Site",
+            "String",
+            "Tracker",
+            "Transformer"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Notes",
+          "name": "Notes",
+          "type": "text",
+          "required": false,
+          "allowMultipleLines": true,
+          "textType": "richText",
+          "linesForEditing": 6
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "1"
+        }
+      ]
+    },
+    {
+      "listName": "EquipmentTransaction",
+      "internalName": "EquipmentTransaction",
+      "listId": "5183d035-364d-4c1f-b574-cdb100179d6c",
+      "columns": [
+        {
+          "displayName": "Title",
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Warehouse",
+          "name": "Warehouse",
+          "type": "choice",
+          "required": false,
+          "choices": [],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Task Type",
+          "name": "TaskType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Choice",
+            "Corrective",
+            "Preventative",
+            "Repower",
+            "Service"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "JobID",
+          "name": "JobID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "HandlingDate",
+          "name": "HandlingDate",
+          "type": "dateTime",
+          "required": false,
+          "format": "dateOnly",
+          "defaultValue": "[today]"
+        },
+        {
+          "displayName": "Record Type",
+          "name": "RecordType",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "In",
+            "Out"
+          ],
+          "displayAs": "dropDownMenu",
+          "defaultValue": "In"
+        },
+        {
+          "displayName": "Reason",
+          "name": "Reason",
+          "type": "choice",
+          "required": false,
+          "choices": [
+            "Failure",
+            "Move",
+            "Install",
+            "Uninstall",
+            "Service",
+            "Other"
+          ],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "To Warehouse",
+          "name": "ToWarehouse",
+          "type": "choice",
+          "required": false,
+          "choices": [],
+          "displayAs": "dropDownMenu"
+        },
+        {
+          "displayName": "Quantity",
+          "name": "Quantity",
+          "type": "number",
+          "required": true,
+          "displayAs": "number",
+          "decimalPlaces": "Automatic"
+        },
+        {
+          "displayName": "Current Quantity",
+          "name": "CurrentQuantity",
+          "type": "number",
+          "required": false,
+          "displayAs": "number",
+          "decimalPlaces": "Automatic"
+        },
+        {
+          "displayName": "EquipmentId",
+          "name": "EquipmentId",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Location",
+          "name": "Location",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "Category",
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false
+        },
+        {
+          "displayName": "WarehouseLocationID",
+          "name": "WarehouseLocationID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "LocationId",
+          "name": "LocationId",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "toWarehouseLocationID",
+          "name": "toWarehouseLocationID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "WarehouseID",
+          "name": "WarehouseID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "toWarehouseID",
+          "name": "toWarehouseID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "EquipmentWarehouseID",
+          "name": "EquipmentWarehouseID",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "quid",
+          "name": "quid",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        },
+        {
+          "displayName": "Serial",
+          "name": "Serial",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "0"
+        },
+        {
+          "displayName": "SerialNotes",
+          "name": "SerialNotes",
+          "type": "text",
+          "required": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Services",
+      "listId": "f60bcf4d-1ddd-46ce-90ba-25c6e89ff609",
+      "internalName": "Services",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "BGE Owned Spares Tracking",
+      "listId": "94e4c1c7-d831-40a0-a6c1-3e2a8c5e7a59",
+      "internalName": "BGEOwnedSparesTracking",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Plant Remedials",
+      "listId": "2c80cf7a-e0f0-43ef-aeb9-42ab6e8a9d0f",
+      "internalName": "PlantRemedials",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "DNOs",
+      "listId": "1c83ef46-f003-4151-a019-371790a307cc",
+      "internalName": "DNOs",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Clients",
+      "listId": "408ec8a0-2358-4d1f-b93b-3c2a3652790f",
+      "internalName": "Clients",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "PVGroup",
+      "listId": "a8bb1af5-f8f9-41e4-ba7b-451e22d26c72",
+      "internalName": "PVGroup",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Remedial Docs",
+      "listId": "be3d0a14-8c14-4e60-9fb4-49eb8a3de63a",
+      "internalName": "RemedialDocs",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "SCB",
+      "listId": "95b0b63d-0799-4088-8147-5dd5f5f6e90a",
+      "internalName": "SCB",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "PlantPreventativeCopy",
+      "listId": "4f1aab3f-9ee0-4f8f-9bd2-6225edde19fc",
+      "internalName": "PlantPreventativeCopy",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "CategoriesPerFarm",
+      "listId": "51e81779-bae8-4548-a67e-67d19e2b3a4c",
+      "internalName": "CategoriesPerFarm",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Contracts",
+      "listId": "9e36cc81-6c14-4cd2-a6bb-7b0e5eac2b05",
+      "internalName": "Contracts",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Contact Info Misc",
+      "listId": "59041ec8-6d23-4384-9e88-b5a718ee7069",
+      "internalName": "ContactInfoMisc",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Health And Safety On-site",
+      "listId": "c5d70d6f-4b85-42e3-8aba-8bbe1e2a6e79",
+      "internalName": "HealthAndSafetyOnSite",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants Contact Info",
+      "listId": "4e5c49b7-6ea8-47b4-a31c-94f6f9c7b2c8",
+      "internalName": "PVPlantsContactInfo",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "BGE Owned Spares",
+      "listId": "fc16f745-58d5-4068-9467-6846e47c8caa",
+      "internalName": "BGEOwnedSpares",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Plant Engineer",
+      "listId": "c7ddcef2-c74b-49c9-a36e-9fbc1e8fd3e9",
+      "internalName": "PlantEngineer",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "SLA Levels",
+      "listId": "0ac61c4f-1773-4ea9-b71e-a27ff8f7b27e",
+      "internalName": "SLALevels",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Documents To Fill",
+      "listId": "1f8c9c44-8d95-4e8e-b24a-a80e10f99aae",
+      "internalName": "DocumentsToFill",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Content and Structure Reports",
+      "listId": "82fe5e9f-56d8-48e2-b4f8-b48e1a2ad4bc",
+      "internalName": "ContentAndStructureReports",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Periodic Scheduled Actions",
+      "listId": "52fe5e26-0556-416b-b742-d6308c2c5072",
+      "internalName": "PeriodicScheduledActions",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "ActionCode",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "ActionDate",
+          "type": "dateTime",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "allowMultipleLines": true
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants CCTV Gate Codes",
+      "listId": "98be3580-f842-4a55-b034-d9d0ac32b6aa",
+      "internalName": "PVPlantsCCTVGateCodes",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "PlantId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "GateCode",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "CCTVCode",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants DNO Stations",
+      "listId": "0efcd3ee-b84e-41de-9221-da39203b3aae",
+      "internalName": "PVPlantsDNOStations",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "PlantId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "DNOStation",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "DNOContact",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants",
+      "listId": "a7871c2a-bec4-42d5-be48-db0a891595e7",
+      "internalName": "PVPlants",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "PlantId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "Country",
+          "type": "lookup",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "Location",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "Status",
+          "type": "choice",
+          "required": false,
+          "readOnly": false
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants System Info",
+      "listId": "873f7a23-b4d4-4167-8e45-e2d0f540743e",
+      "internalName": "PVPlantsSystemInfo",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "PlantId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "SystemCapacity",
+          "type": "number",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "InverterType",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "ModuleType",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Asset Categories",
+      "listId": "b7299269-177e-4357-9537-e813621f981a",
+      "internalName": "AssetCategories",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "CategoryCode",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "allowMultipleLines": true
+        }
+      ]
+    },
+    {
+      "listName": "DailyDocs",
+      "listId": "b1b2220f-7fb7-4c1a-902e-ea3471b14436",
+      "internalName": "DailyDocs",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "DocumentDate",
+          "type": "dateTime",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "DocumentType",
+          "type": "choice",
+          "required": false,
+          "readOnly": false
+        }
+      ]
+    },
+    {
+      "listName": "Equipment Tracking",
+      "listId": "d5d750c1-d372-4701-ac3b-0c940ebb18b5",
+      "internalName": "EquipmentTracking",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "RecordDate",
+          "type": "dateTime",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "Record",
+          "type": "choice",
+          "required": false,
+          "readOnly": false,
+          "choices": [
+            "Add",
+            "Subtraction"
+          ]
+        },
+        {
+          "name": "Quantity",
+          "type": "number",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "Person",
+          "type": "personOrGroup",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "TaskId",
+          "type": "number",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "PlantId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "SubTask",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 10
+        },
+        {
+          "name": "TaskType",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "Cause",
+          "type": "choice",
+          "required": false,
+          "readOnly": false,
+          "choices": [
+            "Addition",
+            "Transportation",
+            "Installation",
+            "Uninstall",
+            "Service",
+            "Return",
+            "BGE Owned Spares",
+            "Other"
+          ]
+        },
+        {
+          "name": "Warehouse",
+          "type": "choice",
+          "required": false,
+          "readOnly": false,
+          "choices": [
+            "Choice",
+            "Installed at Site",
+            "Spares at Site",
+            "External Warehouse",
+            "BGE Warehouse",
+            "Supplier Premises"
+          ]
+        },
+        {
+          "name": "Details",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "Category",
+          "type": "lookup",
+          "required": false,
+          "readOnly": false,
+          "lookupListId": "b7299269-177e-4357-9537-e813621f981a"
+        },
+        {
+          "name": "Asset",
+          "type": "lookup",
+          "required": false,
+          "readOnly": false
+        }
+      ]
+    },
+    {
+      "listName": "Strings",
+      "listId": "6392d14f-dab5-40ce-89af-0eb5b08d0a0b",
+      "internalName": "Strings",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "listName": "Plant Preventative",
+      "listId": "f5612c78-e513-4df2-b024-13e906ea2b69",
+      "internalName": "PlantPreventative",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "Frequency",
+          "type": "choice",
+          "required": false,
+          "readOnly": false,
+          "choices": [
+            "Annually",
+            "Semi-annually",
+            "Quarterly",
+            "Monthly",
+            "Daily",
+            "2 Yearly",
+            "3 Yearly",
+            "4 Yearly",
+            "5 Yearly",
+            "Every 2 Years",
+            "Every 3 Years",
+            "Every 4 Years",
+            "Every 5 Years",
+            "As required by manufacturer's guidance",
+            "Up to three times",
+            "Other"
+          ]
+        },
+        {
+          "name": "Comments",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "allowMultipleLines": true
+        },
+        {
+          "name": "Code",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "DescriptionServices",
+          "type": "choice",
+          "required": false,
+          "readOnly": false,
+          "choices": [
+            "General Inspection",
+            "Access & Egress",
+            "Grounds",
+            "Modules",
+            "Mounting Structure",
+            "Inverter Stations",
+            "Security Monitoring & CCTV",
+            "String Combiner Boxes",
+            "Fences / Gates",
+            "LV AC & DC Inspection",
+            "Circuit Breakers & Switchgear",
+            "HV Transformer",
+            "Substation Housing",
+            "Partial Discharge Testing",
+            "Current Transformer Circuit Maintenance",
+            "Transformer Buchholz & Winding Temperature Indicator Maintenance (where applicable)",
+            "Spares",
+            "Under Construction",
+            "Miscellaneous Services",
+            "Other"
+          ]
+        },
+        {
+          "name": "January",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "February",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "March",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "April",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "May",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "June",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "July",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "August",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "September",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "October",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "November",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "December",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "PlantId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "Enable",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "Scheduled",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "allowMultipleLines": true
+        }
+      ]
+    },
+    {
+      "listName": "Translation Status",
+      "listId": "6e084852-95e4-41bc-9799-21edbd21db7e",
+      "internalName": "TranslationStatus",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "TranslationStateJobId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "TranslationStateStartTime",
+          "type": "dateTime",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "TranslationStateEndTime",
+          "type": "dateTime",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "TranslationStateTranslationType",
+          "type": "choice",
+          "required": false,
+          "readOnly": false,
+          "choices": [
+            "Machine Translation",
+            "Human Translation"
+          ]
+        },
+        {
+          "name": "TranslationStateTranslatorName",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "TranslationStateStatus",
+          "type": "choice",
+          "required": false,
+          "readOnly": false,
+          "choices": [
+            "Queued",
+            "Translated",
+            "In Progress",
+            "With Human Translator",
+            "Throttled",
+            "Error"
+          ]
+        },
+        {
+          "name": "TranslationStateNumberOfItems",
+          "type": "number",
+          "required": false,
+          "readOnly": false
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants Site Credentials",
+      "listId": "f0f2774b-fc42-450d-a711-f6831a4bd4e9",
+      "internalName": "SiteCredentials",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "IPAddress",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 24
+        },
+        {
+          "name": "UsernamePassword",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 128
+        },
+        {
+          "name": "PlantId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        },
+        {
+          "name": "SolarSite",
+          "type": "lookup",
+          "required": false,
+          "readOnly": false,
+          "lookupListId": "a7871c2a-bec4-42d5-be48-db0a891595e7"
+        }
+      ]
+    },
+    {
+      "listName": "Comments - Remarks",
+      "listId": "b6c7c812-4cec-4086-96b8-f6a5be622b8d",
+      "internalName": "SolarSiteComments",
+      "columns": [
+        {
+          "name": "Title",
+          "type": "text",
+          "required": true,
+          "readOnly": false,
+          "maxLength": 255
+        },
+        {
+          "name": "Description",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "allowMultipleLines": true
+        },
+        {
+          "name": "SendEmail",
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "SendEmailTo",
+          "type": "personOrGroup",
+          "required": false,
+          "readOnly": false
+        },
+        {
+          "name": "SiteId",
+          "type": "text",
+          "required": false,
+          "readOnly": false,
+          "maxLength": 50
+        }
+      ]
+    }
+  ],
+  "relationship_lookup_columns": [
+    {
+      "listName": "Equipment",
+      "listId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+      "lookupColumns": [
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "ManufacturerOrBrand",
+          "displayName": "Manufacturer or Brand",
+          "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+          "lookupListName": "ManufacturerBrands",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Supplier",
+          "displayName": "Supplier",
+          "lookupListId": "3acfaa89-06f0-46e0-abf6-026b118a761e",
+          "lookupListName": "Suppliers",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "CategoryType",
+          "displayName": "CategoryType",
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "CategoryType",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false,
+          "description": "Calculated lookup from Category"
+        }
+      ]
+    },
+    {
+      "listName": "Parts",
+      "listId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+      "lookupColumns": [
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+          "lookupListName": "PartsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "ManufacturerOrBrand",
+          "displayName": "Manufacturer or Brand",
+          "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+          "lookupListName": "ManufacturerBrands",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Supplier",
+          "displayName": "Supplier",
+          "lookupListId": "3acfaa89-06f0-46e0-abf6-026b118a761e",
+          "lookupListName": "Suppliers",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Corrective Task Categories",
+      "listId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+      "lookupColumns": [
+        {
+          "columnName": "Parent",
+          "displayName": "Parent",
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": true,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "Locations",
+      "listId": "4b1423a7-5176-46a7-b509-38070860f70b",
+      "lookupColumns": [
+        {
+          "columnName": "Zones",
+          "displayName": "Zones",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": true,
+          "isSelfReferencing": true,
+          "description": "Multi-value lookup to Locations"
+        },
+        {
+          "columnName": "Account",
+          "displayName": "Account",
+          "lookupListId": null,
+          "lookupListName": null,
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false,
+          "description": "Lookup to Accounts (external list)"
+        },
+        {
+          "columnName": "Country",
+          "displayName": "Country",
+          "lookupListId": "86d88de5-f5b6-46e1-8fc3-e96ab5ce5821",
+          "lookupListName": "Countries",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "DNOGridOperator",
+          "displayName": "DNO - Grid Operator",
+          "lookupListId": "fec26b5a-5cc0-4b6e-8b87-261d766d9327",
+          "lookupListName": "DNO",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Tasks",
+      "listId": "30740eba-5a56-4eaf-9621-087a66cc0bfa",
+      "lookupColumns": [
+        {
+          "columnName": "Predecessors",
+          "displayName": "Predecessors",
+          "lookupListId": "30740eba-5a56-4eaf-9621-087a66cc0bfa",
+          "lookupListName": "Tasks",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": true,
+          "isSelfReferencing": true,
+          "description": "Self-referencing multi-value lookup for task dependencies"
+        }
+      ]
+    },
+    {
+      "listName": "Equipment Categories",
+      "listId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+      "lookupColumns": [
+        {
+          "columnName": "Parent",
+          "displayName": "Parent",
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": true,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "Parts Categories",
+      "listId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+      "lookupColumns": [
+        {
+          "columnName": "Parent",
+          "displayName": "Parent",
+          "lookupListId": "29df6d11-fcb9-4833-bc85-71c6ee8fd595",
+          "lookupListName": "PartsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": true,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "Warehouses",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Assets",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": null,
+          "lookupListName": "AssetsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Section",
+          "displayName": "Section",
+          "lookupListId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75",
+          "lookupListName": "Sections",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "ManufacturerOrBrand",
+          "displayName": "Manufacturer or Brand",
+          "lookupListId": "61464423-eece-44f8-bb01-970a40605437",
+          "lookupListName": "ManufacturerBrands",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Assets Categories",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Parent",
+          "displayName": "Parent",
+          "lookupListId": null,
+          "lookupListName": "AssetsCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "Location Configuration",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "ItemType",
+          "displayName": "Item Type",
+          "lookupListId": null,
+          "lookupListName": "LocationConfigurationItemTypes",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "WarehouseEquipmentSerial",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Equipment",
+          "displayName": "Equipment",
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Warehouse",
+          "displayName": "Warehouse",
+          "lookupListId": null,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "SubCorrectiveEvent",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "CorrectiveEvent",
+          "displayName": "Corrective Event",
+          "lookupListId": null,
+          "lookupListName": "CorrectiveEvents",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Preventive Plan",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "AssignedTeam",
+          "displayName": "Assigned Team",
+          "lookupListId": null,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Preventive Task Categories",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Parent",
+          "displayName": "Parent",
+          "lookupListId": null,
+          "lookupListName": "PreventiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "Warehouse To Location",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Warehouse",
+          "displayName": "Warehouse",
+          "lookupListId": null,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Corrective Events",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "AssignedTeam",
+          "displayName": "Assigned Team",
+          "lookupListId": null,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "PartsTransaction",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Part",
+          "displayName": "Part",
+          "lookupListId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+          "lookupListName": "Parts",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "FromWarehouse",
+          "displayName": "From Warehouse",
+          "lookupListId": null,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "ToWarehouse",
+          "displayName": "To Warehouse",
+          "lookupListId": null,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Preventive Tasks",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Plan",
+          "displayName": "Plan",
+          "lookupListId": null,
+          "lookupListName": "PreventivePlan",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": null,
+          "lookupListName": "PreventiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Stock Adjustments",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Part",
+          "displayName": "Part",
+          "lookupListId": "65ec8d4e-2329-401d-b46e-0cd869efef7c",
+          "lookupListName": "Parts",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Equipment",
+          "displayName": "Equipment",
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Warehouse",
+          "displayName": "Warehouse",
+          "lookupListId": null,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Maintenance Team Per Location",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "MaintenanceTeam",
+          "displayName": "Maintenance Team",
+          "lookupListId": null,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Maintenance Team Members",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "MaintenanceTeam",
+          "displayName": "Maintenance Team",
+          "lookupListId": null,
+          "lookupListName": "MaintenanceTeams",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "OM Categories",
+      "listId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+      "lookupColumns": [
+        {
+          "columnName": "CategoryParent",
+          "displayName": "Parent",
+          "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+          "lookupListName": "OMCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": true,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "EquipmentSerial",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Equipment",
+          "displayName": "Equipment",
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Section",
+          "displayName": "Section",
+          "lookupListId": "d3ebb4e9-cabf-4048-bc52-bede7f852f75",
+          "lookupListName": "Sections",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "EquipmentToWarehouse",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Equipment",
+          "displayName": "Equipment",
+          "lookupListId": "4730d3fe-fe9c-427b-b9c4-0cc25432464d",
+          "lookupListName": "Equipment",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Warehouse",
+          "displayName": "Warehouse",
+          "lookupListId": null,
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "ServiceOrder",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "ServiceCompany",
+          "displayName": "Service Company",
+          "lookupListId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573",
+          "lookupListName": "ServiceCompanys",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Service",
+      "listId": null,
+      "lookupColumns": [
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+          "lookupListName": "OMCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "DefaultServiceCompany",
+          "displayName": "Default Service Company",
+          "lookupListId": "281f1dbf-e2a1-444c-b2f1-ed84f13eb573",
+          "lookupListName": "ServiceCompanys",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "MaintenanceTeamCategories",
+      "listId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+      "lookupColumns": [
+        {
+          "columnName": "Parent",
+          "displayName": "Parent",
+          "lookupListId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+          "lookupListName": "MaintenanceTeamCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": true,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "Accounts",
+      "listId": "83471562-c8eb-4512-b59e-b95748b6f3a4",
+      "lookupColumns": [
+        {
+          "columnName": "Country",
+          "displayName": "Country",
+          "lookupListId": "482bc28e-de9a-468c-9879-ab79768a0c6c",
+          "lookupListName": "Countries",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "PreventivePlanCategories",
+      "listId": "7ba018e5-8b85-4150-8331-bd2ce40e4eec",
+      "lookupColumns": [
+        {
+          "columnName": "Parent",
+          "displayName": "Parent",
+          "lookupListId": "7ba018e5-8b85-4150-8331-bd2ce40e4eec",
+          "lookupListName": "PreventivePlanCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": true,
+          "description": "Self-referencing hierarchical lookup"
+        }
+      ]
+    },
+    {
+      "listName": "DocumentSets",
+      "listId": "62066051-960e-44bf-8c3e-c6e48dd0f6be",
+      "lookupColumns": [
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "ffb69262-d6d9-49b5-846b-4a2b81ff92f9",
+          "lookupListName": "DocumentSetCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "CorrectiveTasks",
+      "listId": "b2bd33af-a92d-41c8-b5e1-c93ea15ae89e",
+      "lookupColumns": [
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "ecf1bc62-39e5-4c46-b932-30feb5d0f329",
+          "lookupListName": "CorrectiveTaskCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "OMCategory",
+          "displayName": "OM Category",
+          "lookupListId": "4143d6af-6786-44d6-a9df-f4432dabd098",
+          "lookupListName": "OMCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "MaintenanceTeamCategory",
+          "displayName": "Maintenance Team Category",
+          "lookupListId": "78a6b122-aea2-4c17-be68-4ddd6d1c9a6a",
+          "lookupListName": "MaintenanceTeamCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "EquipmentTransaction",
+      "listId": "5183d035-364d-4c1f-b574-cdb100179d6c",
+      "lookupColumns": [
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        },
+        {
+          "columnName": "Category",
+          "displayName": "Category",
+          "lookupListId": "d22ed295-5a9c-4a2c-bf64-6305857e21b5",
+          "lookupListName": "EquipmentCategories",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Sections",
+      "listId": "7e03e461-4bbb-4178-bdef-cee61371405b",
+      "lookupColumns": [
+        {
+          "columnName": "Location",
+          "displayName": "Location",
+          "lookupListId": "4b1423a7-5176-46a7-b509-38070860f70b",
+          "lookupListName": "Locations",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "Tasks (Timeline)",
+      "listId": "f9f3f1b0-b225-4beb-8d59-fa98d3294f32",
+      "lookupColumns": [
+        {
+          "columnName": "Predecessors",
+          "displayName": "Predecessors",
+          "lookupListId": "f9f3f1b0-b225-4beb-8d59-fa98d3294f32",
+          "lookupListName": "Tasks",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": true,
+          "isSelfReferencing": true,
+          "description": "Task dependencies - links to other tasks that must be completed first"
+        }
+      ]
+    },
+    {
+      "listName": "TrackingSerial",
+      "listId": "43db1875-59b2-4363-bd96-6b09a6186400",
+      "lookupColumns": [
+        {
+          "columnName": "Warehouse",
+          "displayName": "Warehouse",
+          "lookupListId": "c4cdf76c-901e-402f-9822-86814ffe83af",
+          "lookupListName": "Warehouses",
+          "lookupColumnName": "Title",
+          "allowMultipleValues": false,
+          "isSelfReferencing": false
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants",
+      "listId": "a7871c2a-bec4-42d5-be48-db0a891595e7",
+      "internalName": "SolarSites",
+      "lookupColumns": [
+        {
+          "name": "Client",
+          "type": "lookup",
+          "lookupListId": "408ec8a0-2358-4d1f-b93b-3c2a3652790f",
+          "lookupListName": "Clients",
+          "lookupListInternalName": "Clients"
+        }
+      ]
+    },
+    {
+      "listName": "Equipment Tracking",
+      "listId": "d5d750c1-d372-4701-ac3b-0c940ebb18b5",
+      "internalName": "EquipmentTracking",
+      "lookupColumns": [
+        {
+          "name": "Category",
+          "type": "lookup",
+          "lookupListId": "b7299269-177e-4357-9537-e813621f981a",
+          "lookupListName": "Asset Categories",
+          "lookupListInternalName": "EquipmentCategories"
+        },
+        {
+          "name": "Asset",
+          "type": "lookup",
+          "lookupListId": "fc16f745-58d5-4068-9467-6846e47c8caa",
+          "lookupListName": "BGE Owned Spares",
+          "lookupListInternalName": "BGEWarehouse"
+        },
+        {
+          "name": "Assets",
+          "type": "lookup",
+          "lookupListId": "20e3987d-edec-4c9f-b52e-8c3688cd67a2",
+          "lookupListName": "Warehouses",
+          "lookupListInternalName": "Warehouses"
+        }
+      ]
+    },
+    {
+      "listName": "PV Plants Site Credentials",
+      "listId": "f0f2774b-fc42-450d-a711-f6831a4bd4e9",
+      "internalName": "SiteCredentials",
+      "lookupColumns": [
+        {
+          "name": "SolarSite",
+          "type": "lookup",
+          "lookupListId": "a7871c2a-bec4-42d5-be48-db0a891595e7",
+          "lookupListName": "PV Plants",
+          "lookupListInternalName": "SolarSites"
+        }
+      ]
+    }
+  ]
+}

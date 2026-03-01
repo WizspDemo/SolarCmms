@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather & Map - Solar Park</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
+    <script src="/WebResources/solar_weatherService"></script>
+    <script src="/WebResources/solar_react"></script>
+    <script src="/WebResources/solar_reactdom"></script>
+    <script src="/WebResources/solar_fluentui"></script>
+    <script src="/WebResources/solar_babel"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f3f2f1; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const FluentUI = window.FluentUIReact || window.FluentUI;
+        if (!FluentUI) {
+            document.getElementById('root').innerHTML = '<div style="padding:24px;color:#c42b1c">Fluent UI not loaded.</div>';
+            throw new Error('Fluent UI not found');
+        }
+        const { ThemeProvider, createTheme, Text, Icon, initializeIcons } = FluentUI;
+        const { useState, useEffect } = React;
+
+        try { initializeIcons(); } catch (e) {}
+
+        const DEFAULT_LAT = 24.456;
+        const DEFAULT_LON = 32.739;
+
+        function getQueryParams() {
+            const search = (window.location && window.location.search) || '';
+            const params = {};
+            search.replace(/^\?/, '').split('&').forEach(p => {
+                const kv = p.split('=');
+                if (kv[0]) params[decodeURIComponent(kv[0])] = decodeURIComponent((kv[1] || '').replace(/\+/g, ' '));
+            });
+            return params;
+        }
+        function getRecordIdFromContext() {
+            const q = getQueryParams();
+            if (q.id) return q.id.replace(/[{}]/g, '');
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Page && xrm.Page.data && xrm.Page.data.entity) return xrm.Page.data.entity.getId().replace(/[{}]/g, '');
+            } catch (e) {}
+            return null;
+        }
+        function getEntityNameFromContext() {
+            const q = getQueryParams();
+            if (q.typename) return q.typename;
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Page && xrm.Page.data && xrm.Page.data.entity) return xrm.Page.data.entity.getEntityName();
+            } catch (e) {}
+            return null;
+        }
+        function getXrmWebApi() {
+            try { if (window.parent && window.parent.Xrm && window.parent.Xrm.WebApi) return window.parent.Xrm.WebApi; } catch (e) {}
+            return null;
+        }
+        const isDataverseContext = () => !!getXrmWebApi();
+        const ENTITY_LOCATION = 'solar_location';
+        const ENTITY_CORRECTIVE_WORK_ORDER = 'solar_corrective_work_order';
+
+        const getCurrentSolarParkId = async () => {
+            const id = getRecordIdFromContext();
+            const entity = getEntityNameFromContext();
+            if (entity === ENTITY_LOCATION && id) return id;
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Utility && xrm.Utility.getPageContext) {
+                    const ctx = typeof xrm.Utility.getPageContext().then === 'function' ? await xrm.Utility.getPageContext() : xrm.Utility.getPageContext();
+                    if (ctx && ctx.input && ctx.input.entityId && (ctx.input.entityTypeName || '').toLowerCase() === 'solar_location')
+                        return ctx.input.entityId.replace(/[{}]/g, '');
+                }
+            } catch (e) {}
+            return id || null;
+        };
+
+        const getLocationIdFromContext = async (recordId, entityName) => {
+            if (entityName === ENTITY_LOCATION && recordId) return (recordId || '').replace(/[{}]/g, '');
+            if (entityName === ENTITY_CORRECTIVE_WORK_ORDER && recordId) {
+                const webApi = getXrmWebApi();
+                if (webApi) {
+                    try {
+                        const wo = await webApi.retrieveRecord(ENTITY_CORRECTIVE_WORK_ORDER, (recordId || '').replace(/[{}]/g, ''), '?$select=solar_locationid');
+                        if (wo && wo.solar_locationid) {
+                            const loc = wo.solar_locationid;
+                            const locId = (typeof loc === 'object' && loc) ? (loc.solar_locationid || loc.id || loc) : loc;
+                            return locId ? String(locId).replace(/[{}]/g, '') : null;
+                        }
+                    } catch (e) {}
+                }
+            }
+            return await getCurrentSolarParkId();
+        };
+
+        const fetchDataverseLocation = async (locationId) => {
+            const webApi = getXrmWebApi();
+            if (!webApi || !locationId) return null;
+            try {
+                const id = (locationId || '').replace(/[{}]/g, '');
+                const result = await webApi.retrieveRecord('solar_location', id, '?$select=solar_name,solar_latitude,solar_longitude');
+                if (!result) return null;
+                const latVal = result.solar_latitude != null && result.solar_latitude !== '' ? parseFloat(result.solar_latitude) : null;
+                const lonVal = result.solar_longitude != null && result.solar_longitude !== '' ? parseFloat(result.solar_longitude) : null;
+                return {
+                    name: result.solar_name || '',
+                    latitude: !isNaN(latVal) ? latVal : null,
+                    longitude: !isNaN(lonVal) ? lonVal : null
+                };
+            } catch (e) { return null; }
+        };
+
+        const loadLocationFromDataverse = async () => {
+            let recordId = getRecordIdFromContext();
+            let entityName = getEntityNameFromContext();
+            if (!recordId && window.parent && window.parent.Xrm && window.parent.Xrm.Utility && window.parent.Xrm.Utility.getPageContext) {
+                try {
+                    const ctx = await window.parent.Xrm.Utility.getPageContext();
+                    if (ctx && ctx.input && ctx.input.entityId) {
+                        recordId = (ctx.input.entityId || '').replace(/[{}]/g, '');
+                        entityName = (ctx.input.entityTypeName || '').toLowerCase() || entityName;
+                    }
+                } catch (e) {}
+            }
+            const locationId = await getLocationIdFromContext(recordId, entityName);
+            return locationId ? fetchDataverseLocation(locationId) : null;
+        };
+
+        const appTheme = createTheme({ palette: { themePrimary: '#0078d4' } });
+        const MOCK_WEATHER = { ghi: 0, moduleTemp: 26.8, ambientTemp: 26.8, windSpeed: 19.5, windDirection: 'N', cloudCover: 0, cloudCoverDesc: 'Clear', soilingRisk: 'Medium', condition: 'Sunny' };
+        const MOCK_HOURLY = [{ time: '18:00', icon: 'Sunny', temp: 27, ghi: 24 }, { time: '19:00', icon: 'Sunny', temp: 25, ghi: 0 }, { time: '20:00', icon: 'Sunny', temp: 24, ghi: 0 }, { time: '21:00', icon: 'Sunny', temp: 22, ghi: 0 }];
+
+        const WindyMapWidget = ({ locationDetails }) => {
+            const q = getQueryParams();
+            const latUrl = q.lat ? parseFloat(q.lat) : null;
+            const lonUrl = q.lon ? parseFloat(q.lon) : null;
+            const lat = (locationDetails?.latitude != null && !isNaN(locationDetails.latitude)) ? locationDetails.latitude : (latUrl != null && !isNaN(latUrl) ? latUrl : DEFAULT_LAT);
+            const lon = (locationDetails?.longitude != null && !isNaN(locationDetails.longitude)) ? locationDetails.longitude : (lonUrl != null && !isNaN(lonUrl) ? lonUrl : DEFAULT_LON);
+            const windyUrl = `https://embed.windy.com/embed2.html?lat=${lat}&lon=${lon}&detailLat=${lat}&detailLon=${lon}&width=650&height=450&zoom=10&level=surface&overlay=clouds&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1`;
+            return (
+                <div className="h-full p-1">
+                    <div data-testid="windy-map-widget" className="bg-white rounded-lg shadow-xl overflow-hidden h-full flex flex-col border border-gray-200">
+                        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                            <div>
+                                <span className="font-bold text-slate-800 block">Live Atmospheric Conditions</span>
+                                <span className="text-gray-500 block text-sm">Real-time cloud cover and wind patterns (ECMWF Model)</span>
+                            </div>
+                            <div className="flex gap-2">
+                                <div className="flex items-center gap-1">
+                                    <div className="w-2 h-2 rounded-full bg-teal-500"></div>
+                                    <span className="text-gray-500 text-sm">Live Feed</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex-grow relative bg-gray-100">
+                            <iframe title="Windy Map" width="100%" height="100%" src={windyUrl} frameBorder="0" style={{ border: 0, width: '100%', height: '100%', minHeight: '600px' }}></iframe>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const WeatherWidget = ({ weather, hourlyForecast }) => {
+            const w = weather || MOCK_WEATHER;
+            const hourly = (hourlyForecast && hourlyForecast.length > 0) ? hourlyForecast : MOCK_HOURLY;
+            const soilingColor = w.soilingRisk === 'High' ? 'text-red-600' : w.soilingRisk === 'Medium' ? 'text-orange-500' : 'text-green-600';
+            return (
+                <div className="p-4">
+                    <div className="flex flex-col gap-6">
+                        <div data-testid="weather-widget" className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
+                            <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-100">
+                                <div className="flex items-center gap-2">
+                                    <div className="p-2 bg-teal-50 text-teal-700 rounded-full">
+                                        <Icon iconName={w.condition === 'Sunny' ? 'Sunny' : 'Cloudy'} className="text-xl" />
+                                    </div>
+                                    <div>
+                                        <span className="font-bold text-slate-800 block">Current Conditions</span>
+                                        <span className="text-gray-500 text-sm">Real-time Environmental Data</span>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <span className="font-bold text-slate-800 block">{w.ambientTemp}°C</span>
+                                    <span className="text-gray-400 text-sm">Ambient</span>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-y-4 gap-x-2 mb-6">
+                                <div className="p-2 bg-orange-50 rounded border border-orange-100">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Icon iconName="Sunny" className="text-orange-500" />
+                                        <span className="font-semibold text-gray-600 text-sm">Irradiance</span>
+                                    </div>
+                                    <span className="font-bold text-slate-800">{w.ghi} <span className="text-xs font-normal text-gray-500">W/m²</span></span>
+                                </div>
+                                <div className="p-2 rounded border bg-blue-50 border-blue-100">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Icon iconName="Thermometer" className="text-blue-500" />
+                                        <span className="font-semibold text-gray-600 text-sm">Module Temp</span>
+                                    </div>
+                                    <span className="font-bold text-slate-800">{w.moduleTemp}°C</span>
+                                </div>
+                                <div>
+                                    <span className="text-gray-400 block mb-1 text-sm">Wind Speed</span>
+                                    <div className="flex items-center gap-2">
+                                        <Icon iconName="WindDirection" className="text-slate-400" />
+                                        <span className="font-semibold text-slate-700">▲ {w.windSpeed} km/h {w.windDirection || 'N'}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span className="text-gray-400 block mb-1 text-sm">Soiling Risk</span>
+                                    <div className="flex items-center gap-2">
+                                        <Icon iconName="Duststorm" className={soilingColor} />
+                                        <span className={`font-semibold ${soilingColor}`}>{w.soilingRisk}</span>
+                                    </div>
+                                </div>
+                                <div className="col-span-2 mt-1">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 text-sm">Cloud Cover</span>
+                                        <span className="font-bold text-slate-600 text-sm">{w.cloudCover}% {w.cloudCoverDesc || 'Clear'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span className="font-bold text-gray-400 uppercase tracking-wider mb-3 block text-sm">4-Hour Forecast</span>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {hourly.map((h, idx) => (
+                                        <div key={idx} className="flex flex-col items-center p-2 rounded hover:bg-gray-50 transition-colors cursor-default border border-transparent hover:border-gray-100">
+                                            <span className="text-gray-400 mb-1 text-sm">{h.time}</span>
+                                            <Icon iconName={h.icon} className="text-teal-600 text-lg mb-1" />
+                                            <span className="font-bold text-slate-700">{h.temp}°</span>
+                                            <div className="mt-1 px-1 py-0.5 bg-orange-100 text-orange-800 text-[9px] font-bold rounded">{h.ghi}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 mt-4">
+                                <div className="bg-gray-50 border border-gray-100 p-2 rounded text-center">
+                                    <span className="text-gray-500 uppercase font-bold block text-sm">Production</span>
+                                    <span className="font-bold text-gray-800">213 kW</span>
+                                </div>
+                                <div className="bg-gray-50 border border-gray-100 p-2 rounded text-center">
+                                    <span className="text-gray-500 uppercase font-bold block text-sm">PR %</span>
+                                    <span className="font-bold text-red-600">32.7%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [locationDetails, setLocationDetails] = useState(null);
+            const [weather, setWeather] = useState(null);
+            const [hourlyWeather, setHourlyWeather] = useState(null);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                if (isDataverseContext()) {
+                    loadLocationFromDataverse().then(loc => setLocationDetails(loc)).catch(() => {}).finally(() => setLoading(false));
+                } else {
+                    const q = getQueryParams();
+                    if (q.lat && q.lon) {
+                        setLocationDetails({ latitude: parseFloat(q.lat), longitude: parseFloat(q.lon) });
+                    }
+                    setLoading(false);
+                }
+            }, []);
+
+            useEffect(() => {
+                const q = getQueryParams();
+                const latUrl = q.lat ? parseFloat(q.lat) : null;
+                const lonUrl = q.lon ? parseFloat(q.lon) : null;
+                const lat = (locationDetails?.latitude != null && !isNaN(locationDetails.latitude)) ? locationDetails.latitude : (latUrl != null && !isNaN(latUrl) ? latUrl : DEFAULT_LAT);
+                const lon = (locationDetails?.longitude != null && !isNaN(locationDetails.longitude)) ? locationDetails.longitude : (lonUrl != null && !isNaN(lonUrl) ? lonUrl : DEFAULT_LON);
+                const fetchFn = window.WeatherApiService && window.WeatherApiService.fetchWeather;
+                if (fetchFn) {
+                    fetchFn(lat, lon).then(({ current, hourly }) => {
+                        setWeather(current);
+                        setHourlyWeather(hourly);
+                    }).catch(() => { setWeather(null); setHourlyWeather(null); });
+                }
+            }, [locationDetails]);
+
+            if (loading) {
+                return (
+                    <ThemeProvider theme={appTheme} className="h-screen flex items-center justify-center bg-gray-50">
+                        <Text>Loading...</Text>
+                    </ThemeProvider>
+                );
+            }
+
+            return (
+                <ThemeProvider theme={appTheme} className="h-screen flex flex-col bg-gray-50 overflow-hidden">
+                    <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 overflow-auto">
+                        <div className="lg:col-span-2 h-full min-h-[400px]">
+                            <WindyMapWidget locationDetails={locationDetails} />
+                        </div>
+                        <div className="lg:col-span-1">
+                            <WeatherWidget weather={weather} hourlyForecast={hourlyWeather} />
+                        </div>
+                    </div>
+                </ThemeProvider>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

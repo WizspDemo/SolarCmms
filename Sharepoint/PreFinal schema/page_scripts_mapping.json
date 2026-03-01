@@ -1,0 +1,754 @@
+{
+  "solarMaintenance": {
+    "Home": {
+      "tableName": null,
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Home",
+      "mainFiles": ["Home.html", "Home_old2024OCT13.html"],
+      "relatedFiles": []
+    },
+    "Location_AllLocation": {
+      "tableName": "Locations",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Location/AllLocation",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js", "Sub.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["Locations"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Sub.js": {
+          "tables": ["Locations"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Location_LocationDash": {
+      "tableName": "Locations",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Location/LocationDash",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Main_OLD2024OCT13.html", "MMS.css"]
+    },
+    "Equipments_allEquipments": {
+      "tableName": "Equipment",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/allEquipments",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js", "Sub.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["Equipment"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Sub.js": {
+          "tables": ["Equipment"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_addEquipment": {
+      "tableName": "Equipment",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/addEquipment",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["Equipment"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_addEqipbyLocation": {
+      "tableName": "Equipment",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/addEqipbyLocation",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["Equipment"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_addEqipbyLocationDev": {
+      "tableName": "Equipment",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/addEqipbyLocationDev",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["Equipment"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_EquipmentByLocation": {
+      "tableName": "EquipmentToWarehouse",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/EquipmentByLocation",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js", "Sub.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentToWarehouse"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Sub.js": {
+          "tables": ["EquipmentToWarehouse"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_EquipmentByLocationFilter": {
+      "tableName": "EquipmentToWarehouse",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/EquipmentByLocationFilter",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js", "Sub.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentToWarehouse", "EquipmentTransaction"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": [
+              "/Lists/EquipmentToWarehouse/DispForm.aspx",
+              "/Lists/EquipmentToWarehouse/EditForm.aspx",
+              "/Lists/EquipmentTransaction/NewForm.aspx",
+              "/SitePages/LocationWarehouse.aspx",
+              "/SitePages/addEquipmentByLocation.aspx"
+            ]
+          }
+        },
+        "Sub.js": {
+          "tables": ["EquipmentTransaction", "EquipmentSerial"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": [
+              "SPServices.GetListItems('Equipment Transaction')",
+              "SPServices.GetListItems('Equipment Serial')",
+              "/SitePages/SerialHistory.aspx"
+            ]
+          }
+        }
+      }
+    },
+    "Equipments_BulkEquipmentSerial": {
+      "tableName": "EquipmentSerial",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/BulkEquipmentSerial",
+      "mainFiles": ["main.html", "main.js"],
+      "relatedFiles": []
+    },
+    "Equipments_EquipmentSerial": {
+      "tableName": "EquipmentSerial",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/EquipmentSerial",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentSerial"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_LocationEquipmentSerial": {
+      "tableName": "EquipmentSerial",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/LocationEquipmentSerial",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentSerial"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_ImportLocationEquipmentSerial": {
+      "tableName": "EquipmentSerial",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/ImportLocationEquipmentSerial",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentSerial"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_SerialHistory": {
+      "tableName": "EquipmentSerial",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/SerialHistrory",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": []
+    },
+    "Equipments_Serialmulti": {
+      "tableName": "EquipmentSerial",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/Serialmulti",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["function.js"],
+      "relatedFileDetails": {
+        "function.js": {
+          "tables": ["EquipmentSerial"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_setEquipforLocation": {
+      "tableName": "EquipmentToWarehouse",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/setEquipforLocation",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentToWarehouse"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_setEquipforLocationSerial": {
+      "tableName": "EquipmentSerial",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/setEquipforLocationSerial",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentSerial"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_equipmentCategories": {
+      "tableName": "EquipmentCategories",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/equipmentCategories",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentCategories"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_EquipmentByWarehouse": {
+      "tableName": "WarehouseEquipment",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/warehouseEquipment",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["WarehouseEquipment"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Equipments_LocationEquipment": {
+      "tableName": "EquipmentToWarehouse",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Equipments/EquipmentByLocation",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js", "Sub.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["EquipmentToWarehouse"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Sub.js": {
+          "tables": ["EquipmentToWarehouse"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Warehouses_allWarehouses": {
+      "tableName": "Warehouses",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Warehouses/allWarehouses",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["Warehouses"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Warehouses_ManageWarehouses": {
+      "tableName": "Warehouses",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Warehouses/ManageWarehouses",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js", "Sub.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["Warehouses"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Sub.js": {
+          "tables": ["Warehouses"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Warehouses_ConnectWarehouse": {
+      "tableName": "WarehouseToLocation",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Warehouses/ConnectWarehouse",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": ["Function.js"],
+      "relatedFileDetails": {
+        "Function.js": {
+          "tables": ["WarehouseToLocation"],
+          "referencedFrom": {
+            "pageScript": ["Main.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Warehouses_LocationsForWarehouse": {
+      "tableName": "WarehouseToLocation",
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/Warehouses/Locations",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": []
+    },
+    "dev_d1": {
+      "tableName": null,
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/dev/d1",
+      "mainFiles": ["Main.html", "Main.js"],
+      "relatedFiles": []
+    },
+    "dev_d2": {
+      "tableName": null,
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/dev/d2",
+      "mainFiles": ["main.html", "main.js"],
+      "relatedFiles": []
+    },
+    "dev_d3": {
+      "tableName": null,
+      "folder": "Solar Plant Maintenance Management - Wizsp/PageScript/dev/d3",
+      "mainFiles": ["main.html"],
+      "relatedFiles": []
+    }
+  },
+  "bgePvTicketing": {
+    "CorrectiveTeamleader": {
+      "tableName": "CorrectiveEvents",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["CorrectiveTeamleader.js"],
+      "relatedFiles": [
+        "CorrectiveCalendar.js",
+        "CorrectiveallEvents.js",
+        "CorrectiveallEvents_test.js",
+        "CorectiveTeamLeaderCalendar.js",
+        "MergeCorrectiveAllEvents.js",
+        "MyCorrective.js",
+        "Assignto2.js"
+      ],
+      "relatedFileDetails": {
+        "CorrectiveCalendar.js": {
+          "tables": ["CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "CorrectiveallEvents.js": {
+          "tables": ["CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "CorrectiveallEvents_test.js": {
+          "tables": ["CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "CorectiveTeamLeaderCalendar.js": {
+          "tables": ["CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "MergeCorrectiveAllEvents.js": {
+          "tables": ["CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "MyCorrective.js": {
+          "tables": ["CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Assignto2.js": {
+          "tables": ["CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "PreventativeTeamleader": {
+      "tableName": "PreventiveTasks",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["Preventativeteamleader.js", "PreventativeTeamLeaderCalendar.js"],
+      "relatedFiles": [
+        "PreventativeCalendar.js",
+        "PreventativeallEvents.js",
+        "PreventativeallEvents_backup.js",
+        "MergerPreventativeAllEvents.js",
+        "MyPreventative.js"
+      ],
+      "relatedFileDetails": {
+        "PreventativeCalendar.js": {
+          "tables": ["PreventiveTasks"],
+          "referencedFrom": {
+            "pageScript": ["Preventativeteamleader.js", "PreventativeTeamLeaderCalendar.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "PreventativeallEvents.js": {
+          "tables": ["PreventiveTasks"],
+          "referencedFrom": {
+            "pageScript": ["Preventativeteamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "PreventativeallEvents_backup.js": {
+          "tables": ["PreventiveTasks"],
+          "referencedFrom": {
+            "pageScript": ["Preventativeteamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "MergerPreventativeAllEvents.js": {
+          "tables": ["PreventiveTasks"],
+          "referencedFrom": {
+            "pageScript": ["Preventativeteamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "MyPreventative.js": {
+          "tables": ["PreventiveTasks"],
+          "referencedFrom": {
+            "pageScript": ["Preventativeteamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "RemedialTeamleader": {
+      "tableName": "SubCorrectiveEvent",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["RemedialTeamleader.js", "RemedialTeamLeaderCalendar.js"],
+      "relatedFiles": [
+        "RemedialCalendar.js",
+        "RemedialallEvents.js",
+        "MergeRemedialAllEvents.js",
+        "MyRemedial.js",
+        "RemedialView.js"
+      ],
+      "relatedFileDetails": {
+        "RemedialCalendar.js": {
+          "tables": ["SubCorrectiveEvent"],
+          "referencedFrom": {
+            "pageScript": ["RemedialTeamleader.js", "RemedialTeamLeaderCalendar.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "RemedialallEvents.js": {
+          "tables": ["SubCorrectiveEvent"],
+          "referencedFrom": {
+            "pageScript": ["RemedialTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "MergeRemedialAllEvents.js": {
+          "tables": ["SubCorrectiveEvent"],
+          "referencedFrom": {
+            "pageScript": ["RemedialTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "MyRemedial.js": {
+          "tables": ["SubCorrectiveEvent"],
+          "referencedFrom": {
+            "pageScript": ["RemedialTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "RemedialView.js": {
+          "tables": ["SubCorrectiveEvent"],
+          "referencedFrom": {
+            "pageScript": ["RemedialTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "EquipmentTracking": {
+      "tableName": "EquipmentTracking",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["EquipmentTracking.js"],
+      "relatedFiles": ["Barcode.js", "StringGraph.js"],
+      "relatedFileDetails": {
+        "Barcode.js": {
+          "tables": ["EquipmentTracking"],
+          "referencedFrom": {
+            "pageScript": ["EquipmentTracking.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "StringGraph.js": {
+          "tables": ["EquipmentTracking"],
+          "referencedFrom": {
+            "pageScript": ["EquipmentTracking.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "BGEWarehouseTracking": {
+      "tableName": "BGEOwnedSparesTracking",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["BGEWarehouseTracking.js"],
+      "relatedFiles": ["Warehouse.js", "Warehouses.js"],
+      "relatedFileDetails": {
+        "Warehouse.js": {
+          "tables": ["BGEOwnedSparesTracking"],
+          "referencedFrom": {
+            "pageScript": ["BGEWarehouseTracking.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Warehouses.js": {
+          "tables": ["BGEOwnedSparesTracking"],
+          "referencedFrom": {
+            "pageScript": ["BGEWarehouseTracking.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "bgeOwnedSpares": {
+      "tableName": "BGEOwnedSpares",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["bgeOwnedSpares.js"],
+      "relatedFiles": []
+    },
+    "Clients": {
+      "tableName": "Clients",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["Clients.js"],
+      "relatedFiles": [
+        "ClientsView.js",
+        "ClientsViewPlant.js",
+        "ClientsViewCorrective.js",
+        "ClientsViewPreventative.js",
+        "ClientsViewRemedial.js"
+      ],
+      "relatedFileDetails": {
+        "ClientsView.js": {
+          "tables": ["Clients"],
+          "referencedFrom": {
+            "pageScript": ["Clients.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "ClientsViewPlant.js": {
+          "tables": ["Clients"],
+          "referencedFrom": {
+            "pageScript": ["Clients.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "ClientsViewCorrective.js": {
+          "tables": ["Clients", "CorrectiveEvents"],
+          "referencedFrom": {
+            "pageScript": ["Clients.js", "CorrectiveTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "ClientsViewPreventative.js": {
+          "tables": ["Clients", "PreventiveTasks"],
+          "referencedFrom": {
+            "pageScript": ["Clients.js", "Preventativeteamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "ClientsViewRemedial.js": {
+          "tables": ["Clients", "SubCorrectiveEvent"],
+          "referencedFrom": {
+            "pageScript": ["Clients.js", "RemedialTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Plants": {
+      "tableName": "PVPlants",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["Plants.js"],
+      "relatedFiles": ["Homelist.js", "HomeButtons.js", "Counthometickets.js"],
+      "relatedFileDetails": {
+        "Homelist.js": {
+          "tables": ["PVPlants"],
+          "referencedFrom": {
+            "pageScript": ["Plants.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "HomeButtons.js": {
+          "tables": ["PVPlants"],
+          "referencedFrom": {
+            "pageScript": ["Plants.js"],
+            "listScript": [],
+            "other": []
+          }
+        },
+        "Counthometickets.js": {
+          "tables": ["PVPlants", "CorrectiveEvents", "PreventiveTasks", "SubCorrectiveEvent"],
+          "referencedFrom": {
+            "pageScript": ["Plants.js", "CorrectiveTeamleader.js", "Preventativeteamleader.js", "RemedialTeamleader.js"],
+            "listScript": [],
+            "other": []
+          }
+        }
+      }
+    },
+    "Warehouses": {
+      "tableName": "Warehouses",
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["Warehouse.js", "Warehouses.js"],
+      "relatedFiles": []
+    },
+    "Managers": {
+      "tableName": null,
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["ManageEngineers.js", "ManagerCalendar.js"],
+      "relatedFiles": []
+    },
+    "Misc": {
+      "tableName": null,
+      "folder": "[Showcase] BGE PV Ticketing - wizsp/PageScript",
+      "mainFiles": ["Assignto2.js", "testrest.js", "testrestcall.js", "Untitled_1.js"],
+      "relatedFiles": []
+    }
+  }
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "listName": "PV Plants",
+    "listId": "a7871c2a-bec4-42d5-be48-db0a891595e7",
+    "internalName": "SolarSites",
+    "lookupColumns": [
+      {
+        "name": "Client",
+        "type": "lookup",
+        "lookupListId": "408ec8a0-2358-4d1f-b93b-3c2a3652790f",
+        "lookupListName": "Clients",
+        "lookupListInternalName": "Clients"
+      }
+    ]
+  },
+  {
+    "listName": "Equipment Tracking",
+    "listId": "d5d750c1-d372-4701-ac3b-0c940ebb18b5",
+    "internalName": "EquipmentTracking",
+    "lookupColumns": [
+      {
+        "name": "Category",
+        "type": "lookup",
+        "lookupListId": "b7299269-177e-4357-9537-e813621f981a",
+        "lookupListName": "Asset Categories",
+        "lookupListInternalName": "EquipmentCategories"
+      },
+      {
+        "name": "Asset",
+        "type": "lookup",
+        "lookupListId": "fc16f745-58d5-4068-9467-6846e47c8caa",
+        "lookupListName": "BGE Owned Spares",
+        "lookupListInternalName": "BGEWarehouse"
+      },
+      {
+        "name": "Assets",
+        "type": "lookup",
+        "lookupListId": "20e3987d-edec-4c9f-b52e-8c3688cd67a2",
+        "lookupListName": "Warehouses",
+        "lookupListInternalName": "Warehouses"
+      }
+    ]
+  },
+  {
+    "listName": "PV Plants Site Credentials",
+    "listId": "f0f2774b-fc42-450d-a711-f6831a4bd4e9",
+    "internalName": "SiteCredentials",
+    "lookupColumns": [
+      {
+        "name": "SolarSite",
+        "type": "lookup",
+        "lookupListId": "a7871c2a-bec4-42d5-be48-db0a891595e7",
+        "lookupListName": "PV Plants",
+        "lookupListInternalName": "SolarSites"
+      }
+    ]
+  }
+]

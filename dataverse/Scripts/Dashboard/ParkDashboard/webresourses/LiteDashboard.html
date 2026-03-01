@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarOps Manager - Lite Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
+
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_react"></script>
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_reactdom"></script>
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_fluentui"></script>
+    <script src="https://org08dc9606.crm4.dynamics.com/WebResources/solar_babel"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background-color: #f3f2f1;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Match Model-Driven App / grid text (e.g. "Athens Solar Park Alpha") */
+        .dashboard-font-base {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #323130;
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+    </style>
+</head>
+<body>
+    <div id="root" data-testid="lite-dashboard-root"></div>
+
+    <script type="text/babel">
+        const FluentUI = window.FluentUIReact || window.FluentUI;
+
+        if (!FluentUI) {
+            document.getElementById('root').innerHTML = `
+                <div style="padding: 24px; max-width: 600px; font-family: 'Segoe UI', sans-serif;">
+                    <h1 style="color: #c42b1c; margin-bottom: 12px;">Dependency Error</h1>
+                    <p style="color: #323130;">Failed to load Fluent UI library. Check Content Security Policy or network access to CDN.</p>
+                </div>
+            `;
+            throw new Error("Fluent UI not found");
+        }
+
+        const {
+            ThemeProvider, createTheme, Text, Icon, DetailsList, DetailsListLayoutMode, SelectionMode, initializeIcons
+        } = FluentUI;
+
+        const { useState, useMemo, useEffect } = React;
+
+        try { initializeIcons(); } catch (e) { console.warn("Icons init:", e); }
+
+        // Παράμετροι από URL (όταν το web resource τρέχει μέσα σε φόρμα model-driven app με "Pass row object-type code and unique identifier as parameters")
+        function getQueryParams() {
+            const search = (window.location && window.location.search) || '';
+            const params = {};
+            search.replace(/^\?/, '').split('&').forEach(function (part) {
+                const p = part.split('=');
+                if (p[0]) params[decodeURIComponent(p[0])] = decodeURIComponent((p[1] || '').replace(/\+/g, ' '));
+            });
+            return params;
+        }
+
+        function getRecordIdFromContext() {
+            const q = getQueryParams();
+            if (q.id) return q.id.replace(/[{}]/g, '');
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Page && xrm.Page.data && xrm.Page.data.entity) return xrm.Page.data.entity.getId();
+            } catch (e) { /* cross-frame or no form */ }
+            return null;
+        }
+
+        function getEntityNameFromContext() {
+            const q = getQueryParams();
+            if (q.typename) return q.typename;
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Page && xrm.Page.data && xrm.Page.data.entity) return xrm.Page.data.entity.getEntityName();
+            } catch (e) { /* cross-frame or no form */ }
+            return null;
+        }
+
+        function getXrmWebApi() {
+            try {
+                if (window.parent && window.parent.Xrm && window.parent.Xrm.WebApi) return window.parent.Xrm.WebApi;
+            } catch (e) { }
+            return null;
+        }
+
+        const appTheme = createTheme({
+            palette: {
+                themePrimary: '#004E8C',
+                themeLighterAlt: '#f1f6fa',
+                themeLighter: '#c8dceb',
+                themeLight: '#9dc0da',
+                themeTertiary: '#4d89b6',
+                themeSecondary: '#135e98',
+                themeDarkAlt: '#00467e',
+                themeDark: '#003b6b',
+                themeDarker: '#002c4f',
+                neutralLighterAlt: '#faf9f8',
+                neutralLighter: '#f3f2f1',
+                neutralLight: '#edebe9',
+                neutralQuaternaryAlt: '#e1dfdd',
+                neutralQuaternary: '#d0d0d0',
+                neutralTertiaryAlt: '#c8c6c4',
+                neutralTertiary: '#a19f9d',
+                neutralSecondary: '#605e5c',
+                neutralPrimaryAlt: '#3b3a39',
+                neutralPrimary: '#323130',
+                neutralDark: '#201f1e',
+                black: '#000000',
+                white: '#ffffff',
+            },
+            defaultFontStyle: { fontFamily: 'Segoe UI, sans-serif' },
+        });
+
+        const ENTITY_CORRECTIVE_WORK_ORDER_LOGICAL = 'solar_corrective_work_order';
+        const ENTITY_LOCATION = 'solar_location';
+
+        function mapWorkOrderToTask(wo) {
+            const loc = wo.solar_locationid;
+            const team = wo.solar_maintenanceteamid;
+            var locName = (loc && (typeof loc === 'object') && loc.solar_name) ? loc.solar_name : (wo['solar_locationid@OData.Community.Display.V1.FormattedValue'] || wo['loc.solar_name'] || '-');
+            var teamName = (team && (typeof team === 'object') && team.solar_name) ? team.solar_name : (wo['solar_maintenanceteamid@OData.Community.Display.V1.FormattedValue'] || wo['team.solar_name'] || '-');
+            var ownerName = wo['owneruser.fullname'] || wo['ownerteam.name'] || wo['ownerid@OData.Community.Display.V1.FormattedValue'] || '-';
+            return {
+                id: wo.solar_corrective_work_orderid || wo.solar_name || ('WO-' + (wo.solar_corrective_work_orderid || '').slice(0, 8)),
+                title: wo.solar_name || '-',
+                priority: (wo.solar_priority !== undefined && wo.solar_priority !== null) ? (wo.solar_priority === 1 ? 'Critical' : wo.solar_priority === 2 ? 'High' : 'Medium') : 'Medium',
+                type: 'Corrective',
+                plotId: locName,
+                assignedTechnician: teamName,
+                assignedTo: ownerName,
+                status: (() => { if (wo.statecode === 1) return 'Closed'; const lbl = (wo['solar_solar_status@OData.Community.Display.V1.FormattedValue'] || wo.solar_solar_statusname || wo['solar_status@OData.Community.Display.V1.FormattedValue'] || wo.solar_statusname || wo['statuscode@OData.Community.Display.V1.FormattedValue'] || wo.statuscodename || '').toString().trim(); if (lbl) { const s = lbl.toLowerCase(); if (s.includes('assigned')) return 'Assigned'; if (s.includes('in progress') || s.includes('inprogress')) return 'In Progress'; if (s.includes('closed')) return 'Closed'; if (s.includes('open')) return 'Open'; } return wo.statuscode === 2 ? 'In Progress' : wo.statuscode === 3 ? 'Assigned' : 'Open'; })()
+            };
+        }
+
+        const App = () => {
+            const [tasks, setTasks] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            const [recordId, setRecordId] = useState(null);
+            const [entityName, setEntityName] = useState(null);
+            const [statusFilter, setStatusFilter] = useState('');
+
+            useEffect(function loadCorrectiveWorkOrders() {
+                const id = getRecordIdFromContext();
+                const entity = getEntityNameFromContext();
+                setRecordId(id);
+                setEntityName(entity);
+
+                if (!id) {
+                    setLoading(false);
+                    setTasks([]);
+                    return;
+                }
+
+                const webApi = getXrmWebApi();
+                if (!webApi || !webApi.retrieveMultipleRecords) {
+                    setError('Model-driven app context (Xrm.WebApi) not available. Open this page from a form with the record ID.');
+                    setLoading(false);
+                    return;
+                }
+
+                setLoading(true);
+                setError(null);
+
+                var filterAttr = entity === ENTITY_LOCATION
+                    ? 'solar_locationid'
+                    : entity === ENTITY_CORRECTIVE_WORK_ORDER_LOGICAL ? 'solar_corrective_work_orderid' : 'solar_locationid';
+                var fetchXml = '<fetch>' +
+                    '<entity name="solar_corrective_work_order">' +
+                    '<attribute name="solar_corrective_work_orderid"/>' +
+                    '<attribute name="solar_name"/>' +
+                    '<attribute name="solar_locationid"/>' +
+                    '<attribute name="solar_maintenanceteamid"/>' +
+                    '<attribute name="solar_categoryid"/>' +
+                    '<attribute name="ownerid"/>' +
+                    '<attribute name="statecode"/>' +
+                    '<attribute name="statuscode"/>' +
+                    '<attribute name="solar_solar_status"/>' +
+                    '<attribute name="solar_status"/>' +
+                    '<link-entity name="systemuser" from="systemuserid" to="ownerid" link-type="outer" alias="owneruser">' +
+                    '<attribute name="fullname"/>' +
+                    '</link-entity>' +
+                    '<link-entity name="team" from="teamid" to="ownerid" link-type="outer" alias="ownerteam">' +
+                    '<attribute name="name"/>' +
+                    '</link-entity>' +
+                    '<filter type="and">' +
+                    '<condition attribute="' + filterAttr + '" operator="eq" value="{' + id + '}"/>' +
+                    '</filter>' +
+                    '<link-entity name="solar_location" from="solar_locationid" to="solar_locationid" link-type="outer" alias="loc">' +
+                    '<attribute name="solar_name"/>' +
+                    '</link-entity>' +
+                    '<link-entity name="solar_maintenance_team" from="solar_maintenance_teamid" to="solar_maintenanceteamid" link-type="outer" alias="team">' +
+                    '<attribute name="solar_name"/>' +
+                    '</link-entity>' +
+                    '<order attribute="solar_name" descending="false"/>' +
+                    '</entity>' +
+                    '</fetch>';
+                var options = '?fetchXml=' + encodeURIComponent(fetchXml);
+
+                webApi.retrieveMultipleRecords(ENTITY_CORRECTIVE_WORK_ORDER_LOGICAL, options)
+                    .then(function (result) {
+                        const entities = (result && result.entities) ? result.entities : (Array.isArray(result) ? result : []);
+                        setTasks(entities.map(mapWorkOrderToTask));
+                        setError(null);
+                    })
+                    .catch(function (err) {
+                        console.error('LiteDashboard fetch error:', err);
+                        setError(err.message || 'Failed to load corrective work orders.');
+                        setTasks([]);
+                    })
+                    .then(function () { setLoading(false); });
+            }, []);
+
+            const stats = useMemo(() => {
+                const preventive = tasks.filter(t => t.type === 'Preventive');
+                const corrective = tasks.filter(t => t.type === 'Corrective');
+                const prevClosed = preventive.filter(t => t.status === 'Closed').length;
+                const prevTotal = preventive.length;
+                const prevPercent = prevTotal > 0 ? Math.round((prevClosed / prevTotal) * 100) : 0;
+                const prevAssigned = preventive.filter(t => t.status === 'Assigned' || t.status === 'In Progress').length;
+                const prevPending = preventive.filter(t => t.status === 'Open').length;
+                const corrCritical = corrective.filter(t => t.priority === 'Critical' && t.status !== 'Closed').length;
+                const corrActive = corrective.filter(t => t.status !== 'Closed').length;
+                const corrAssigned = corrective.filter(t => t.status === 'Assigned' || t.status === 'In Progress').length;
+                const corrPending = corrective.filter(t => t.status === 'Open').length;
+                return {
+                    preventive: { percent: prevPercent, pending: prevTotal - prevClosed, assigned: prevAssigned, pendingCount: prevPending },
+                    corrective: { critical: corrCritical, total: corrActive, assigned: corrAssigned, pending: corrPending }
+                };
+            }, [tasks]);
+
+            const renderPriority = (item) => {
+                let bg = 'bg-gray-100 text-gray-600';
+                if (item.priority === 'Critical') bg = 'bg-red-100 text-red-800 border border-red-200';
+                if (item.priority === 'High') bg = 'bg-orange-100 text-orange-800';
+                if (item.priority === 'Medium') bg = 'bg-blue-50 text-blue-700';
+                return <span className={`px-2 py-0.5 rounded font-bold text-xs uppercase tracking-wide ${bg}`}>{item.priority}</span>;
+            };
+
+            const renderType = (item) => (
+                <div className="flex items-center gap-2">
+                    <Icon iconName={item.type === 'Preventive' ? 'Calendar' : 'Warning'} className={item.type === 'Preventive' ? 'text-blue-500' : 'text-red-500'} />
+                    <span className="hidden xl:inline">{item.type}</span>
+                </div>
+            );
+
+            const renderStatus = (item) => (
+                <div className={`flex items-center gap-1 ${item.status === 'Closed' ? 'text-green-600' : 'text-gray-700'}`}>
+                    {item.status === 'Closed' && <Icon iconName="CheckMark" />}
+                    <span className="font-semibold text-sm">{item.status}</span>
+                </div>
+            );
+
+            const filteredTasks = useMemo(() => {
+                if (!statusFilter) return tasks;
+                return tasks.filter(t => t.status === statusFilter);
+            }, [tasks, statusFilter]);
+
+            const columns = [
+                { key: 'title', name: 'Title', fieldName: 'title', minWidth: 200, isResizable: true },
+                { key: 'plot', name: 'Loc', fieldName: 'plotId', minWidth: 100, isResizable: true, onRender: (item) => <span className="font-mono font-bold text-slate-700">{item.plotId}</span> },
+                { key: 'type', name: 'Type', minWidth: 120, onRender: renderType },
+                { key: 'priority', name: 'Priority', minWidth: 120, onRender: renderPriority },
+                { key: 'status', name: 'Status', minWidth: 110, onRender: renderStatus },
+                { key: 'assign', name: 'Assign', fieldName: 'assignedTo', minWidth: 120, isResizable: true },
+                { key: 'tech', name: 'Tech', fieldName: 'assignedTechnician', minWidth: 110 },
+            ];
+
+            if (loading) {
+                return (
+                    <ThemeProvider theme={appTheme} className="h-screen flex flex-col bg-gray-50 overflow-hidden dashboard-font-base" data-testid="lite-dashboard-app">
+                        <div className="flex-grow flex items-center justify-center p-8">
+                            <div className="text-center">
+                                <Icon iconName="ProgressRingDots" className="text-4xl text-blue-500 mb-4" />
+                                <Text variant="medium" className="text-gray-600">Loading corrective work orders…</Text>
+                            </div>
+                        </div>
+                    </ThemeProvider>
+                );
+            }
+
+            if (error) {
+                return (
+                    <ThemeProvider theme={appTheme} className="h-screen flex flex-col bg-gray-50 overflow-hidden dashboard-font-base" data-testid="lite-dashboard-app">
+                        <div className="flex-grow flex items-center justify-center p-8">
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md text-center">
+                                <Icon iconName="Error" className="text-2xl text-red-500 mb-2" />
+                                <Text variant="medium" className="text-red-800 block mb-2">Error</Text>
+                                <Text variant="small" className="text-gray-700">{error}</Text>
+                                {!recordId && <Text variant="small" className="text-gray-500 mt-2 block">Open this dashboard from a Solar Location or Corrective Work Order form so the record ID is available.</Text>}
+                            </div>
+                        </div>
+                    </ThemeProvider>
+                );
+            }
+
+            return (
+                <ThemeProvider theme={appTheme} className="h-screen flex flex-col bg-gray-50 overflow-hidden dashboard-font-base" data-testid="lite-dashboard-app">
+                    <div className="flex-grow flex flex-col min-w-0 overflow-auto">
+                        <div data-testid="stats-cards" className="px-4 lg:px-6 pt-6 pb-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                                <div id="preventive-health-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500 flex justify-between items-center transition-all hover:shadow-md">
+                                    <div>
+                                        <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider">PREVENTIVE HEALTH</Text>
+                                        <div className="flex items-baseline gap-2 mt-1">
+                                            <span id="preventive-health-percent" className="font-bold text-slate-800 text-2xl">{stats.preventive.percent}%</span>
+                                            <Text variant="small" className="text-gray-400">Compliance</Text>
+                                        </div>
+                                        <div className="mt-1 text-xs text-blue-600 font-semibold bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                                            <span id="preventive-health-pending">{stats.preventive.pending}</span> Pending
+                                        </div>
+                                    </div>
+                                    <div className="p-3 bg-blue-50 rounded-full">
+                                        <Icon iconName="ClipboardList" className="text-2xl text-blue-600" />
+                                    </div>
+                                </div>
+
+                                <div id="preventive-workflow-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-teal-500 flex flex-col justify-between transition-all hover:shadow-md">
+                                    <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider mb-2">PREVENTIVE WORKFLOW</Text>
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <div className="text-center px-1">
+                                            <div className="text-2xl font-bold text-teal-700 leading-none mb-1"><span id="preventive-workflow-assigned">{stats.preventive.assigned}</span></div>
+                                            <div className="text-[10px] text-gray-400 font-bold uppercase">Assigned</div>
+                                        </div>
+                                        <div className="h-8 w-px bg-gray-200 mx-2"></div>
+                                        <div className="text-center px-1">
+                                            <div className="text-2xl font-bold text-orange-400 leading-none mb-1"><span id="preventive-workflow-pending">{stats.preventive.pendingCount}</span></div>
+                                            <div className="text-[10px] text-gray-400 font-bold uppercase">Pending</div>
+                                        </div>
+                                        <div className="ml-auto p-2 bg-teal-50 rounded-full">
+                                            <Icon iconName="People" className="text-xl text-teal-600" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="critical-defects-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500 flex justify-between items-center transition-all hover:shadow-md">
+                                    <div>
+                                        <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider">CRITICAL DEFECTS</Text>
+                                        <div className="flex items-baseline gap-2 mt-1">
+                                            <span id="critical-defects-open" className="font-bold text-red-700 text-2xl">{stats.corrective.critical}</span>
+                                            <Text variant="small" className="text-gray-400">Open Tickets</Text>
+                                        </div>
+                                        <div className="mt-1 text-xs text-red-600 font-semibold bg-red-50 inline-block px-1.5 py-0.5 rounded">
+                                            <span id="critical-defects-total">{stats.corrective.total}</span> Total
+                                        </div>
+                                    </div>
+                                    <div className="p-3 bg-red-50 rounded-full">
+                                        <Icon iconName="Health" className="text-2xl text-red-600" />
+                                    </div>
+                                </div>
+
+                                <div id="corrective-workflow-card" className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500 flex flex-col justify-between transition-all hover:shadow-md">
+                                    <Text variant="small" className="text-gray-500 font-bold uppercase tracking-wider mb-2">CORRECTIVE WORKFLOW</Text>
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <div className="text-center px-1">
+                                            <div className="text-2xl font-bold text-blue-700 leading-none mb-1"><span id="corrective-workflow-assigned">{stats.corrective.assigned}</span></div>
+                                            <div className="text-[10px] text-gray-400 font-bold uppercase">Assigned</div>
+                                        </div>
+                                        <div className="h-8 w-px bg-gray-200 mx-2"></div>
+                                        <div className="text-center px-1">
+                                            <div className="text-2xl font-bold text-red-500 leading-none mb-1"><span id="corrective-workflow-pending">{stats.corrective.pending}</span></div>
+                                            <div className="text-[10px] text-gray-400 font-bold uppercase">Pending</div>
+                                        </div>
+                                        <div className="ml-auto p-2 bg-orange-50 rounded-full">
+                                            <Icon iconName="Wrench" className="text-xl text-orange-600" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-testid="work-orders-list" className="px-4 lg:px-6 pb-6 flex-grow min-h-0">
+                            <div className="flex items-center gap-2 mb-2">
+                                <label htmlFor="status-filter" className="text-sm font-medium text-gray-700">Status:</label>
+                                <select id="status-filter" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="text-sm border border-gray-300 rounded px-2 py-1.5 bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">All statuses</option>
+                                    <option value="Open">Open</option>
+                                    <option value="Assigned">Assigned</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Closed">Closed</option>
+                                </select>
+                            </div>
+                            <div className="hidden md:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden h-full">
+                                <DetailsList
+                                    items={filteredTasks}
+                                    columns={columns}
+                                    setKey="set"
+                                    layoutMode={DetailsListLayoutMode.justified}
+                                    selectionMode={SelectionMode.none}
+                                />
+                            </div>
+                            <div className="md:hidden space-y-3">
+                                {filteredTasks.map(task => (
+                                    <div key={task.id} className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 border-l-4 border-blue-500">
+                                        <div className="flex justify-between items-start mb-1">
+                                            <span className="text-xs font-mono font-bold text-gray-400">{task.id} • {task.plotId}</span>
+                                            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 uppercase">{task.status}</span>
+                                        </div>
+                                        <Text variant="medium" className="font-bold text-gray-800 block mb-1">{task.title}</Text>
+                                        <div className="flex justify-between items-center text-xs text-gray-500">
+                                            <span>{task.assignedTechnician}</span>
+                                            {renderPriority(task)}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </ThemeProvider>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
