@@ -1,0 +1,15 @@
+adx_displayorder: 10
+adx_enablerating: false
+adx_enabletracking: false
+adx_excludefromsearch: false
+adx_feedbackpolicy: 756150000
+adx_hiddenfromsitemap: false
+adx_isroot: true
+adx_name: '[Admin] Homepage'
+adx_pagetemplateid: 1b2c654c-3e0b-f111-8406-7c1e525d47c4
+adx_parentpageid: be2b654c-3e0b-f111-8406-7c1e525d47c4
+adx_partialurl: admin-home
+adx_publishingstateid: 892c654c-3e0b-f111-8406-7c1e525d47c4
+adx_sharedpageconfiguration: true
+adx_title: '[Admin] Homepage'
+adx_webpageid: ce2b654c-3e0b-f111-8406-7c1e525d47c4

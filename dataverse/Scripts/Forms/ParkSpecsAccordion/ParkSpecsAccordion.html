@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park Specs – Horizontal Accordion</title>
+    <script src="/WebResources/solar_react"></script>
+    <script src="/WebResources/solar_reactdom"></script>
+    <script src="/WebResources/solar_fluentui"></script>
+    <script src="/WebResources/solar_babel"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, sans-serif; background: #faf9f8; }
+        #park-specs-accordion-root { min-height: 360px; }
+        .horizontal-accordion { display: flex; height: 360px; width: 100%; overflow: hidden; }
+        .accordion-panel {
+            flex: 0 0 auto;
+            min-width: 48px;
+            max-width: 400px;
+            background: #ffffff;
+            border-right: 1px solid #edebe9;
+            cursor: pointer;
+            transition: min-width 0.25s ease, flex 0.25s ease, background 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .accordion-panel:hover { background: #f3f2f1; }
+        .accordion-panel.expanded {
+            flex: 1 1 auto;
+            min-width: 200px;
+            background: #ffffff;
+            cursor: default;
+        }
+        .accordion-panel-header {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(-180deg);
+            padding: 12px 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #323130;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .accordion-panel.expanded .accordion-panel-header {
+            writing-mode: horizontal-tb;
+            transform: none;
+            justify-content: flex-start;
+            min-height: auto;
+            padding: 12px 16px;
+            border-bottom: 1px solid #edebe9;
+        }
+        .accordion-panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            font-size: 13px;
+            color: #605e5c;
+        }
+        .accordion-panel:not(.expanded) .accordion-panel-content { display: none; }
+        .field-row { margin-bottom: 12px; }
+        .field-label { font-weight: 500; color: #323130; margin-bottom: 2px; }
+        .field-value { color: #605e5c; }
+        .field-value.empty { color: #a19f9d; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div id="park-specs-accordion-root"></div>
+    <script type="text/babel">
+        const FluentUI = window.FluentUIReact || window.FluentUI;
+        const { Text, initializeIcons } = FluentUI || {};
+        const { useState, useEffect } = React;
+
+        if (FluentUI) try { initializeIcons(); } catch (e) {}
+
+        const SECTIONS = [
+            {
+                id: 'site',
+                label: 'Site Information',
+                icon: 'MapPin',
+                fields: [
+                    { key: 'solar_name', label: 'Site' },
+                    { key: 'solar_address', label: 'Address' },
+                    { key: 'solar_postalcode', label: 'Post Code' },
+                    { key: 'solar_account', label: 'Site Owner' },
+                    { key: 'solar_landsizekm', label: 'Acres / Land Size' },
+                    { key: 'solar_opendate', label: 'G59 / Commission' }
+                ]
+            },
+            {
+                id: 'inverter',
+                label: 'Inverter Specs',
+                icon: 'LightningBolt',
+                fields: [
+                    { key: 'solar_inverter_manufacturer', label: 'Inv Manufacturer' },
+                    { key: 'solar_inverter_type', label: 'Inv Type' },
+                    { key: 'solar_inverter_model', label: 'Inv Model' },
+                    { key: 'solar_inverter_quantity', label: 'Inv Quantity' },
+                    { key: 'solar_inverter_lv_voltage', label: 'Inv LV Voltage' },
+                    { key: 'solar_inverter_power', label: 'Inverter Power (KW)' },
+                    { key: 'solar_assumed_warranty_period', label: 'Assumed Warranty Period' },
+                    { key: 'solar_warranty_expiry', label: 'Warranty Expiry' }
+                ]
+            },
+            {
+                id: 'modules',
+                label: 'PV Modules Specs',
+                icon: 'Sunny',
+                fields: [
+                    { key: 'solar_modulemanufacturer', label: 'Module Manufacturer' },
+                    { key: 'solar_modulemodel', label: 'Module Model' },
+                    { key: 'solar_modulequantity', label: 'Module Quantity' },
+                    { key: 'solar_modulepower', label: 'Module Power (W)' },
+                    { key: 'solar_modulevoc', label: 'Module Voc' },
+                    { key: 'solar_moduleisc', label: 'Module Isc' },
+                    { key: 'solar_modulelength', label: 'Length (mm)' },
+                    { key: 'solar_modulewidth', label: 'Width (mm)' },
+                    { key: 'solar_moduledepth', label: 'Depth (mm)' }
+                ]
+            },
+            {
+                id: 'comms',
+                label: 'Comms Specs',
+                icon: 'Wifi1',
+                fields: [
+                    { key: 'solar_satellite3g4g', label: 'Satellite/3G/4G' },
+                    { key: 'solar_lannetwork', label: 'LAN Network' },
+                    { key: 'solar_scadaprovider', label: 'SCADA Provider' },
+                    { key: 'solar_dataloggers', label: 'Data Loggers' }
+                ]
+            },
+            {
+                id: 'hv',
+                label: 'HV Specs',
+                icon: 'Plug',
+                fields: [
+                    { key: 'solar_dnosizekv', label: 'Size (KV)' },
+                    { key: 'solar_dnocontact', label: 'DNO / Contact Information' },
+                    { key: 'solar_sitereferencenumber', label: 'Site Ref Number' },
+                    { key: 'solar_transformerquantity', label: 'Transformer Quantity' },
+                    { key: 'solar_transformermake', label: 'Transformer Make' },
+                    { key: 'solar_transformermodel', label: 'Transformer Model' }
+                ]
+            },
+            {
+                id: 'security',
+                label: 'Security Specs',
+                icon: 'Lock',
+                fields: [
+                    { key: 'solar_security', label: 'Security' },
+                    { key: 'solar_securitycodes', label: 'Security Codes' },
+                    { key: 'solar_accessgatecodes', label: 'Access Gate Codes' },
+                    { key: 'solar_exportmeterlocation', label: 'Export Meter Location' },
+                    { key: 'solar_exportmeteraccessdetails', label: 'Export Meter Access' },
+                    { key: 'solar_otherinformation', label: 'Other Information' },
+                    { key: 'solar_landownerfarmerdetails', label: 'Land Owner/Farmer' }
+                ]
+            }
+        ];
+
+        function getFormData() {
+            const data = {};
+            const allKeys = [];
+            SECTIONS.forEach(function (s) {
+                s.fields.forEach(function (f) {
+                    if (allKeys.indexOf(f.key) === -1) allKeys.push(f.key);
+                });
+            });
+            try {
+                const xrm = window.parent && window.parent.Xrm;
+                if (xrm && xrm.Page) {
+                    allKeys.forEach(function (key) {
+                        try {
+                            const attr = xrm.Page.getAttribute(key);
+                            if (attr) {
+                                const val = attr.getValue();
+                                if (val == null || val === '') data[key] = '';
+                                else if (Array.isArray(val)) data[key] = val[1] || val[0] || '';
+                                else if (typeof val === 'object' && val.name) data[key] = val.name;
+                                else data[key] = String(val);
+                            }
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) {}
+            return data;
+        }
+
+        function AccordionPanel({ section, expanded, onToggle, formData }) {
+            const content = (
+                <div className="accordion-panel-content">
+                    {section.fields.map(function (f) {
+                        const val = (formData && formData[f.key]) || '';
+                        return (
+                            <div key={f.key} className="field-row">
+                                <div className="field-label">{f.label}</div>
+                                <div className={'field-value' + (val ? '' : ' empty')}>{val || '—'}</div>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+            return (
+                <div
+                    className={'accordion-panel' + (expanded ? ' expanded' : '')}
+                    onClick={function () { onToggle(section.id); }}
+                >
+                    <div className="accordion-panel-header">{section.label}</div>
+                    {content}
+                </div>
+            );
+        }
+
+        function ParkSpecsAccordion() {
+            const [expandedId, setExpandedId] = useState('site');
+            const [formData, setFormData] = useState({});
+
+            useEffect(function () {
+                setFormData(getFormData());
+                var timer = setInterval(function () {
+                    setFormData(getFormData());
+                }, 2000);
+                return function () { clearInterval(timer); };
+            }, []);
+
+            return (
+                <div className="horizontal-accordion">
+                    {SECTIONS.map(function (s) {
+                        return (
+                            <AccordionPanel
+                                key={s.id}
+                                section={s}
+                                expanded={expandedId === s.id}
+                                onToggle={setExpandedId}
+                                formData={formData}
+                            />
+                        );
+                    })}
+                </div>
+            );
+        }
+
+        const root = document.getElementById('park-specs-accordion-root');
+        if (root) {
+            ReactDOM.render(<ParkSpecsAccordion />, root);
+        }
+    </script>
+</body>
+</html>

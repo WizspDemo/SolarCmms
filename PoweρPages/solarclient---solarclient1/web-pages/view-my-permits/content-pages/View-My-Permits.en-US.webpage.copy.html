@@ -1,0 +1,25 @@
+{% fetchxml formsQuery %}
+<fetch>
+  <entity name='powerpagecomponent'>
+    <attribute name='name' />
+    <attribute name='powerpagecomponentid' />
+    <attribute name='powerpagesiteid' />
+    <filter type='and'>
+      <condition attribute='name' operator='eq' value='[Building Permit] Default - View Permit' />
+      <condition attribute='powerpagesiteid' operator='eq' value='{{website.id}}' />
+      <condition attribute='powerpagecomponenttype' operator='eq' value='15' />
+    </filter>
+  </entity>
+</fetch>
+{% endfetchxml %}
+{% if formsQuery.results and formsQuery.results.entities %}
+  <input type='d-none' value='{{formsQuery.results.entities[0].powerpagecomponentid}}' id='hidden_form_id'>
+{% endif %}
+<div data-component-theme='portalThemeColor2' class='row sectionBlockLayout text-start' style='display: flex; flex-wrap: wrap; margin: 0px; min-height: 1200px; padding: 8px;'>
+  <div class='container' style='padding: 0px; display: flex; flex-wrap: wrap;'>
+    <div class='col-lg-12 columnBlockLayout' style='flex-grow: 1; display: flex; flex-direction: column; min-width: 300px;'>
+      <h2 style='margin-bottom: 50px;'>My Applications</h2>
+      {% include 'entity_list', key: '[Building Permit] C2 User - View Permits' %}
+    </div>
+  </div>
+</div>

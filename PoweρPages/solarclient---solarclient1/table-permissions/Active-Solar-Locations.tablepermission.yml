@@ -1,0 +1,15 @@
+adx_accountrelationship: 
+adx_append: false
+adx_appendto: false
+adx_contactrelationship: 
+adx_create: false
+adx_delete: false
+adx_entitylogicalname: solar_location
+adx_entityname: Active Solar Locations
+adx_entitypermission_webrole: []
+adx_entitypermissionid: 093b903f-0eb8-4bc6-a5cf-529b49ad7fb4
+adx_parententitypermission: 
+adx_parentrelationship: 
+adx_read: true
+adx_scope: 756150000
+adx_write: false

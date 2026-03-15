@@ -1,0 +1,33 @@
+- adx_disablepagevalidation: false
+  adx_displayimageonly: false
+  adx_displayorder: 1
+  adx_displaypagechildlinks: false
+  adx_name: Our Permits
+  adx_openinnewwindow: false
+  adx_pageid: ad2b654c-3e0b-f111-8406-7c1e525d47c4
+  adx_publishingstateid: 892c654c-3e0b-f111-8406-7c1e525d47c4
+  adx_robotsfollowlink: true
+  adx_weblinkid: 001c224c-3e0b-f111-8406-000d3a3908a2
+  adx_weblinksetid: 301b224c-3e0b-f111-8406-000d3a3908a2
+- adx_disablepagevalidation: false
+  adx_displayimageonly: false
+  adx_displayorder: 2
+  adx_displaypagechildlinks: false
+  adx_name: My Permits
+  adx_openinnewwindow: false
+  adx_pageid: bb2b654c-3e0b-f111-8406-7c1e525d47c4
+  adx_publishingstateid: 892c654c-3e0b-f111-8406-7c1e525d47c4
+  adx_robotsfollowlink: true
+  adx_weblinkid: 57152452-3e0b-f111-8406-000d3a3908a2
+  adx_weblinksetid: 301b224c-3e0b-f111-8406-000d3a3908a2
+- adx_disablepagevalidation: false
+  adx_displayimageonly: false
+  adx_displayorder: 3
+  adx_displaypagechildlinks: false
+  adx_name: Solar Parks
+  adx_openinnewwindow: false
+  adx_pageid: c78e6075-e759-8530-c6e9-c5f2b786d6b9
+  adx_publishingstateid: 892c654c-3e0b-f111-8406-7c1e525d47c4
+  adx_robotsfollowlink: true
+  adx_weblinkid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+  adx_weblinksetid: 301b224c-3e0b-f111-8406-000d3a3908a2
